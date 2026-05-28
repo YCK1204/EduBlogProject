@@ -1,0 +1,119 @@
+{
+  "slug": "functions-first-class",
+  "tag": "Functional",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "variables-types",
+    "async-event-loop",
+    "clean-code"
+  ],
+  "title": "Functions and First-Class Objects",
+  "summary": "Treating functions as values, leveraging higher-order functions (map, filter, reduce), and understanding the benefits of pure functions — the foundation of functional programming.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Functions as First-Class Citizens",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/functions-first-class.svg",
+          "alt": "First-class functions map filter reduce",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A first-class citizen is a value that can be stored in a variable, passed as a function argument, and returned from a function. In most modern languages (JavaScript, Python, Kotlin, Swift), functions are first-class citizens."
+        },
+        {
+          "type": "text",
+          "content": "Treating functions as values raises the level of abstraction. You can separate the 'how' of repeated logic into a variable and the 'what' into a function argument, producing flexible, reusable code."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Store: const greet = (name) => `Hello, ${name}`",
+            "Pass: setTimeout(callback, 1000)",
+            "Return: function makeAdder(x) { return (y) => x + y }",
+            "Java: lambdas and method references approximate first-class functions"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Higher-Order Functions — map, filter, reduce",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A higher-order function takes a function as an argument or returns one. The canonical examples are map, filter, and reduce: map transforms each element, filter keeps only matching elements, and reduce aggregates everything into a single value."
+        },
+        {
+          "type": "text",
+          "content": "Chaining higher-order functions produces declarative data-transformation pipelines. The code is more concise and intention-revealing than imperative for-loops. Note that each step creates an intermediate array, so for-loops may be faster when performance is critical."
+        },
+        {
+          "type": "points",
+          "items": [
+            "map: [1,2,3].map(x => x*2) → [2,4,6]",
+            "filter: [1,2,3,4].filter(x => x%2===0) → [2,4]",
+            "reduce: [1,2,3].reduce((acc,x) => acc+x, 0) → 6",
+            "Chaining: .filter().map().reduce() pipeline"
+          ]
+        },
+        {
+          "type": "code",
+          "javascript": "const numbers = [1, 2, 3, 4, 5];\n\n// map: transform each element\nconst doubled = numbers.map(x => x * 2);\n// [2, 4, 6, 8, 10]\n\n// filter: keep matching elements\nconst evens = numbers.filter(x => x % 2 === 0);\n// [2, 4]\n\n// reduce: aggregate into one value\nconst sum = numbers.reduce((acc, x) => acc + x, 0);\n// 15\n\n// chaining: sum of squares of even numbers\nconst result = numbers\n  .filter(x => x % 2 === 0)\n  .map(x => x ** 2)\n  .reduce((acc, x) => acc + x, 0);\n// 20",
+          "python": "numbers = [1, 2, 3, 4, 5]\n\n# map\ndoubled = list(map(lambda x: x * 2, numbers))\n# [2, 4, 6, 8, 10]\n\n# filter\nevens = list(filter(lambda x: x % 2 == 0, numbers))\n# [2, 4]\n\n# reduce\nfrom functools import reduce\ntotal = reduce(lambda acc, x: acc + x, numbers, 0)\n# 15\n\n# list comprehension (more Pythonic)\ndoubled_lc = [x * 2 for x in numbers]\nevens_lc = [x for x in numbers if x % 2 == 0]",
+          "java": "import java.util.*;\nimport java.util.stream.*;\n\nList<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);\n\n// Stream API (Java 8+)\nList<Integer> doubled = numbers.stream()\n    .map(x -> x * 2)\n    .collect(Collectors.toList());\n\nList<Integer> evens = numbers.stream()\n    .filter(x -> x % 2 == 0)\n    .collect(Collectors.toList());\n\nint sum = numbers.stream()\n    .reduce(0, Integer::sum);",
+          "csharp": "var numbers = new[] { 1, 2, 3, 4, 5 };\n\n// LINQ (C#)\nvar doubled = numbers.Select(x => x * 2).ToList();\nvar evens   = numbers.Where(x => x % 2 == 0).ToList();\nvar sum     = numbers.Aggregate(0, (acc, x) => acc + x);\n\n// method chaining\nvar result = numbers\n    .Where(x => x % 2 == 0)\n    .Select(x => x * x)\n    .Sum();"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Pure Functions and Side Effects",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A pure function always returns the same output for the same input and does not mutate external state (no side effects). It is identical to the mathematical notion of a function."
+        },
+        {
+          "type": "text",
+          "content": "Side effects are mutations of external state: modifying a global variable, reading/writing a file, making a network request, logging to the console. Minimizing side effects and maximizing pure functions makes code easier to test, debug, and run in parallel."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Pure function: same input → same output, no external mutation",
+            "Referential transparency: the call can be replaced with its result",
+            "Functional design: push side effects to the boundary (I/O layer)",
+            "Pure functions are easy to test and safe to run in parallel"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Currying and Function Composition",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Currying transforms a multi-argument function into a chain of single-argument functions: f(a, b, c) → f(a)(b)(c). Partial application fixes some arguments to create a specialized new function."
+        },
+        {
+          "type": "text",
+          "content": "Function composition combines two functions into a new one: compose(f, g)(x) = f(g(x)). Composing simple functions to express complex transformations increases reusability."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Currying: add(1)(2)(3) — enables function specialization",
+            "Partial application: const add5 = add.bind(null, 5)",
+            "Composition: const process = compose(trim, toLowerCase, split)",
+            "Ramda, Lodash/fp: functional utility libraries"
+          ]
+        }
+      ]
+    }
+  ]
+}

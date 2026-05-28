@@ -1,0 +1,112 @@
+{
+  "slug": "tcp-ip",
+  "tag": "Network",
+  "estimatedTime": "25분",
+  "relatedSlugs": [
+    "http-https",
+    "os-intro",
+    "process-thread"
+  ],
+  "title": "TCP/IP 4계층 모델",
+  "summary": "TCP/IP 모델은 인터넷 통신의 근간입니다. 애플리케이션·전송·인터넷·링크 계층의 역할과 데이터가 각 계층을 통과하며 캡슐화되는 과정을 이해합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "계층화된 네트워크 모델",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/tcp-ip.svg",
+          "alt": "TCP/IP 4-layer model encapsulation",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "TCP/IP 모델은 네트워크 통신을 4개 계층으로 나눠 각 계층이 독립적인 역할을 담당하게 합니다. 계층화의 핵심 이점은 각 계층이 상위/하위 계층의 구현에 의존하지 않아 교체와 발전이 독립적으로 가능하다는 것입니다."
+        },
+        {
+          "type": "text",
+          "content": "OSI 7계층 모델이 이론적 참조 모델이라면, TCP/IP 4계층은 실제 인터넷에서 사용되는 실용적 모델입니다. HTTP는 애플리케이션, TCP/UDP는 전송, IP는 인터넷, Ethernet/Wi-Fi는 링크 계층에 해당합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "애플리케이션 계층: HTTP, FTP, DNS, SMTP",
+            "전송 계층: TCP, UDP (포트 번호)",
+            "인터넷 계층: IP (IP 주소, 라우팅)",
+            "링크 계층: Ethernet, Wi-Fi (MAC 주소)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "TCP — 신뢰성 있는 전송",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "TCP(Transmission Control Protocol)는 연결 지향적이고 신뢰성 있는 전송을 보장합니다. 3-way 핸드셰이크(SYN → SYN-ACK → ACK)로 연결을 수립하고, 패킷 손실 시 재전송, 순서 보장, 흐름 제어를 제공합니다."
+        },
+        {
+          "type": "text",
+          "content": "TCP는 흐름 제어(Flow Control)와 혼잡 제어(Congestion Control)를 통해 네트워크가 과부하 없이 효율적으로 동작하게 합니다. 이 복잡한 기능들 덕분에 HTTP, 이메일, 파일 전송 등 신뢰성이 중요한 프로토콜이 TCP를 사용합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "3-way 핸드셰이크: SYN → SYN-ACK → ACK",
+            "신뢰성: ACK 확인, 타임아웃 시 재전송",
+            "순서 보장: 시퀀스 번호로 재조립",
+            "흐름 제어: 수신 측 버퍼 넘침 방지"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "UDP — 빠른 비연결 전송",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "UDP(User Datagram Protocol)는 연결 수립 없이 데이터그램을 전송합니다. 신뢰성, 순서 보장, 흐름 제어가 없어 TCP보다 훨씬 빠르고 오버헤드가 적습니다."
+        },
+        {
+          "type": "text",
+          "content": "UDP가 적합한 경우: 실시간 스트리밍(약간의 패킷 손실은 허용), 온라인 게임(낮은 지연이 신뢰성보다 중요), DNS 조회(짧은 1회성 요청). HTTP/3(QUIC)는 UDP 위에서 신뢰성을 자체 구현합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "연결 없음: 핸드셰이크 없이 바로 전송",
+            "최소 오버헤드: 헤더 8바이트(TCP는 20바이트 이상)",
+            "순서/신뢰성 없음: 응용 계층에서 직접 처리 필요",
+            "활용: DNS, VoIP, 게임, 스트리밍, QUIC"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "캡슐화와 실제 패킷의 여정",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "데이터가 전송될 때 각 계층은 헤더를 추가하는 캡슐화(Encapsulation)를 수행합니다. HTTP 데이터 → TCP 헤더 추가(세그먼트) → IP 헤더 추가(패킷) → Ethernet 헤더 추가(프레임) 순으로 포장됩니다."
+        },
+        {
+          "type": "text",
+          "content": "수신 측에서는 반대로 각 계층이 자신의 헤더를 제거하며 역캡슐화(Decapsulation)를 수행합니다. 각 계층은 자신의 헤더만 처리하고 상위 계층 데이터는 그대로 전달합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "캡슐화: 데이터 → 세그먼트 → 패킷 → 프레임",
+            "각 계층은 자신의 헤더만 읽고 추가/제거",
+            "NAT: 사설 IP ↔ 공인 IP 변환 (라우터)",
+            "DNS: 도메인 → IP 변환 (UDP 포트 53)"
+          ]
+        }
+      ]
+    }
+  ]
+}

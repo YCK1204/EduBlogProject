@@ -1,0 +1,119 @@
+{
+  "slug": "type-system-generics",
+  "tag": "TypeScript",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "variables-types",
+    "async-event-loop",
+    "oop-intro"
+  ],
+  "title": "Type Systems and Generics",
+  "summary": "How static types prevent bugs before runtime, writing type-safe reusable code with generics, and understanding type inference and type guards.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "The Purpose of a Type System",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/type-system-generics.svg",
+          "alt": "Generics type-safe code reuse",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A type system assigns types to variables and expressions and verifies program correctness at compile time. It catches incorrect type usage early, reducing runtime errors."
+        },
+        {
+          "type": "text",
+          "content": "TypeScript added types to JavaScript because explicit argument and return types in large codebases make IDE auto-completion accurate and let you catch refactoring errors immediately. Types also serve as inline documentation."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Compile-time error detection: fewer runtime surprises",
+            "IDE support: accurate auto-completion and refactoring tools",
+            "Documentation: function signatures explain intended usage",
+            "Gradual typing: 'any' lets you adopt types incrementally in existing JS code"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "What Are Generics?",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Generics let you write code that is parameterized by a type, enabling reuse across many types. Arrays, Maps, and Promises are classic generic types. Array<number> holds only numbers; Array<string> holds only strings."
+        },
+        {
+          "type": "text",
+          "content": "Without generics, achieving reusability requires 'any', which sacrifices type safety. Generics say 'this function accepts any type, but the input and output types must match' — reusability with full type information preserved."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Function generic: function identity<T>(arg: T): T { return arg }",
+            "Type constraint: <T extends Comparable> — T must satisfy an interface",
+            "Multiple type parameters: <K, V>",
+            "Utility types: Partial<T>, Readonly<T>, Pick<T, K>"
+          ]
+        },
+        {
+          "type": "code",
+          "javascript": "// TypeScript generics\n// using any — no type safety\nfunction firstAny(arr) {\n  return arr[0]; // return type unknown\n}\n\n// generic — preserves type info\nfunction first<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n\nconst num = first([1, 2, 3]);    // number | undefined\nconst str = first([\"a\", \"b\"]);   // string | undefined\n\n// generic interface\ninterface ApiResponse<T> {\n  data: T;\n  status: number;\n  message: string;\n}\n\ntype UserResponse = ApiResponse<{ id: number; name: string }>;",
+          "java": "// Java generics\npublic class Box<T> {\n    private T value;\n\n    public Box(T value) { this.value = value; }\n    public T getValue() { return value; }\n}\n\nBox<Integer> intBox = new Box<>(42);\nBox<String>  strBox = new Box<>(\"hello\");\n\n// generic method\npublic <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) >= 0 ? a : b;\n}",
+          "csharp": "// C# generics\npublic class Stack<T> {\n    private readonly List<T> items = new();\n\n    public void Push(T item) => items.Add(item);\n    public T Pop() {\n        var last = items[^1];\n        items.RemoveAt(items.Count - 1);\n        return last;\n    }\n}\n\nvar intStack = new Stack<int>();\nintStack.Push(1);\nvar top = intStack.Pop(); // int",
+          "cpp": "// C++ templates (generics)\ntemplate<typename T>\nT max(T a, T b) {\n    return a > b ? a : b;\n}\n\nint    m1 = max(3, 5);      // int\ndouble m2 = max(3.1, 2.7);  // double\n\n// generic container\ntemplate<typename T>\nclass Stack {\n    std::vector<T> data;\npublic:\n    void push(T val) { data.push_back(val); }\n    T    pop()       { auto v=data.back(); data.pop_back(); return v; }\n};"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Type Inference",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Type inference is the compiler's ability to deduce types automatically from code. TypeScript infers the type of 'const x = 5' as number without an explicit annotation. Type safety is maintained without verbosity."
+        },
+        {
+          "type": "text",
+          "content": "Good type inference keeps code concise while preserving safety. Explicit annotations are still needed when the inferred type is too wide or unexpected."
+        },
+        {
+          "type": "points",
+          "items": [
+            "let x = 5: TypeScript infers number",
+            "Function return types: inferred from implementation (explicit preferred for public APIs)",
+            "const assertion: as const → narrowest possible type",
+            "infer: extract a type inside conditional types"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Type Guards and Narrowing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Type narrowing uses conditional checks to refine a union type to a more specific type. Inside 'if (typeof x === \"string\")' TypeScript treats x as a string."
+        },
+        {
+          "type": "text",
+          "content": "User-defined type guards use the 'is' keyword as a return type so TypeScript narrows the type under a specific condition. instanceof, in, and literal type checks are also used for narrowing."
+        },
+        {
+          "type": "points",
+          "items": [
+            "typeof: checks 'string' | 'number' | 'boolean' | 'object' etc.",
+            "instanceof: checks class instance",
+            "in: checks property existence (useful for discriminating unions)",
+            "Custom type guard: function isError(x): x is Error { ... }"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "slug": "variables-types",
+  "tag": "Basics",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "functions-first-class",
+    "oop-intro",
+    "type-system-generics"
+  ],
+  "title": "Variables, Types, and Scope",
+  "summary": "How programming languages handle variables, the difference between static and dynamic type systems, and how lexical scope works through to closures.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Variables and Bindings",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/variables-types.svg",
+          "alt": "Static vs dynamic typing comparison",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "A variable binds a name to a memory address or value. Binding semantics differ by language: in Python a variable is a reference to an object; in C it is the memory location itself."
+        },
+        {
+          "type": "text",
+          "content": "Immutable vs mutable: const/val vs let/var determines whether a binding can be reassigned. Using immutable bindings by default makes code easier to reason about and reduces bugs."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Binding: associating a name with a value or address",
+            "const/val: immutable binding — value cannot be reassigned",
+            "let/var: mutable binding",
+            "Python: rebinding a name doesn't mutate the original object"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Static vs Dynamic Typing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Static typing checks types at compile time (TypeScript, Java, Kotlin, Rust). Dynamic typing checks at runtime (Python, JavaScript, Ruby). Static typing catches many bugs before execution; dynamic typing is more flexible and concise."
+        },
+        {
+          "type": "text",
+          "content": "Strongly typed vs weakly typed: strong typing disallows implicit type coercion (Python, Java); weak typing allows it (JavaScript, C). Type inference (TypeScript, Kotlin) provides static safety without verbose type annotations."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Static: type errors caught at compile time, better IDE support",
+            "Dynamic: faster to write, more flexible, harder to refactor",
+            "Strong vs weak typing: implicit coercion behavior",
+            "Type inference: static safety without explicit annotation"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Lexical Scope",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Scope defines where a name is accessible. Lexical (static) scope means a name's scope is determined by where it is written in the source code, not where it is called from."
+        },
+        {
+          "type": "text",
+          "content": "Most modern languages use lexical scope: JavaScript, Python, Kotlin, Swift, Rust. A name is looked up in the enclosing scope at the point of definition, working outward."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Global scope: accessible anywhere in the module/file",
+            "Local scope: limited to the function or block where declared",
+            "Scope chain: inner → outer scope lookup",
+            "let/const: block scope; var: function scope (avoid)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Closures",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A closure is a function that remembers its lexical environment at the time it was created. The inner function can access outer function variables even after the outer function has returned."
+        },
+        {
+          "type": "text",
+          "content": "Practical uses: counter factories, partial application, module patterns (private state). Closures are a fundamental tool in functional programming."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Closure: function + lexical environment at creation time",
+            "Free variable: a variable the closure references from outside",
+            "Memory: referenced variables are not GC'd while the closure lives",
+            "Uses: counters, currying, event handlers, module pattern"
+          ]
+        }
+      ]
+    }
+  ]
+}

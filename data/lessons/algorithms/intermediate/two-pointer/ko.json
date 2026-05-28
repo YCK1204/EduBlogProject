@@ -1,0 +1,112 @@
+{
+  "slug": "two-pointer",
+  "tag": "Two Pointer",
+  "estimatedTime": "20분",
+  "relatedSlugs": [
+    "binary-search",
+    "dynamic-programming",
+    "bubble-selection-sort"
+  ],
+  "title": "투 포인터 기법",
+  "summary": "투 포인터는 배열의 두 위치를 가리키는 포인터를 이용해 O(n²) 브루트 포스를 O(n)으로 개선하는 패턴입니다. 양 끝 포인터와 슬라이딩 윈도우 두 가지 변형을 다룹니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "투 포인터 패턴이란",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/two-pointer.svg",
+          "alt": "Two-pointer and sliding window patterns",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "투 포인터(Two Pointer)는 배열 또는 연결 리스트에서 두 개의 포인터를 동시에 이동시켜 특정 조건을 만족하는 쌍이나 구간을 찾는 기법입니다. 이중 반복문 O(n²)을 O(n)으로 줄일 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "핵심 조건: 배열이 정렬되어 있거나, 조건이 단조(monotone) 증가·감소여야 포인터를 방향성 있게 이동할 수 있습니다. 이 조건이 충족되면 두 포인터가 서로 교차하지 않고 진행합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "시간 복잡도: O(n) — 각 포인터가 최대 n번 이동",
+            "공간 복잡도: O(1) — 추가 공간 불필요",
+            "전제: 정렬된 배열 또는 단조 조건",
+            "이중 반복문 O(n²)을 O(n)으로 대체 가능"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "양 끝 포인터 기법",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "가장 고전적인 패턴입니다. 배열 양 끝에 포인터 left, right를 두고 조건에 따라 한 쪽씩 안쪽으로 이동합니다. '정렬된 배열에서 두 수의 합이 target인 쌍 찾기'가 대표 문제입니다."
+        },
+        {
+          "type": "text",
+          "content": "arr[left] + arr[right] > target이면 right를 줄여 합을 낮추고, < target이면 left를 늘려 합을 높입니다. 포인터가 교차하면 종료합니다. 이 로직은 정렬된 배열이라는 성질에 의존합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "초기화: left = 0, right = n - 1",
+            "합 > target: right--",
+            "합 < target: left++",
+            "합 = target: 정답 발견, left++ right-- 진행"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "슬라이딩 윈도우",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "슬라이딩 윈도우는 두 포인터가 같은 방향으로 움직이는 변형입니다. 왼쪽 경계 left와 오른쪽 경계 right로 윈도우(구간)를 유지하며, 오른쪽을 확장하고 조건 위반 시 왼쪽을 축소합니다."
+        },
+        {
+          "type": "text",
+          "content": "'합이 k 이하인 가장 긴 부분 배열', '중복 없는 가장 긴 부분 문자열' 등이 대표 문제입니다. right가 항상 앞으로만 이동하고 left가 right를 추격하므로 총 이동 횟수는 O(n)입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "초기화: left = 0, right = 0",
+            "right 확장: 윈도우에 원소 추가",
+            "조건 위반 시 left 축소",
+            "대표 문제: 최장 부분 문자열, 최소 부분 합"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "대표 문제 유형 정리",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "투 포인터/슬라이딩 윈도우 패턴이 적용되는 문제 유형을 파악해 두면 문제를 보자마자 접근법을 떠올릴 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "패턴 인식 훈련: 이중 반복문이 자연스럽게 떠오르는 문제에서 배열이 정렬되어 있거나 구간 합/길이를 묻는다면 투 포인터를 의심해봐야 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "두 수의 합(정렬): 양 끝 포인터",
+            "세 수의 합: 한 원소 고정 후 나머지 투 포인터",
+            "중복 없는 최장 부분 문자열: 슬라이딩 윈도우 + 해시셋",
+            "최소 크기 부분 배열(합 ≥ s): 슬라이딩 윈도우"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "dijkstra",
+  "tag": "Shortest Path",
+  "estimatedTime": "35 min",
+  "relatedSlugs": [
+    "bfs-dfs",
+    "dynamic-programming",
+    "recursion"
+  ],
+  "title": "Dijkstra's Algorithm",
+  "summary": "Dijkstra's algorithm finds the shortest path from a single source in a weighted graph. Using a greedy strategy and a priority queue, it achieves O((V+E) log V).",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What is the Shortest Path Problem?",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The shortest path problem finds the minimum-cost path between two vertices in a weighted graph. It underpins navigation, network routing, and game A*."
+        },
+        {
+          "type": "text",
+          "content": "Unweighted shortest paths can be solved with BFS in O(V+E). Weighted graphs require Dijkstra's or Bellman-Ford."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Single-source shortest path (SSSP): from one vertex to all others",
+            "All-pairs shortest path (APSP): all pairs → Floyd-Warshall",
+            "Unweighted: BFS O(V+E)",
+            "Positive weights: Dijkstra O((V+E) log V)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Core Idea of Dijkstra's",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dijkstra.svg",
+          "alt": "Dijkstra shortest path algorithm",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Dijkstra uses a greedy strategy. It maintains a dist[] array of the shortest known distance from the source, repeatedly picks the unprocessed vertex with the smallest dist, and relaxes its neighbors."
+        },
+        {
+          "type": "text",
+          "content": "Key theorem: once a vertex's distance is finalized, its shortest path is known. Relaxation: if dist[u] + w(u,v) < dist[v], update dist[v]."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Initialize: dist[start] = 0, all others = ∞",
+            "Each step: pick unprocessed vertex with minimum dist",
+            "Relax: if dist[u] + w(u,v) < dist[v], update dist[v]",
+            "Greedy correctness: guaranteed with no negative edges"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Efficient Implementation with a Priority Queue",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Naive implementation (scan all vertices each step) is O(V²). Using a min-heap to select the minimum-distance vertex in O(log V) reduces the total to O((V+E) log V)."
+        },
+        {
+          "type": "text",
+          "content": "Push (dist[v], v) pairs into the heap. When popping, skip entries whose stored distance exceeds the current dist[v] — they are outdated."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Push (distance, vertex) pairs into min-heap",
+            "On pop: skip if stored distance > current dist[v]",
+            "On successful relaxation: push new (distance, vertex)",
+            "Complexity: O((V+E) log V) with adjacency list"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "import heapq\n\ndef dijkstra(graph, start, V):\n    dist = [float('inf')] * V\n    dist[start] = 0\n    heap = [(0, start)]\n\n    while heap:\n        d, u = heapq.heappop(heap)\n        if d > dist[u]:\n            continue\n        for v, w in graph[u]:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n                heapq.heappush(heap, (dist[v], v))\n    return dist",
+          "javascript": "function dijkstra(graph, start, V) {\n  const dist = new Array(V).fill(Infinity);\n  dist[start] = 0;\n  const visited = new Set();\n\n  for (let i = 0; i < V; i++) {\n    let u = -1;\n    for (let v = 0; v < V; v++)\n      if (!visited.has(v) && (u === -1 || dist[v] < dist[u])) u = v;\n    if (dist[u] === Infinity) break;\n    visited.add(u);\n    for (const [v, w] of graph[u])\n      if (dist[u] + w < dist[v]) dist[v] = dist[u] + w;\n  }\n  return dist;\n}",
+          "java": "int[] dijkstra(List<int[]>[] graph, int start, int V) {\n    int[] dist = new int[V];\n    Arrays.fill(dist, Integer.MAX_VALUE);\n    dist[start] = 0;\n    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n    pq.offer(new int[]{0, start});\n\n    while (!pq.isEmpty()) {\n        int[] cur = pq.poll();\n        int d = cur[0], u = cur[1];\n        if (d > dist[u]) continue;\n        for (int[] edge : graph[u]) {\n            int v = edge[0], w = edge[1];\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                pq.offer(new int[]{dist[v], v});\n            }\n        }\n    }\n    return dist;\n}"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Limitations and Alternatives",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Dijkstra cannot handle negative edge weights — the greedy selection breaks. Bellman-Ford is O(VE) but handles negative edges and detects negative cycles."
+        },
+        {
+          "type": "text",
+          "content": "In practice, Dijkstra powers navigation (maps, game A*) and network routing (OSPF). It is the best choice for most real-world problems with no negative edges."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Negative edges: use Bellman-Ford instead",
+            "Negative cycle: shortest path is undefined — detection only",
+            "Dense graphs: O(V²) implementation may be faster",
+            "A*: Dijkstra + heuristic (prioritizes direction toward destination)"
+          ]
+        }
+      ]
+    }
+  ]
+}

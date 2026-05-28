@@ -1,0 +1,402 @@
+{
+  "slug": "array",
+  "tag": "Array",
+  "estimatedTime": "60 min",
+  "relatedSlugs": [
+    "linked-list",
+    "stack-queue",
+    "hash-table"
+  ],
+  "title": "Arrays & Dynamic Arrays",
+  "summary": "Arrays are the most fundamental data structure in computer science. Starting from how data is stored in memory, we explore how dynamic arrays overcome the limitations of static arrays — and why append is effectively O(1) through amortized analysis.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Why Do We Need Arrays?",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Imagine managing scores for 100 students without arrays. You'd write: score1 = 85, score2 = 92, ... score100 = 88. You'd declare 100 separate variables, couldn't use loops, and computing the average would mean adding 100 variables by hand. That's the world before arrays."
+        },
+        {
+          "type": "text",
+          "content": "Arrays solve this by grouping data under numbered slots: scores[0], scores[1], ..., scores[99]. Now a single loop handles 100 scores. The core idea: 'store same-kind data in a numbered, contiguous block.'"
+        },
+        {
+          "type": "points",
+          "items": [
+            "Without arrays: n separate variables → no loops, no maintainability",
+            "With arrays: manage n items by index as a single unit",
+            "Array = same-type data stored consecutively with numbered positions",
+            "Real-world analogy: apartment unit numbers — rooms in one building, each uniquely numbered"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "# Without arrays (bad)\nscore1 = 85\nscore2 = 92\nscore3 = 78\naverage = (score1 + score2 + score3) / 3\n\n# With arrays (good)\nscores = [85, 92, 78, 91, 88]\naverage = sum(scores) / len(scores)\nprint(f'Average: {average}')  # 86.8",
+          "javascript": "// Without arrays (bad)\nlet score1 = 85, score2 = 92, score3 = 78;\n\n// With arrays (good)\nconst scores = [85, 92, 78, 91, 88];\nconst average = scores.reduce((sum, s) => sum + s, 0) / scores.length;\nconsole.log(`Average: ${average}`);  // 86.8",
+          "java": "int[] scores = {85, 92, 78, 91, 88};\nint sum = 0;\nfor (int score : scores) sum += score;\ndouble average = (double) sum / scores.length;\nSystem.out.println(\"Average: \" + average);  // 86.8",
+          "cpp": "#include <iostream>\n#include <numeric>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = std::accumulate(scores, scores + n, 0);\ndouble average = (double)sum / n;\nstd::cout << \"Average: \" << average;",
+          "csharp": "int[] scores = {85, 92, 78, 91, 88};\ndouble average = scores.Average();\nConsole.WriteLine($\"Average: {average}\");  // 86.8",
+          "c": "#include <stdio.h>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = 0;\nfor (int i = 0; i < n; i++) sum += scores[i];\ndouble average = (double)sum / n;\nprintf(\"Average: %.1f\\n\", average);"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Memory Layout — Where Arrays Live",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "To truly understand arrays, you need to know how RAM works. Think of RAM as a massive locker room with billions of numbered lockers in a row. Each locker holds exactly 1 byte of data and has a unique address."
+        },
+        {
+          "type": "text",
+          "content": "When you declare an array, the OS reserves a contiguous block of lockers. Declaring an int array of 5 elements reserves 4 bytes × 5 = 20 consecutive lockers. This contiguity is the key property of arrays."
+        },
+        {
+          "type": "image",
+          "src": "/images/array-memory-layout.svg",
+          "alt": "Memory layout of a 5-element int array — addresses 1000 through 1019, 20 bytes contiguous",
+          "srcEn": "/images/array-memory-layout-en.svg",
+          "altEn": "Array memory layout English version"
+        },
+        {
+          "type": "text",
+          "content": "The address of the first element is called the Base Address. Any element's address is: Base + index × element_size. For arr[3]: 1000 + 3 × 4 = 1012. This trivial arithmetic runs in O(1), which is why random access is instant regardless of array size."
+        },
+        {
+          "type": "points",
+          "items": [
+            "RAM = numbered lockers, each holding 1 byte",
+            "Array declaration = requesting N contiguous lockers from the OS",
+            "Base Address: address of the first element",
+            "arr[i] address = Base Address + i × sizeof(element type)",
+            "This simple arithmetic enables O(1) access to any position"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Why Does Indexing Start at 0?",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Most languages index arrays from 0, not 1. It feels unintuitive at first, but the address formula makes the reason clear."
+        },
+        {
+          "type": "text",
+          "content": "In arr[i] = Base + i × size, the first element's offset from Base must be 0: arr[0] = Base + 0 × size = Base. If indexing started at 1, the formula becomes Base + (i-1) × size — an extra subtraction every time. 0-based indexing keeps the math as simple as possible."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Index = offset (distance from the base), so first element has offset 0",
+            "0-based: arr[0] = Base + 0, no subtraction needed",
+            "1-based would require: Base + (i-1) × size — more complex",
+            "C, C++, Java, Python, JavaScript all use 0-based indexing",
+            "Python supports negative indices: arr[-1] is the last element"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "arr = [10, 20, 30, 40, 50]\n\nprint(arr[0])   # 10 (first)\nprint(arr[4])   # 50 (last, max index = len-1 = 4)\nprint(arr[-1])  # 50 (Python: negative index from end)\nprint(arr[-2])  # 40\n\n# Valid range: 0 ~ len(arr)-1\n# arr[5] raises IndexError!",
+          "javascript": "const arr = [10, 20, 30, 40, 50];\n\nconsole.log(arr[0]);              // 10\nconsole.log(arr[4]);              // 50\nconsole.log(arr[arr.length - 1]); // 50 (last element)\n\n// Out-of-bounds returns undefined (no error)\nconsole.log(arr[5]);  // undefined",
+          "java": "int[] arr = {10, 20, 30, 40, 50};\n\nSystem.out.println(arr[0]);  // 10\nSystem.out.println(arr[4]);  // 50\n\n// Out-of-bounds throws ArrayIndexOutOfBoundsException\n// System.out.println(arr[5]);  // exception!",
+          "cpp": "int arr[] = {10, 20, 30, 40, 50};\n\nstd::cout << arr[0] << std::endl;  // 10\nstd::cout << arr[4] << std::endl;  // 50\n\n// C/C++: NO bounds checking — undefined behavior!\n// arr[5] may return garbage or crash",
+          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\nConsole.WriteLine(arr[0]);   // 10\nConsole.WriteLine(arr[4]);   // 50\nConsole.WriteLine(arr[^1]);  // 50 (C# 8.0+: index from end)\n\n// Out-of-bounds: IndexOutOfRangeException",
+          "c": "#include <stdio.h>\n\nint arr[] = {10, 20, 30, 40, 50};\nint n = 5;\n\nprintf(\"%d\\n\", arr[0]);    // 10\nprintf(\"%d\\n\", arr[n-1]); // 50 (last)\n\n// C has NO bounds checking — always verify manually!"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Core Operations — Access, Search, Insert, Delete",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Arrays support four fundamental operations: Access, Search, Insert, and Delete. Each has a different time complexity, and understanding these is essential to using arrays correctly."
+        },
+        {
+          "type": "text",
+          "content": "Access: arr[i] reaches any element directly via the address formula — O(1) regardless of array size. This is the array's greatest strength."
+        },
+        {
+          "type": "text",
+          "content": "Search: Finding a value in an unsorted array requires checking each element (linear search) — O(n) worst case. A sorted array allows binary search — O(log n)."
+        },
+        {
+          "type": "text",
+          "content": "Insert: Appending to the end is O(1). Inserting in the middle requires shifting all subsequent elements one position right — O(n) in the worst case (inserting at position 0 shifts every element)."
+        },
+        {
+          "type": "image",
+          "src": "/images/array-insert.svg",
+          "alt": "Array mid-insertion: inserting 15 at index 1 in [10,20,30,40] — arrows show 20/30/40 each shifting one slot right, resulting in [10,15,20,30,40]"
+        },
+        {
+          "type": "text",
+          "content": "Delete: Removing from the end is O(1). Removing from the middle requires shifting subsequent elements left to fill the gap — O(n) worst case."
+        },
+        {
+          "type": "code",
+          "python": "arr = [10, 20, 30, 40, 50]\n\n# 1. Access O(1)\nprint(arr[2])  # 30\n\n# 2. Linear Search O(n)\ndef linear_search(arr, target):\n    for i, val in enumerate(arr):\n        if val == target:\n            return i\n    return -1\nprint(linear_search(arr, 30))  # 2\n\n# 3. Mid-insert O(n) — internal shifting\narr.insert(2, 99)\nprint(arr)  # [10, 20, 99, 30, 40, 50]\n\n# 4. Delete O(n)\narr.pop(2)  # remove index 2\nprint(arr)  # [10, 20, 30, 40, 50]",
+          "javascript": "const arr = [10, 20, 30, 40, 50];\n\n// 1. Access O(1)\nconsole.log(arr[2]);  // 30\n\n// 2. Search O(n)\nconsole.log(arr.indexOf(30));  // 2\nconsole.log(arr.indexOf(99));  // -1\n\n// 3. Insert O(n)\narr.splice(2, 0, 99);\nconsole.log(arr);  // [10, 20, 99, 30, 40, 50]\n\n// 4. Delete O(n)\narr.splice(2, 1);\nconsole.log(arr);  // [10, 20, 30, 40, 50]",
+          "java": "int[] arr = {10, 20, 30, 40, 50};\n\n// 1. Access O(1)\nSystem.out.println(arr[2]);  // 30\n\n// 2. Search O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < arr.length; i++)\n    if (arr[i] == target) { idx = i; break; }\nSystem.out.println(idx);  // 2\n\n// Static arrays require manual element shifting for insert/delete\n// Use ArrayList in practice (covered next)",
+          "cpp": "#include <algorithm>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. Access O(1)\nstd::cout << arr[2];  // 30\n\n// 2. Search O(n)\nauto it = std::find(arr, arr + size, 30);\nif (it != arr + size) std::cout << (it - arr);  // 2\n\n// 3. Insert at index 2 — manual shift O(n)\nfor (int i = size; i > 2; i--) arr[i] = arr[i-1];\narr[2] = 99; size++;",
+          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\n// 1. Access O(1)\nConsole.WriteLine(arr[2]);  // 30\n\n// 2. Search O(n)\nint idx = Array.IndexOf(arr, 30);\nConsole.WriteLine(idx);  // 2\n\n// Static array: no built-in insert/delete → use List<T>",
+          "c": "#include <stdio.h>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. Access O(1)\nprintf(\"%d\\n\", arr[2]);  // 30\n\n// 2. Search O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < size; i++)\n    if (arr[i] == target) { idx = i; break; }\nprintf(\"index: %d\\n\", idx);  // 2\n\n// 3. Insert at index 2 — shift right\nfor (int i = size; i > 2; i--) arr[i] = arr[i-1];\narr[2] = 99; size++;"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Static Array Limitations",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The arrays discussed so far are static arrays — their size must be fixed at declaration and cannot change. This is the primary limitation."
+        },
+        {
+          "type": "text",
+          "content": "When you don't know how many items to store, you face a dilemma. Too small: overflow when data exceeds capacity. Too large: wasted memory for unused slots. 3 items in a 1000-slot array wastes 997 slots."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Limitation 1 — Fixed size: can't grow. Need a new array + manual copy when full",
+            "Limitation 2 — Memory waste: reserving extra space wastes memory",
+            "Limitation 3 — Costly mid-insert/delete: O(n) element shifting",
+            "Limitation 4 — Must know size in advance: hard to design when count is unknown at runtime"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "# Simulating static array overflow\nMAX_SIZE = 5\narr = [0] * MAX_SIZE\nsize = 0\n\ndef add(value):\n    global size\n    if size >= MAX_SIZE:\n        print('Array full! Cannot add more.')\n        return\n    arr[size] = value\n    size += 1\n\nadd(10); add(20); add(30); add(40); add(50)\nadd(60)  # Prints: 'Array full! Cannot add more.'",
+          "javascript": "const MAX_SIZE = 5;\nconst arr = new Array(MAX_SIZE);\nlet size = 0;\n\nfunction add(value) {\n    if (size >= MAX_SIZE) {\n        console.log('Array full!');\n        return;\n    }\n    arr[size++] = value;\n}\n\nadd(10); add(20); add(30); add(40); add(50);\nadd(60);  // 'Array full!'",
+          "java": "int[] arr = new int[5];\nint size = 0;\n\nfor (int i = 1; i <= 6; i++) {\n    if (size >= arr.length) {\n        // Must manually resize\n        int[] newArr = new int[arr.length * 2];\n        System.arraycopy(arr, 0, newArr, 0, arr.length);\n        arr = newArr;\n        System.out.println(\"Manual resize to: \" + arr.length);\n    }\n    arr[size++] = i * 10;\n}",
+          "cpp": "#include <cstring>\n#include <iostream>\n\nint* arr = new int[5];\nint capacity = 5, size = 0;\n\nvoid add(int val) {\n    if (size == capacity) {\n        int* newArr = new int[capacity * 2];\n        memcpy(newArr, arr, size * sizeof(int));\n        delete[] arr;\n        arr = newArr;\n        capacity *= 2;\n        std::cout << \"Resize to: \" << capacity << std::endl;\n    }\n    arr[size++] = val;\n}",
+          "csharp": "int[] arr = new int[5];\n\n// Need more space? Array.Resize internally creates new array + copies\nArray.Resize(ref arr, 10);\nConsole.WriteLine(arr.Length);  // 10\n// This inconvenience is exactly what List<T> solves",
+          "c": "#include <stdlib.h>\n#include <stdio.h>\n\nint* arr;\nint capacity = 5, size = 0;\n\nvoid init()    { arr = malloc(capacity * sizeof(int)); }\nvoid cleanup() { free(arr); }\n\nvoid add(int val) {\n    if (size >= capacity) {\n        capacity *= 2;\n        arr = realloc(arr, capacity * sizeof(int));\n        printf(\"Resize: capacity=%d\\n\", capacity);\n    }\n    arr[size++] = val;\n}"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Dynamic Arrays — capacity vs size",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Dynamic arrays solve static array limitations by separating the logical size (how many elements are stored) from the physical capacity (how much space is reserved)."
+        },
+        {
+          "type": "text",
+          "content": "Restaurant analogy: a restaurant has 20 seats but only 8 customers. size = 8, capacity = 20. New customers take empty seats. When all seats fill up, you bring more tables — just like a dynamic array automatically allocates more space when capacity is exceeded."
+        },
+        {
+          "type": "image",
+          "src": "/images/array-capacity-size.svg",
+          "alt": "Dynamic array capacity vs size — 8-slot internal array with 3 filled (size=3, capacity=8). Filled slots shown as solid blue boxes, empty slots as dashed gray boxes. Arrows below mark the size range and capacity range"
+        },
+        {
+          "type": "points",
+          "items": [
+            "size: number of elements actually stored (logical size)",
+            "capacity: total memory reserved internally (physical size)",
+            "Always: size ≤ capacity",
+            "Python list, Java ArrayList, C++ vector, C# List<T>, JavaScript Array are all dynamic arrays",
+            "In most languages, dynamic arrays behave as the default array type"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "import sys\n\narr = []  # Python list = dynamic array\n\nfor i in range(9):\n    arr.append(i)\n    print(f'size={len(arr)}, allocated_bytes={sys.getsizeof(arr)}')\n\n# A jump in bytes marks a resize event!\n# 0→56, 1→88, 5→120, 9→184 (CPython)",
+          "javascript": "const arr = [];\nconsole.log(arr.length);  // 0\n\narr.push(10); arr.push(20); arr.push(30);\nconsole.log(arr.length);  // 3\n// capacity managed internally by the JS engine",
+          "java": "import java.util.ArrayList;\n\nArrayList<Integer> list = new ArrayList<>();  // default capacity: 10\n\nfor (int i = 0; i < 12; i++) list.add(i);\nSystem.out.println(\"size: \" + list.size());  // 12\n// capacity 10 → 15 after the 11th element (1.5x growth)",
+          "cpp": "#include <vector>\n#include <iostream>\n\nstd::vector<int> v;\nfor (int i = 0; i < 10; i++) {\n    v.push_back(i);\n    std::cout << \"size=\" << v.size()\n              << \", capacity=\" << v.capacity() << \"\\n\";\n}\n// size=1, capacity=1\n// size=3, capacity=4  ← resize!",
+          "csharp": "var list = new List<int>();  // default capacity: 4\n\nfor (int i = 0; i < 10; i++) {\n    list.Add(i);\n    Console.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n}\n// Count=5, Capacity=8  ← resize!\n// Count=9, Capacity=16 ← resize!",
+          "c": "#include <stdlib.h>\n#include <stdio.h>\n\ntypedef struct { int* data; int size; int capacity; } Vec;\n\nVec* vec_new() {\n    Vec* v = malloc(sizeof(Vec));\n    v->data = malloc(4 * sizeof(int));\n    v->size = 0; v->capacity = 4;\n    return v;\n}\n\nvoid vec_push(Vec* v, int val) {\n    if (v->size == v->capacity) {\n        v->capacity *= 2;\n        v->data = realloc(v->data, v->capacity * sizeof(int));\n        printf(\"Resize: capacity=%d\\n\", v->capacity);\n    }\n    v->data[v->size++] = val;\n}"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Resizing — How Arrays Grow Automatically",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Resizing is the core mechanism of dynamic arrays. When size reaches capacity, three steps execute automatically."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Step 1 — Allocate new array: create a new array with 2× (or 1.5×) the current capacity in memory",
+            "Step 2 — Copy data: copy every element from the old array to the new one — this costs O(n)",
+            "Step 3 — Swap reference: point the dynamic array to the new internal array; release the old memory"
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/images/array-resizing.svg",
+          "alt": "3-step resizing diagram — Step 1: [A,B,C,D] capacity=4 is full, E requested (arrow). Step 2: new capacity=8 array created below, A/B/C/D copied with arrows. Step 3: result [A,B,C,D,E,_,_,_] size=5 capacity=8"
+        },
+        {
+          "type": "text",
+          "content": "Why double? Smaller growth (e.g. 1.1×) causes too-frequent resizing. Larger growth (e.g. 3×) wastes memory. Doubling (or 1.5×) balances resize frequency against memory overhead. This multiplier is called the growth factor."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Growth Factor: new capacity = old capacity × growth factor",
+            "Python list: ~1.125–2× (complex formula, grows more when small)",
+            "Java ArrayList: 1.5× (oldCapacity + oldCapacity >> 1)",
+            "C++ std::vector: 2× (GCC/Clang; may vary by implementation)",
+            "C# List<T>: 2×",
+            "Larger growth factor → more wasted memory, fewer resizes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Amortized Analysis — Why Append Is O(1)",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Resizing costs O(n); ordinary appends cost O(1). So what is the time complexity of append? The answer is 'O(1) amortized.' Amortized analysis proves this."
+        },
+        {
+          "type": "text",
+          "content": "Amortized analysis distributes the cost of expensive operations across many cheap ones. Bank account analogy: each cheap O(1) append deposits a small credit toward the future resize cost. When a resize occurs, those credits pay the bill."
+        },
+        {
+          "type": "text",
+          "content": "The math: for n appends with capacity doubling (1→2→4→...→n), total copies = 1+2+4+...+n/2 = n-1. Total cost for n appends = O(n). Average cost per append = O(n)/n = O(1)."
+        },
+        {
+          "type": "image",
+          "src": "/images/array-amortized.svg",
+          "alt": "Amortized analysis bar chart — x-axis: append number (1–16), y-axis: actual cost. Most operations cost 1 (short bars), but appends 1, 2, 4, 8, 16 spike with resize cost (tall bars). Dashed horizontal line at y=2 shows the amortized average"
+        },
+        {
+          "type": "points",
+          "items": [
+            "Amortized O(1): worst case is O(n), but average over n operations is O(1)",
+            "Resizing happens only at sizes 1, 2, 4, 8, 16... — log₂n times total",
+            "Total copies = 1+2+4+...+n/2 = n-1, average ≈ 1 per append",
+            "append: O(1) amortized / O(n) worst case (when resize triggers)",
+            "Interview tip: 'almost always O(1), occasional O(n) spikes that average out'"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Dynamic Array Usage by Language",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each language names and uses its dynamic array slightly differently. Here is a practical summary of the most commonly used methods."
+        },
+        {
+          "type": "code",
+          "python": "arr = []  # or list()\n\n# Add\narr.append(10)        # append to end O(1) amortized\narr.insert(1, 99)     # insert at index O(n)\narr.extend([20, 30])  # append multiple\n\n# Remove\narr.pop()             # remove last O(1)\narr.pop(0)            # remove at index O(n)\narr.remove(99)        # remove first match O(n)\n\n# Search\nprint(99 in arr)      # O(n)\nprint(arr.index(10))  # O(n)\n\n# Slicing\nprint(arr[1:3])       # subarray O(k)\nprint(arr[::-1])      # reversed copy O(n)\n\nprint(len(arr))       # size",
+          "javascript": "const arr = [];\n\narr.push(10, 20);         // append O(1) amortized\narr.unshift(5);           // prepend O(n)\narr.splice(1, 0, 99);     // insert at index O(n)\n\narr.pop();                // remove last O(1)\narr.shift();              // remove first O(n)\narr.splice(1, 1);         // remove at index O(n)\n\nconsole.log(arr.includes(10));       // O(n)\nconsole.log(arr.indexOf(10));        // O(n)\nconsole.log(arr.find(x => x > 5));   // O(n)\n\nconst copy = arr.slice(1, 3);        // subarray\nconsole.log(arr.length);             // size",
+          "java": "import java.util.*;\n\nList<Integer> list = new ArrayList<>();\n\nlist.add(10);                 // append\nlist.add(1, 99);              // insert at index\nlist.addAll(Arrays.asList(20, 30));\n\nlist.remove(0);                    // remove by index\nlist.remove(Integer.valueOf(99));   // remove by value\nlist.clear();\n\nSystem.out.println(list.contains(10));  // O(n)\nSystem.out.println(list.indexOf(10));   // O(n)\n\nCollections.sort(list);\nSystem.out.println(list.size());  // size",
+          "cpp": "#include <vector>\n#include <algorithm>\n\nstd::vector<int> v;\n\nv.push_back(10);               // append O(1) amortized\nv.emplace_back(20);            // more efficient than push_back\nv.insert(v.begin()+1, 99);    // insert O(n)\nv.reserve(100);                // pre-allocate to avoid resizes\n\nv.pop_back();                  // remove last O(1)\nv.erase(v.begin()+1);         // remove at index O(n)\nv.clear();\n\nstd::cout << v.size() << \" \" << v.capacity();",
+          "csharp": "var list = new List<int>();\n\nlist.Add(10);\nlist.Insert(1, 99);\nlist.AddRange(new[] {20, 30});\n\nlist.RemoveAt(0);\nlist.Remove(99);\nlist.Clear();\n\nConsole.WriteLine(list.Contains(10));\nConsole.WriteLine(list.IndexOf(10));\nConsole.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n\nlist.Sort();\nlist.Sort((a, b) => b.CompareTo(a));  // descending",
+          "c": "#include <stdlib.h>\n\ntypedef struct { int* data; int size; int capacity; } Vec;\n\nVec* vec_new() {\n    Vec* v = malloc(sizeof(Vec));\n    v->data = malloc(4 * sizeof(int));\n    v->size = 0; v->capacity = 4;\n    return v;\n}\nvoid vec_push(Vec* v, int val) {\n    if (v->size == v->capacity) {\n        v->capacity *= 2;\n        v->data = realloc(v->data, v->capacity * sizeof(int));\n    }\n    v->data[v->size++] = val;\n}\nint  vec_get(Vec* v, int i) { return v->data[i]; }\nvoid vec_free(Vec* v) { free(v->data); free(v); }"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Time Complexity Summary — When to Use Arrays",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Here is the complete time complexity reference for all array operations. Understanding best, average, and worst cases is key."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Access arr[i]: O(1) — always constant, the array's biggest strength",
+            "Search (unsorted): O(n) — linear scan",
+            "Search (sorted + binary search): O(log n)",
+            "Append (push to end): O(1) amortized / O(n) worst case (resize)",
+            "Insert at middle or front: O(n) — element shifting",
+            "Delete last element: O(1)",
+            "Delete at middle or front: O(n) — element shifting",
+            "Space complexity: O(n) — dynamic arrays may use up to 2n slots due to capacity"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Arrays vs Linked Lists: Arrays excel at O(1) access but pay O(n) for mid-insert/delete. Linked lists flip this — O(1) mid-insert/delete but O(n) access. Choose based on your dominant operation."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Prefer arrays when: frequent index-based access, append-only, or binary search on sorted data",
+            "Prefer linked lists when: frequent mid-insert/delete or rapidly changing size",
+            "Practical rule: dynamic array (list/ArrayList/vector) is the default first choice",
+            "Arrays also win on cache efficiency — contiguous memory is CPU-cache friendly vs linked list pointer chasing"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Practical Patterns — Two Pointers and Prefix Sum",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Two essential array-based patterns appear in countless coding problems. Mastering them lets you solve many problems efficiently."
+        },
+        {
+          "type": "text",
+          "content": "Pattern 1 — Two Pointers: Place two index pointers at different positions and move them toward each other based on a condition. Reduces O(n²) brute-force to O(n) for problems like 'find two numbers in a sorted array that sum to target.'"
+        },
+        {
+          "type": "text",
+          "content": "Pattern 2 — Prefix Sum: Precompute cumulative sums so any range sum query answers in O(1). Transforms O(n²) into O(n + q) where q is the number of queries."
+        },
+        {
+          "type": "code",
+          "python": "# Two Pointers — find pair summing to target in sorted array\ndef two_sum_sorted(arr, target):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        s = arr[left] + arr[right]\n        if s == target:   return (left, right)\n        elif s < target:  left += 1\n        else:             right -= 1\n    return None\n\nprint(two_sum_sorted([1, 3, 5, 7, 9, 11], 10))  # (1, 3) → 3+7\n\n# Prefix Sum — range sum in O(1)\ndef build_prefix(arr):\n    p = [0] * (len(arr) + 1)\n    for i, v in enumerate(arr):\n        p[i + 1] = p[i] + v\n    return p\n\ndef range_sum(p, l, r):  # sum of arr[l..r]\n    return p[r + 1] - p[l]\n\narr = [3, 1, 4, 1, 5, 9, 2, 6]\np = build_prefix(arr)\nprint(range_sum(p, 2, 5))  # 4+1+5+9 = 19",
+          "javascript": "// Two Pointers\nfunction twoSumSorted(arr, target) {\n    let l = 0, r = arr.length - 1;\n    while (l < r) {\n        const s = arr[l] + arr[r];\n        if (s === target) return [l, r];\n        else if (s < target) l++;\n        else r--;\n    }\n    return null;\n}\nconsole.log(twoSumSorted([1,3,5,7,9,11], 10));  // [1, 3]\n\n// Prefix Sum\nfunction buildPrefix(arr) {\n    const p = new Array(arr.length + 1).fill(0);\n    for (let i = 0; i < arr.length; i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\nconst p = buildPrefix([3,1,4,1,5,9,2,6]);\nconsole.log(p[6] - p[2]);  // range [2,5] = 19",
+          "java": "// Two Pointers\nint[] twoSumSorted(int[] arr, int target) {\n    int l = 0, r = arr.length - 1;\n    while (l < r) {\n        int s = arr[l] + arr[r];\n        if (s == target) return new int[]{l, r};\n        else if (s < target) l++;\n        else r--;\n    }\n    return new int[]{-1, -1};\n}\n\n// Prefix Sum\nint[] buildPrefix(int[] arr) {\n    int[] p = new int[arr.length + 1];\n    for (int i = 0; i < arr.length; i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\nint rangeSum(int[] p, int l, int r) { return p[r+1] - p[l]; }",
+          "cpp": "#include <vector>\nusing namespace std;\n\npair<int,int> twoSumSorted(vector<int>& a, int t) {\n    int l = 0, r = a.size()-1;\n    while (l < r) {\n        int s = a[l]+a[r];\n        if (s==t) return {l,r};\n        else if (s<t) l++; else r--;\n    }\n    return {-1,-1};\n}\n\nvector<int> buildPrefix(vector<int>& a) {\n    vector<int> p(a.size()+1,0);\n    for(int i=0;i<(int)a.size();i++) p[i+1]=p[i]+a[i];\n    return p;\n}\nint rangeSum(vector<int>& p,int l,int r){return p[r+1]-p[l];}",
+          "csharp": "// Two Pointers\nint[] TwoSumSorted(int[] arr, int target) {\n    int l = 0, r = arr.Length - 1;\n    while (l < r) {\n        int s = arr[l] + arr[r];\n        if (s == target) return new[]{l,r};\n        else if (s < target) l++; else r--;\n    }\n    return new[]{-1,-1};\n}\n\n// Prefix Sum\nint[] BuildPrefix(int[] arr) {\n    int[] p = new int[arr.Length+1];\n    for(int i=0;i<arr.Length;i++) p[i+1]=p[i]+arr[i];\n    return p;\n}\nint RangeSum(int[] p,int l,int r)=>p[r+1]-p[l];",
+          "c": "// Two Pointers\nvoid twoSum(int* a,int n,int t,int* lo,int* hi){\n    *lo=0; *hi=n-1;\n    while(*lo<*hi){\n        int s=a[*lo]+a[*hi];\n        if(s==t) return;\n        else if(s<t)(*lo)++; else(*hi)--;\n    }\n    *lo=*hi=-1;\n}\n\n// Prefix Sum\nvoid buildPrefix(int* a,int n,int* p){\n    p[0]=0;\n    for(int i=0;i<n;i++) p[i+1]=p[i]+a[i];\n}\nint rangeSum(int* p,int l,int r){return p[r+1]-p[l];}"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "References & Practice Problems",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The best way to master arrays is to solve problems. Here are recommended resources organized by learning stage."
+        },
+        {
+          "type": "points",
+          "items": [
+            "[ Visualization ] VisuAlgo (visualgo.net) — step-by-step animation of arrays, sorting, and search. Great for seeing insert/delete shifts in action",
+            "[ Theory ] GeeksforGeeks — Array Data Structure (geeksforgeeks.org/array-data-structure) — comprehensive coverage with code examples",
+            "[ Practice — Beginner ] LeetCode (leetcode.com) — Array tag, Easy level. Start with: Two Sum (#1), Best Time to Buy and Sell Stock (#121), Maximum Subarray (#53)",
+            "[ Practice — Intermediate ] LeetCode Medium: Container With Most Water (#11), 3Sum (#15), Product of Array Except Self (#238)",
+            "[ Practice — Korean ] Baekjoon Online Judge (acmicpc.net) — 'Array' tag. Start with: 10818 (Min/Max), 2562 (Max value), 1330 (Compare two numbers)",
+            "[ Book ] 'Introduction to Algorithms' (CLRS) — Chapter on sorting and arrays for deep theoretical foundation"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Recommended study order: Arrays → Linked Lists → Stack & Queue → Hash Table. Understanding arrays first makes the contrast with linked lists immediately clear: 'Array = contiguous memory + fast access, Linked List = scattered memory + flexible insert/delete.' Remember this tradeoff — it comes up in every data structures interview."
+        }
+      ]
+    }
+  ]
+}

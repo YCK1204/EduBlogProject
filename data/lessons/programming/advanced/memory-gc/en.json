@@ -1,0 +1,112 @@
+{
+  "slug": "memory-gc",
+  "tag": "Memory",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "variables-types",
+    "design-patterns-creational",
+    "async-event-loop"
+  ],
+  "title": "Memory Management and GC",
+  "summary": "Reference counting vs mark-and-sweep garbage collection strategies, the causes and detection of memory leaks, and how GC affects application performance.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Manual Memory Management",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/memory-gc.svg",
+          "alt": "Garbage collection mark and sweep",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "In C/C++ developers allocate and free memory manually with malloc/free (C) or new/delete (C++). Forgetting to free causes memory leaks; freeing twice causes double-free; accessing after free causes use-after-free bugs."
+        },
+        {
+          "type": "text",
+          "content": "Rust's ownership system guarantees memory safety at compile time without a GC, preventing both leaks and dangling pointers. C++ smart pointers (unique_ptr, shared_ptr) take a similar approach."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Stack: freed automatically when the function returns (size fixed at compile time)",
+            "Heap: freed manually or by GC (dynamic size)",
+            "Memory leak: allocated but never freed",
+            "Rust: ownership guarantees memory safety at compile time"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Reference Counting",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Reference counting tracks how many references point to each object. When the count reaches zero the memory is freed immediately. CPython (Python's C implementation) uses this as its primary GC mechanism."
+        },
+        {
+          "type": "text",
+          "content": "The fatal weakness of reference counting is circular references. If A references B and B references A, neither count reaches zero and both objects are never freed. Python handles this with a supplemental cycle collector. Swift's ARC (Automatic Reference Counting) works the same way."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Immediate release: memory is returned the moment count hits zero",
+            "Deterministic: predictable deallocation timing",
+            "Circular references: A→B→A cycle — count never reaches zero",
+            "Swift ARC: use 'weak' references to break reference cycles"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Mark-and-Sweep and Generational GC",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Mark-and-Sweep starts from GC roots (global variables, stack variables), marks all reachable objects, then sweeps away unmarked ones. It handles circular references naturally."
+        },
+        {
+          "type": "text",
+          "content": "Generational GC is based on the weak generational hypothesis: most objects die young. It collects newly created objects (Young Generation) frequently and long-lived objects (Old Generation) rarely. Java, V8, and .NET all use this strategy."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Mark phase: graph traversal from GC roots, mark all reachable objects",
+            "Sweep phase: free unmarked objects",
+            "Stop-the-World: application pauses while GC runs",
+            "Young Gen: frequent Minor GC; Old Gen: infrequent Major GC"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "GC and Memory Leak Detection",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Memory leaks still occur in GC languages. GC only collects unreachable objects. Accidentally holding live references — for example, unremoved event listeners or infinitely growing caches — prevents GC from collecting them, and memory keeps growing."
+        },
+        {
+          "type": "text",
+          "content": "Detection tools: Java has VisualVM and Eclipse MAT; browsers have Chrome DevTools Memory tab; Node.js uses --inspect + HeapSnapshot. Steadily increasing memory usage over time is the primary signal of a leak."
+        },
+        {
+          "type": "points",
+          "items": [
+            "GC leak: references kept alive unintentionally so GC cannot collect",
+            "Common causes: event listeners, timers, closures, global caches",
+            "WeakMap/WeakRef: weak references — allow GC to collect the target",
+            "Heap snapshot comparison: trace the source of memory growth"
+          ]
+        }
+      ]
+    }
+  ]
+}

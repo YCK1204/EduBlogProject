@@ -1,0 +1,119 @@
+{
+  "slug": "dijkstra",
+  "tag": "Shortest Path",
+  "estimatedTime": "35분",
+  "relatedSlugs": [
+    "bfs-dfs",
+    "dynamic-programming",
+    "recursion"
+  ],
+  "title": "응애 응애",
+  "summary": "다익스트라 알고리즘은 가중치 그래프에서 단일 출발점의 최단 경로를 구하는 알고리즘입니다. 그리디 전략과 우선순위 큐를 활용해 O((V+E) log V)를 달성합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "최단 경로 문제란",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "최단 경로 문제는 가중치 있는 그래프에서 두 정점 사이의 비용 합이 최소인 경로를 찾는 문제입니다. 네비게이션의 길찾기, 네트워크 라우팅, 게임의 A* 알고리즘의 기반이 됩니다."
+        },
+        {
+          "type": "text",
+          "content": "가중치 없는 그래프의 최단 경로는 BFS로 O(V+E)에 해결됩니다. 가중치가 있으면 BFS를 직접 사용할 수 없으며 다익스트라 또는 벨만-포드 알고리즘이 필요합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "단일 출발점 최단 경로(SSSP): 한 정점에서 모든 정점까지",
+            "전체 쌍 최단 경로(APSP): 모든 쌍 → 플로이드-워셜",
+            "가중치 없음: BFS O(V+E)",
+            "양수 가중치: 다익스트라 O((V+E) log V)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "다익스트라의 핵심 아이디어",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dijkstra.svg",
+          "alt": "Dijkstra shortest path algorithm",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "다익스트라는 그리디(Greedy) 전략을 사용합니다. 출발점에서 현재까지 알려진 최단 거리 dist[] 배열을 유지하면서, 아직 처리되지 않은 정점 중 dist 값이 가장 작은 정점을 선택해 이웃을 갱신합니다."
+        },
+        {
+          "type": "text",
+          "content": "핵심 정리: 최단 거리가 확정된 정점에서 출발해 이웃을 이완(Relax)하면, 아직 확정되지 않은 정점들의 최단 거리 추정값이 개선됩니다. dist[u] + w(u,v) < dist[v]이면 dist[v]를 갱신합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "초기화: dist[start] = 0, 나머지 = ∞",
+            "매 단계: 미확정 정점 중 dist 최솟값 선택",
+            "이완(Relaxation): dist[u] + w(u,v) < dist[v]이면 갱신",
+            "그리디 정당성: 음수 간선 없으면 항상 최적"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "우선순위 큐로 효율적 구현",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "순수 그리디 구현(매 단계 전체 탐색)은 O(V²)입니다. 우선순위 큐(최소 힙)를 사용하면 '미확정 정점 중 dist 최솟값 선택'을 O(log V)에 수행해 전체 복잡도를 O((V+E) log V)로 줄일 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "큐에는 (dist[v], v) 쌍을 넣습니다. 이미 더 짧은 경로로 처리된 정점이 큐에 남아 있을 수 있으므로, 꺼낼 때 현재 dist[v]보다 큰 경우 무시합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "min-heap에 (거리, 정점) 삽입",
+            "꺼낼 때: 현재 dist보다 크면 skip",
+            "이완 성공 시: 새 (거리, 정점)을 큐에 push",
+            "복잡도: O((V+E) log V) — 인접 리스트 사용 시"
+          ]
+        },
+        {
+          "type": "code",
+          "c": "printf(\"\");",
+          "python": "import heapq\n\ndef dijkstra(graph, start, V):\n    dist = [float('inf')] * V\n    dist[start] = 0\n    heap = [(0, start)]  # (거리, 정점)\n\n    while heap:\n        d, u = heapq.heappop(heap)\n        if d > dist[u]:   # 이미 처리된 정점 skip\n            continue\n        for v, w in graph[u]:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n                heapq.heappush(heap, (dist[v], v))\n    return dist",
+          "javascript": "// MinHeap 없이 간단 구현 (소규모 그래프)\nfunction dijkstra(graph, start, V) {\n  const dist = new Array(V).fill(Infinity);\n  dist[start] = 0;\n  const visited = new Set();\n\n  for (let i = 0; i < V; i++) {\n    let u = -1;\n    for (let v = 0; v < V; v++)\n      if (!visited.has(v) && (u === -1 || dist[v] < dist[u])) u = v;\n    if (dist[u] === Infinity) break;\n    visited.add(u);\n    for (const [v, w] of graph[u])\n      if (dist[u] + w < dist[v]) dist[v] = dist[u] + w;\n  }\n  return dist;\n}",
+          "java": "int[] dijkstra(List<int[]>[] graph, int start, int V) {\n    int[] dist = new int[V];\n    Arrays.fill(dist, Integer.MAX_VALUE);\n    dist[start] = 0;\n    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n    pq.offer(new int[]{0, start});\n\n    while (!pq.isEmpty()) {\n        int[] cur = pq.poll();\n        int d = cur[0], u = cur[1];\n        if (d > dist[u]) continue;\n        for (int[] edge : graph[u]) {\n            int v = edge[0], w = edge[1];\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                pq.offer(new int[]{dist[v], v});\n            }\n        }\n    }\n    return dist;\n}"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "한계와 대안 알고리즘",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "다익스트라의 가장 큰 제약은 음수 가중치 간선을 처리하지 못한다는 점입니다. 음수 간선이 있으면 그리디 선택이 틀려집니다. 벨만-포드(Bellman-Ford) 알고리즘은 O(VE)로 느리지만 음수 간선과 음수 사이클 감지까지 처리합니다."
+        },
+        {
+          "type": "text",
+          "content": "실무에서 다익스트라는 길찾기(지도, 게임 A*), 네트워크 라우팅(OSPF), 의존성 분석 등에 광범위하게 쓰입니다. 음수 간선이 없는 대부분의 실제 문제에서 최선의 선택입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "음수 간선: 다익스트라 사용 불가 → 벨만-포드",
+            "음수 사이클: 최단 경로 정의 불가 → 감지만 가능",
+            "밀집 그래프: O(V²) 구현이 더 빠를 수 있음",
+            "A*: 다익스트라 + 휴리스틱(목적지 방향 우선)"
+          ]
+        }
+      ]
+    }
+  ]
+}

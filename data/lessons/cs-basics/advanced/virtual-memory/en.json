@@ -1,0 +1,112 @@
+{
+  "slug": "virtual-memory",
+  "tag": "OS",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "os-intro",
+    "process-thread",
+    "cpu-cache"
+  ],
+  "title": "Virtual Memory and Paging",
+  "summary": "Virtual memory is a core OS feature that gives each process its own address space. Understand page tables, TLBs, and how page faults are handled.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Virtual Address Space",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/virtual-memory.svg",
+          "alt": "Virtual memory page table translation",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Virtual memory gives each process an address space that appears to own all of memory. On a 64-bit system, a process theoretically has 16 EB of virtual address space."
+        },
+        {
+          "type": "text",
+          "content": "Actual physical memory (RAM) is shared across processes. The OS's Memory Management Unit (MMU) translates virtual addresses to physical addresses. This enables process isolation and address spaces larger than physical RAM."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Virtual address: what the process sees (0x0 to maximum)",
+            "Physical address: actual RAM address",
+            "MMU: hardware inside the CPU for address translation",
+            "Memory isolation: process A cannot directly access process B's memory"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Page Tables",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A page is a fixed-size (typically 4 KB) chunk of virtual memory. The page table is a data structure mapping virtual page numbers to physical frame numbers."
+        },
+        {
+          "type": "text",
+          "content": "Address translation: virtual address = page number (high bits) + offset (low bits). Look up the physical frame number in the page table, then physical address = frame number + offset."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Page size: typically 4 KB (Huge Page: 2 MB, 1 GB)",
+            "Page Table Entry (PTE): frame number + protection bits + present bit",
+            "Multi-level page tables: save memory for the page table itself",
+            "Page tables are managed by the OS and stored in RAM"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "TLB — Address Translation Cache",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Since the page table lives in memory, every virtual-to-physical address translation would require a memory access. The TLB (Translation Lookaside Buffer) inside the CPU caches recent page table entries."
+        },
+        {
+          "type": "text",
+          "content": "A TLB hit translates the address in 1 cycle with no memory access. A TLB miss reads the page table from memory and updates the TLB."
+        },
+        {
+          "type": "points",
+          "items": [
+            "TLB hit rate: typically > 99%",
+            "TLB flush: invalidated on context switch (costly)",
+            "ASID (Address Space ID): avoids full TLB flush on context switch",
+            "Huge Pages: one TLB entry covers a larger region → fewer misses"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Page Faults and Swap",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A page fault is an exception that occurs when the accessed page is not in physical memory. The OS loads it from disk (swap space) into RAM, updates the page table, and re-executes the instruction."
+        },
+        {
+          "type": "text",
+          "content": "When physical memory is full, the OS uses a replacement algorithm (e.g., LRU) to evict infrequently used pages to disk. Excessive swapping causes thrashing, where the CPU spends most of its time waiting for I/O."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Minor fault: page already loaded by another process",
+            "Major fault: must read from disk (tens of ms)",
+            "LRU, Clock algorithm: select which page to evict",
+            "Thrashing: too many page faults, CPU mostly waiting for I/O"
+          ]
+        }
+      ]
+    }
+  ]
+}

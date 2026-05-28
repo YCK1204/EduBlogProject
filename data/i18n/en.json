@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "dataStructures": "Data Structures",
+    "algorithms": "Algorithms",
+    "csBasics": "CS Basics",
+    "programming": "Programming"
+  },
+  "category": {
+    "data-structures": {
+      "label": "Data Structures",
+      "description": "Learn how to store and access data efficiently."
+    },
+    "algorithms": {
+      "label": "Algorithms",
+      "description": "Strategies and optimization methods for solving problems step by step."
+    },
+    "cs-basics": {
+      "label": "CS Basics",
+      "description": "Core concepts in OS, networking, databases, and more."
+    },
+    "programming": {
+      "label": "Programming",
+      "description": "From language internals to clean code and design patterns."
+    }
+  },
+  "lesson": {
+    "language": "Language",
+    "relatedTopics": "Related Topics",
+    "stepsCount": " steps",
+    "stepsCompleted": " steps completed",
+    "backToListPrefix": "← Back to ",
+    "backToListSuffix": "",
+    "level": {
+      "초급": "Beginner",
+      "중급": "Intermediate",
+      "고급": "Advanced"
+    }
+  },
+  "filter": {
+    "all": "All",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "searchPlaceholder": "Search by title, description, tag...",
+    "noResults": " — no results found.",
+    "noLevel": "No posts for this level."
+  },
+  "home": {
+    "aboutLabel": "About This Blog",
+    "tagline1": "Documenting every step",
+    "tagline2": "of learning development.",
+    "intro1": "This blog is a study journal — not about memorizing concepts, but understanding, implementing, and recording them. The focus is on",
+    "introEmphasis": "why things work the way they do",
+    "intro2": ", not just what they do.",
+    "dsLabel": "Data Structures",
+    "dsHeading1": "How to organize data,",
+    "dsHeading2": "Data Structure fundamentals",
+    "dsBody": "Stacks, queues, trees, graphs — starting from why each structure exists and what problem it was designed to solve. Organized by implementing each to understand the internals.",
+    "dsCta": "Read posts",
+    "algoLabel": "Algorithms",
+    "algoHeading1": "Strategies for problem solving,",
+    "algoHeading2": "Algorithmic thinking",
+    "algoBody": "Sorting, searching, dynamic programming, greedy. Rather than memorizing formulas, we think through when each algorithm is effective and why that approach is efficient.",
+    "algoCta": "Read posts",
+    "csLabel": "CS Basics · Programming",
+    "csHeading1": "Strong foundations",
+    "csHeading2": "enable real application.",
+    "csBody": "OS, networking, databases, and language internals. Understanding how code executes in places you can't see changes how you look at every line you write.",
+    "csCta": "View all posts"
+  },
+  "footer": {
+    "copyright": "© 2026 DevNote. A study journal."
+  }
+}

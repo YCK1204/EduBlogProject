@@ -1,0 +1,112 @@
+{
+  "slug": "os-intro",
+  "tag": "OS",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "process-thread",
+    "virtual-memory",
+    "cpu-cache"
+  ],
+  "title": "What is an Operating System?",
+  "summary": "An OS mediates between hardware and applications. Learn the kernel/user-space split, the basics of processes and threads, and the role of system calls.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "The Role of an OS",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/os-intro.svg",
+          "alt": "OS abstraction layers",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "An Operating System manages computer hardware and provides services to applications. Key functions are CPU scheduling, memory management, the file system, and I/O device control."
+        },
+        {
+          "type": "text",
+          "content": "Without an OS, every application would need to control hardware directly. The OS provides abstractions — files, processes, sockets — so developers can program at a high level."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Resource management: CPU, memory, disk, network",
+            "Abstraction: high-level interfaces like files, processes, sockets",
+            "Protection: process isolation, blocking direct hardware access",
+            "Examples: Linux, macOS (XNU), Windows NT"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Kernel and User Space",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The OS is split into the kernel and user space. The kernel runs at the highest privilege (Ring 0) and accesses hardware directly. Applications run at lower privilege (Ring 3) in user space."
+        },
+        {
+          "type": "text",
+          "content": "This separation is essential for security and stability. A buggy user program cannot reach kernel memory, so the entire OS cannot be brought down. Kernel services are requested via system calls."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Kernel mode (Ring 0): direct hardware control, full memory access",
+            "User mode (Ring 3): restricted privileges, no direct hardware access",
+            "Mode switch: triggered by system calls, interrupts, exceptions",
+            "Mode switch cost: save/restore state → performance overhead"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Processes and Threads — Basics",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A process is a running instance of a program with its own isolated memory (code, data, heap, stack). Processes don't share memory by default, so one crashing process doesn't affect others."
+        },
+        {
+          "type": "text",
+          "content": "A thread is a lightweight execution unit within a process. Threads share the code, data, and heap of their process. Context switching is cheaper than for processes, but shared memory introduces synchronization challenges."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Process: isolated memory, high creation cost",
+            "Thread: shared memory, lightweight, low creation cost",
+            "Multi-process vs multi-thread: isolation vs efficiency trade-off",
+            "GIL (Python): only one thread executes at a time"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "System Calls",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A system call is the interface through which user programs request OS kernel services. File I/O (read, write), process creation (fork, exec), and memory allocation (mmap) are all system calls."
+        },
+        {
+          "type": "text",
+          "content": "Calling a system call switches from user mode to kernel mode. This switch requires saving registers, switching stacks, and changing privileges — tens to hundreds of times slower than a regular function call."
+        },
+        {
+          "type": "points",
+          "items": [
+            "File I/O: open, read, write, close",
+            "Process: fork (clone), exec (execute), wait, exit",
+            "Memory: mmap, brk",
+            "Network: socket, connect, send, recv"
+          ]
+        }
+      ]
+    }
+  ]
+}

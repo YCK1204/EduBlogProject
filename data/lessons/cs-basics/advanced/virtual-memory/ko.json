@@ -1,0 +1,112 @@
+{
+  "slug": "virtual-memory",
+  "tag": "OS",
+  "estimatedTime": "30분",
+  "relatedSlugs": [
+    "os-intro",
+    "process-thread",
+    "cpu-cache"
+  ],
+  "title": "가상 메모리와 페이징",
+  "summary": "가상 메모리는 각 프로세스에게 독립된 주소 공간을 제공하는 OS의 핵심 기능입니다. 페이지 테이블, TLB, 페이지 폴트 처리 과정을 이해합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "가상 주소 공간",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/virtual-memory.svg",
+          "alt": "Virtual memory page table translation",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "가상 메모리는 각 프로세스에게 마치 메모리 전체를 독점하는 것처럼 보이는 주소 공간을 제공합니다. 64비트 시스템에서 프로세스는 이론상 16EB(엑사바이트)의 가상 주소 공간을 갖습니다."
+        },
+        {
+          "type": "text",
+          "content": "실제 물리 메모리(RAM)는 여러 프로세스가 공유합니다. OS의 메모리 관리 유닛(MMU)이 프로세스가 사용하는 가상 주소를 실제 물리 주소로 변환합니다. 이 덕분에 프로세스 간 메모리 격리와 물리 메모리보다 큰 주소 공간 사용이 가능합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "가상 주소: 프로세스가 보는 주소 (0x0 ~ 최대)",
+            "물리 주소: 실제 RAM의 주소",
+            "MMU: CPU 내부 하드웨어로 주소 변환",
+            "메모리 격리: 프로세스 A가 B의 메모리에 직접 접근 불가"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "페이지 테이블",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "페이지(Page)는 가상 메모리를 고정 크기(보통 4KB)로 나눈 단위입니다. 페이지 테이블은 가상 페이지 번호 → 물리 프레임 번호 매핑을 저장하는 자료구조입니다."
+        },
+        {
+          "type": "text",
+          "content": "주소 변환: 가상 주소 = 페이지 번호(상위 비트) + 오프셋(하위 비트). 페이지 테이블에서 페이지 번호에 해당하는 물리 프레임 번호를 찾아, 물리 주소 = 프레임 번호 + 오프셋으로 계산합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "페이지 크기: 보통 4KB (Huge Page: 2MB, 1GB)",
+            "페이지 테이블 엔트리(PTE): 프레임 번호 + 보호 비트 + 존재 비트",
+            "다단계 페이지 테이블: 페이지 테이블 자체의 메모리 절약",
+            "페이지 테이블은 OS가 관리, RAM에 저장"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "TLB — 주소 변환 캐시",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "페이지 테이블은 메모리에 있으므로 매번 가상→물리 주소 변환에 메모리 접근이 필요합니다. 이를 해결하기 위해 CPU 내부에 TLB(Translation Lookaside Buffer)라는 주소 변환 캐시를 둡니다."
+        },
+        {
+          "type": "text",
+          "content": "TLB는 최근 사용한 페이지 테이블 엔트리를 저장합니다. TLB 히트 시 메모리 접근 없이 1사이클에 주소 변환이 가능합니다. TLB 미스 시 메모리에서 페이지 테이블을 읽어 TLB를 갱신합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "TLB 히트율: 보통 99% 이상",
+            "TLB 플러시: 컨텍스트 스위칭 시 TLB 무효화 (비용 발생)",
+            "ASID(Address Space ID): 컨텍스트 스위칭 시 TLB 플러시 방지",
+            "Huge Page: TLB 엔트리 하나가 더 큰 영역 커버 → TLB 미스 감소"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "페이지 폴트와 스왑",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "페이지 폴트(Page Fault)는 접근하려는 페이지가 물리 메모리에 없을 때 발생하는 예외입니다. OS는 해당 페이지를 디스크(스왑 공간)에서 RAM으로 불러와 페이지 테이블을 갱신한 뒤 명령을 재실행합니다."
+        },
+        {
+          "type": "text",
+          "content": "물리 메모리가 부족하면 OS는 LRU(Least Recently Used) 등의 교체 알고리즘으로 사용 빈도가 낮은 페이지를 디스크로 내보냅니다(Page Out). 스왑이 과도해지면 시스템이 극도로 느려지는 Thrashing이 발생합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Minor Fault: 다른 프로세스가 이미 메모리에 로드한 경우",
+            "Major Fault: 디스크에서 읽어야 하는 경우 (수십 ms)",
+            "LRU, Clock 알고리즘: 교체 페이지 선택",
+            "Thrashing: 스왑 발생이 너무 잦아 CPU가 대부분 I/O 대기"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "slug": "type-system-generics",
+  "tag": "TypeScript",
+  "estimatedTime": "25분",
+  "relatedSlugs": [
+    "variables-types",
+    "async-event-loop",
+    "oop-intro"
+  ],
+  "title": "타입 시스템과 제네릭",
+  "summary": "정적 타입이 버그를 사전에 차단하는 원리, 제네릭을 통한 타입 안전한 재사용 코드 작성법, 타입 추론과 타입 가드를 이해합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "타입 시스템의 목적",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/type-system-generics.svg",
+          "alt": "Generics type-safe code reuse",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "타입 시스템(Type System)은 변수와 표현식에 타입을 부여해 프로그램의 정확성을 컴파일 시점에 검증하는 체계입니다. 잘못된 타입 사용을 사전에 차단해 런타임 오류를 줄입니다."
+        },
+        {
+          "type": "text",
+          "content": "TypeScript가 JavaScript에 타입을 추가한 이유: 대규모 코드베이스에서 함수가 받는 인수 타입, 반환 타입이 명시적이면 IDE 자동완성이 정확해지고, 리팩토링 시 오류를 즉시 발견할 수 있습니다. 타입은 문서화 역할도 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "컴파일 시 오류 감지: 런타임 오류 줄어듦",
+            "IDE 지원: 자동완성, 리팩토링 도구 정확도 향상",
+            "문서화: 함수 시그니처가 사용법을 설명",
+            "점진적 타이핑: any 허용으로 기존 JS 코드에 점진적 도입 가능"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "제네릭이란",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "제네릭(Generics)은 타입을 매개변수로 받아 다양한 타입에 재사용 가능한 코드를 작성하는 기법입니다. 배열, Map, Promise가 대표적인 제네릭 타입입니다. Array<number>는 숫자만, Array<string>은 문자열만 담는 배열입니다."
+        },
+        {
+          "type": "text",
+          "content": "제네릭 없이 재사용성을 높이려면 any 타입을 써야 하는데, 이는 타입 안전성을 포기하는 것입니다. 제네릭을 쓰면 '이 함수는 어떤 타입이든 받되, 입력과 출력 타입이 일치한다'처럼 타입 정보를 유지하면서 재사용할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "함수 제네릭: function identity<T>(arg: T): T { return arg }",
+            "타입 제약: <T extends Comparable> — T가 특정 인터페이스 만족 강제",
+            "여러 타입 매개변수: <K, V>",
+            "유틸리티 타입: Partial<T>, Readonly<T>, Pick<T, K>"
+          ]
+        },
+        {
+          "type": "code",
+          "javascript": "// TypeScript 제네릭\n// any 사용 — 타입 안전성 X\nfunction firstAny(arr) {\n  return arr[0]; // 반환 타입 알 수 없음\n}\n\n// 제네릭 — 타입 정보 유지\nfunction first<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n\nconst num = first([1, 2, 3]);    // number | undefined\nconst str = first([\"a\", \"b\"]);   // string | undefined\n\n// 제네릭 인터페이스\ninterface ApiResponse<T> {\n  data: T;\n  status: number;\n  message: string;\n}\n\ntype UserResponse = ApiResponse<{ id: number; name: string }>;",
+          "java": "// Java 제네릭\npublic class Box<T> {\n    private T value;\n\n    public Box(T value) { this.value = value; }\n    public T getValue() { return value; }\n}\n\nBox<Integer> intBox = new Box<>(42);\nBox<String>  strBox = new Box<>(\"hello\");\n\n// 제네릭 메서드\npublic <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) >= 0 ? a : b;\n}",
+          "csharp": "// C# 제네릭\npublic class Stack<T> {\n    private readonly List<T> items = new();\n\n    public void Push(T item) => items.Add(item);\n    public T Pop() {\n        var last = items[^1];\n        items.RemoveAt(items.Count - 1);\n        return last;\n    }\n}\n\nvar intStack = new Stack<int>();\nintStack.Push(1);\nvar top = intStack.Pop(); // int",
+          "cpp": "// C++ 템플릿 (제네릭)\ntemplate<typename T>\nT max(T a, T b) {\n    return a > b ? a : b;\n}\n\nint    m1 = max(3, 5);      // int\ndouble m2 = max(3.1, 2.7);  // double\n\n// 제네릭 컨테이너\ntemplate<typename T>\nclass Stack {\n    std::vector<T> data;\npublic:\n    void push(T val) { data.push_back(val); }\n    T    pop()       { auto v=data.back(); data.pop_back(); return v; }\n};"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "타입 추론",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "타입 추론(Type Inference)은 컴파일러가 코드에서 타입을 자동으로 추론하는 기능입니다. const x = 5에서 TypeScript는 x의 타입을 number로 자동 추론합니다. 명시적 타입 선언 없이도 타입 안전성을 유지할 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "좋은 타입 추론은 코드를 간결하게 유지하면서 타입 안전성을 제공합니다. 단, 타입이 너무 넓게 추론되거나(widening) 의도와 다르게 추론될 때는 명시적 타입 선언이 필요합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "let x = 5: TypeScript가 number로 추론",
+            "함수 반환 타입: 구현에서 추론 (명시 권장 in public API)",
+            "const assertion: as const → 가장 좁은 타입으로 추론",
+            "infer: 조건부 타입에서 타입 추출"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "타입 가드와 타입 좁히기",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "타입 좁히기(Type Narrowing)는 조건 검사를 통해 union 타입의 범위를 좁혀 더 구체적인 타입으로 다루는 것입니다. if (typeof x === 'string') 블록 안에서 TypeScript는 x를 string으로 인식합니다."
+        },
+        {
+          "type": "text",
+          "content": "사용자 정의 타입 가드(User-Defined Type Guard)는 is 키워드로 반환 타입을 명시해 TypeScript가 특정 조건에서 타입을 좁히도록 도와줍니다. instanceof, in 연산자, 리터럴 타입 체크도 타입 좁히기에 사용됩니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "typeof: 'string' | 'number' | 'boolean' | 'object' 등 확인",
+            "instanceof: 클래스 인스턴스 확인",
+            "in: 프로퍼티 존재 확인 (유니온 판별에 유용)",
+            "커스텀 타입 가드: function isError(x): x is Error { ... }"
+          ]
+        }
+      ]
+    }
+  ]
+}

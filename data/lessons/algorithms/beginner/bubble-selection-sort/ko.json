@@ -1,0 +1,127 @@
+{
+  "slug": "bubble-selection-sort",
+  "tag": "Sort",
+  "estimatedTime": "20분",
+  "relatedSlugs": [
+    "merge-sort",
+    "binary-search"
+  ],
+  "title": "버블 정렬과 선택 정렬",
+  "summary": "버블 정렬과 선택 정렬은 구현이 단순하지만 O(n²) 시간 복잡도 한계를 가진 정렬 알고리즘입니다. 두 알고리즘의 동작 원리를 비교하고, 더 효율적인 알고리즘이 왜 필요한지 파악합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "버블 정렬의 동작 원리",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/bubble-sort-pass.svg",
+          "alt": "Bubble sort first pass",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "버블 정렬(Bubble Sort)은 인접한 두 원소를 비교해 순서가 잘못되었으면 교환하는 과정을 반복합니다. 한 번 전체를 순회하면 가장 큰 원소가 맨 뒤로 올라가는 모습이 거품(bubble)과 닮았다 해서 붙은 이름입니다."
+        },
+        {
+          "type": "text",
+          "content": "n개 원소를 정렬하려면 최대 n-1번 순회가 필요합니다. 각 순회에서 이미 정렬된 뒤쪽은 건너뛸 수 있으므로, 최선의 경우(이미 정렬된 배열) 한 번 순회만으로 완료됩니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "비교 횟수: 최악/평균 O(n²), 최선 O(n)",
+            "교환 횟수: 최악 O(n²) — 역순 정렬된 경우",
+            "안정 정렬: 같은 값의 상대 순서 유지",
+            "in-place: 추가 메모리 O(1)"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swapped = True\n        if not swapped:   # 교환 없으면 이미 정렬됨\n            break\n    return arr",
+          "javascript": "function bubbleSort(arr) {\n  const n = arr.length;\n  for (let i = 0; i < n; i++) {\n    let swapped = false;\n    for (let j = 0; j < n - i - 1; j++) {\n      if (arr[j] > arr[j + 1]) {\n        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n        swapped = true;\n      }\n    }\n    if (!swapped) break;\n  }\n  return arr;\n}",
+          "java": "void bubbleSort(int[] arr) {\n    int n = arr.length;\n    for (int i = 0; i < n - 1; i++) {\n        boolean swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int tmp = arr[j];\n                arr[j] = arr[j + 1];\n                arr[j + 1] = tmp;\n                swapped = true;\n            }\n        }\n        if (!swapped) break;\n    }\n}",
+          "c": "void bubbleSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int swapped = 0;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int tmp = arr[j];\n                arr[j] = arr[j + 1];\n                arr[j + 1] = tmp;\n                swapped = 1;\n            }\n        }\n        if (!swapped) break;\n    }\n}",
+          "cpp": "void bubbleSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        bool swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                swap(arr[j], arr[j + 1]);\n                swapped = true;\n            }\n        }\n        if (!swapped) break;\n    }\n}",
+          "csharp": "void BubbleSort(int[] arr) {\n    int n = arr.Length;\n    for (int i = 0; i < n - 1; i++) {\n        bool swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                (arr[j], arr[j + 1]) = (arr[j + 1], arr[j]);\n                swapped = true;\n            }\n        }\n        if (!swapped) break;\n    }\n}"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "선택 정렬의 동작 원리",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "선택 정렬(Selection Sort)은 매 순회에서 남은 원소 중 최솟값을 찾아 현재 위치와 교환합니다. i번째 순회가 끝나면 i번째 위치에 최솟값이 고정됩니다."
+        },
+        {
+          "type": "text",
+          "content": "선택 정렬은 비교 횟수가 항상 n(n-1)/2로 고정됩니다. 이미 정렬된 배열이어도 O(n²) 비교를 수행합니다. 반면 교환 횟수는 최대 n-1번으로, 교환 비용이 큰 환경에서는 버블 정렬보다 유리할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "비교 횟수: 항상 O(n²) (최선·최악 동일)",
+            "교환 횟수: 최대 O(n) — 상대적으로 적음",
+            "불안정 정렬: 같은 값의 상대 순서 보장 안 됨",
+            "in-place: 추가 메모리 O(1)"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr",
+          "javascript": "function selectionSort(arr) {\n  const n = arr.length;\n  for (let i = 0; i < n; i++) {\n    let minIdx = i;\n    for (let j = i + 1; j < n; j++) {\n      if (arr[j] < arr[minIdx]) minIdx = j;\n    }\n    [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];\n  }\n  return arr;\n}",
+          "java": "void selectionSort(int[] arr) {\n    int n = arr.length;\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        int tmp = arr[i];\n        arr[i] = arr[minIdx];\n        arr[minIdx] = tmp;\n    }\n}",
+          "c": "void selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        int tmp = arr[i];\n        arr[i] = arr[minIdx];\n        arr[minIdx] = tmp;\n    }\n}"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "두 알고리즘 비교 분석",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "버블 정렬과 선택 정렬은 둘 다 O(n²)이지만 특성이 다릅니다. 버블 정렬은 교환이 많지만 조기 종료(이미 정렬된 경우)가 가능합니다. 선택 정렬은 교환이 적지만 항상 전체를 순회합니다."
+        },
+        {
+          "type": "text",
+          "content": "안정성 측면에서도 차이가 있습니다. 버블 정렬은 인접한 원소만 교환하므로 안정 정렬이지만, 선택 정렬은 멀리 떨어진 원소와 교환해 같은 값의 상대 순서가 바뀔 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "버블: 교환 많음, 최선 O(n), 안정",
+            "선택: 교환 적음, 항상 O(n²), 불안정",
+            "캐시 성능: 둘 다 인접 접근 → 캐시 친화적",
+            "실무에서는 두 알고리즘 모두 거의 사용 안 함"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "한계와 개선된 정렬 알고리즘",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "O(n²) 정렬은 데이터가 수천 개 이상이 되면 급격히 느려집니다. n=10,000이면 비교 횟수가 약 5천만 번이 됩니다. 실무에서는 병합 정렬(Merge Sort)이나 퀵 정렬(Quick Sort) 같은 O(n log n) 알고리즘을 사용합니다."
+        },
+        {
+          "type": "text",
+          "content": "그렇다면 왜 배우나요? 정렬 알고리즘의 기초 개념(비교, 교환, 안정성, in-place)을 직관적으로 이해할 수 있기 때문입니다. 또한 소규모 데이터(n < 50)에서는 구현 오버헤드가 없어 충분히 빠를 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "n=1,000: O(n²) ≈ 100만 연산, O(n log n) ≈ 1만 연산",
+            "삽입 정렬: 거의 정렬된 데이터에서 O(n) — 실용적인 경우 있음",
+            "Tim Sort: 삽입 정렬 + 병합 정렬 혼합, Python/Java의 기본 정렬",
+            "정렬 하한(Comparison Sort): Ω(n log n) 증명됨"
+          ]
+        }
+      ]
+    }
+  ]
+}

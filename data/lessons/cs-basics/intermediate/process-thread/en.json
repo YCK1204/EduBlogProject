@@ -1,0 +1,112 @@
+{
+  "slug": "process-thread",
+  "tag": "OS",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "os-intro",
+    "virtual-memory",
+    "cpu-cache"
+  ],
+  "title": "Processes and Threads",
+  "summary": "A process is an execution unit with isolated memory; a thread is a lightweight unit within a process. Understand memory sharing, context switching, and synchronization issues.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Process Memory Layout",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/process-thread.svg",
+          "alt": "Process vs thread memory layout",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A process has four memory regions: code (text), data, heap, and stack. The code region holds executable instructions; the data region holds global and static variables."
+        },
+        {
+          "type": "text",
+          "content": "The heap is dynamically allocated at runtime (malloc/new); the stack stores local variables and return addresses for function calls. The OS isolates each process's memory."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Code (text): executable instructions (read-only)",
+            "Data: global/static variables (BSS: uninitialized)",
+            "Heap: dynamic allocation (grows upward)",
+            "Stack: local variables, return addresses (grows downward)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Thread Memory Sharing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Threads within the same process share the code, data, and heap regions. Each thread has its own stack and registers (execution state) only."
+        },
+        {
+          "type": "text",
+          "content": "Shared memory is the source of race conditions. Two threads reading and modifying the same variable simultaneously produce unpredictable results. Mutexes, semaphores, and atomic operations prevent this."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Shared: code, data, heap, file descriptors",
+            "Not shared: stack, registers, program counter",
+            "Race condition: result depends on thread scheduling order",
+            "Critical section: only one thread executes at a time"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Context Switching",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The OS rapidly switches between processes/threads to create the illusion of concurrent execution. This switch is called a context switch."
+        },
+        {
+          "type": "text",
+          "content": "A context switch saves the CPU registers, program counter, and stack pointer of the outgoing entity and restores those of the incoming one. Process switches are more expensive than thread switches because they also swap the memory map."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Thread switch: only registers + stack — fast",
+            "Process switch: memory map (includes TLB flush) — slow",
+            "Context switch cost: a few to tens of microseconds",
+            "Coroutine: cooperative switch in user space → even faster"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Synchronization and Deadlock",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A deadlock occurs when two threads wait for each other's resources indefinitely. Four conditions must all hold: mutual exclusion, hold-and-wait, no preemption, and circular wait."
+        },
+        {
+          "type": "text",
+          "content": "Preventing deadlock means breaking at least one condition. Fixing a global lock acquisition order eliminates circular wait; timeouts allow threads to abort and retry."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Deadlock 4 conditions: mutual exclusion, hold-and-wait, no preemption, circular wait",
+            "Mutex: only one thread holds the lock at a time",
+            "Fixed lock order: always acquire A → B (prevents circular wait)",
+            "Livelock: threads keep yielding to each other without progress"
+          ]
+        }
+      ]
+    }
+  ]
+}

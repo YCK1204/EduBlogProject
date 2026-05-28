@@ -1,0 +1,125 @@
+{
+  "slug": "linked-list",
+  "tag": "LinkedList",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "array",
+    "stack-queue",
+    "bst"
+  ],
+  "title": "Linked Lists",
+  "summary": "A linked list is a data structure where each element holds a pointer to the next. Unlike arrays, no contiguous memory is required, enabling fast insertions and deletions, but random access is not possible.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What is a Linked List?",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-structure.svg",
+          "alt": "Linked list node structure",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A linked list is a data structure where nodes are connected by pointers. Each node contains data and a reference (next) pointing to the next node."
+        },
+        {
+          "type": "text",
+          "content": "The key difference from arrays is memory layout. Arrays require contiguous memory, but linked lists can place nodes anywhere in memory and connect them with pointers."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Singly linked list: only a next pointer",
+            "Doubly linked list: next + prev pointers",
+            "Circular linked list: last node points back to the first"
+          ]
+        },
+        {
+          "type": "code",
+          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;",
+          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
+          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
+          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Insertion and Deletion",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-insert.svg",
+          "alt": "Linked list insert operation",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "The core advantage of linked lists is O(1) insertion and deletion — assuming you already hold a reference to the target node."
+        },
+        {
+          "type": "text",
+          "content": "Inserting at a specific position requires traversal (O(n)), so including lookup the total is O(n). Head insertions and deletions are always O(1)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Head insertion: O(1)",
+            "Head deletion: O(1)",
+            "Arbitrary position insert/delete: O(n) (traversal) + O(1) (operation)",
+            "Tail insertion: O(1) with a tail pointer, O(n) without"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Arrays vs Linked Lists",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The two structures are complementary. The right choice depends on your access pattern."
+        },
+        {
+          "type": "text",
+          "content": "Arrays win for frequent reads and fixed sizes; linked lists win for frequent insertions/deletions and dynamic sizes. In practice, cache locality often makes arrays the default choice."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Random access: Array O(1) vs Linked List O(n)",
+            "Head insertion: Array O(n) vs Linked List O(1)",
+            "Memory: Array needs contiguous block; Linked List has pointer overhead",
+            "Cache performance: Array wins (spatial locality)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Real-World Use Cases",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Linked lists are more commonly used as building blocks inside other data structures than standalone."
+        },
+        {
+          "type": "text",
+          "content": "Hash table chaining for collision resolution, LRU cache implementation, and OS process scheduling tables are classic examples."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Hash table chaining",
+            "LRU Cache (doubly linked list + hash map)",
+            "OS process scheduling queue",
+            "Internal implementation of stacks and queues"
+          ]
+        }
+      ]
+    }
+  ]
+}

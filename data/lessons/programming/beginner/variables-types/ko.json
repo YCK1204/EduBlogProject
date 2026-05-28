@@ -1,0 +1,120 @@
+{
+  "slug": "variables-types",
+  "tag": "기초",
+  "estimatedTime": "20분",
+  "relatedSlugs": [
+    "functions-first-class",
+    "oop-intro",
+    "type-system-generics"
+  ],
+  "title": "변수, 타입, 그리고 스코프",
+  "summary": "프로그래밍 언어가 변수를 다루는 방식, 정적·동적 타입 시스템의 차이, 렉시컬 스코프의 동작 원리를 설명합니다. 클로저까지 이어지는 스코프의 깊은 이해를 다룹니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "변수와 바인딩",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/variables-types.svg",
+          "alt": "Static vs dynamic typing comparison",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "변수(Variable)는 값에 이름을 붙이는 것입니다. 더 정확히는 이름(identifier)을 메모리 주소나 값에 바인딩(binding)하는 것입니다. 언어마다 바인딩 방식이 다릅니다. Python에서 변수는 객체에 대한 참조이고, C에서 변수는 메모리 위치 자체입니다."
+        },
+        {
+          "type": "text",
+          "content": "불변(Immutable) vs 가변(Mutable): const/val/let의 차이처럼, 선언 후 재할당 가능 여부가 다릅니다. 불변 변수를 기본으로 사용하면 코드를 추론하기 쉬워지고 버그가 줄어듭니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Python: 변수는 객체 참조 (int, str도 객체)",
+            "C: 변수는 메모리 주소 (포인터로 직접 접근 가능)",
+            "JavaScript: let(재할당 가능), const(재할당 불가, 내용 변경 가능)",
+            "Rust: 기본 불변(let), 가변 명시(let mut)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "정적 타입 vs 동적 타입",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "정적 타입(Static Typing) 언어는 컴파일 시점에 변수의 타입이 결정됩니다. Java, C++, Rust, TypeScript가 이에 해당합니다. 타입 오류를 실행 전에 잡을 수 있어 대규모 코드베이스에서 안전합니다."
+        },
+        {
+          "type": "text",
+          "content": "동적 타입(Dynamic Typing) 언어는 실행 시점에 타입이 결정됩니다. Python, JavaScript, Ruby가 대표적입니다. 코드가 짧고 유연하며 빠르게 작성할 수 있지만, 런타임 타입 오류가 발생할 수 있습니다. TypeScript는 JavaScript에 정적 타입을 추가한 절충안입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "정적 타입: 컴파일 시 오류 감지, IDE 지원 강력",
+            "동적 타입: 유연함, 빠른 프로토타이핑",
+            "강타입(Strong): 암묵적 변환 거의 없음 (Python)",
+            "약타입(Weak): 암묵적 변환 많음 (JavaScript: '1' + 1 = '11')"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "# 동적 타입 — 타입 힌트 없이 동작\ndef add(a, b):\n    return a + b\n\nadd(1, 2)        # 3\nadd(\"1\", \"2\")    # \"12\"  (런타임에 타입 결정)\n\n# 타입 힌트 (Python 3.5+) — 강제가 아닌 힌트\ndef add_typed(a: int, b: int) -> int:\n    return a + b",
+          "javascript": "// 동적 타입 JavaScript\nlet x = 5;\nx = \"hello\";  // 가능 — 런타임에 타입 변경\n\n// 약타입: 암묵적 변환\nconsole.log(\"1\" + 1);  // \"11\" (문자열 연결)\nconsole.log(\"5\" - 1);  // 4   (숫자로 변환)",
+          "java": "// 정적 타입 Java — 컴파일 시 타입 검사\nint x = 5;\n// x = \"hello\";  // 컴파일 오류!\n\nString name = \"Alice\";\nint len = name.length();  // IDE가 정확한 메서드 제안",
+          "csharp": "// 정적 타입 C# — var로 타입 추론 가능\nvar x = 5;        // int로 추론\nvar name = \"Bob\"; // string으로 추론\n\n// 컴파일 오류 예시\n// int age = \"30\";  // CS0029 오류",
+          "cpp": "// 정적 타입 C++\nint x = 5;\n// x = \"hello\";  // 컴파일 오류\n\nauto y = 3.14;  // double로 추론 (C++11)\nauto z = std::string(\"hi\");  // std::string으로 추론"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "스코프 규칙",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "스코프(Scope)는 변수가 유효한 범위입니다. 렉시컬 스코프(Lexical Scope, 정적 스코프)는 코드 작성 시점의 블록 구조에 따라 스코프가 결정됩니다. JavaScript, Python, Java 등 대부분의 현대 언어가 렉시컬 스코프를 사용합니다."
+        },
+        {
+          "type": "text",
+          "content": "변수 탐색은 안쪽 스코프에서 바깥쪽으로 진행됩니다. 내부 스코프에서 변수를 찾지 못하면 외부 스코프를 탐색합니다. 전역 스코프는 가장 바깥쪽입니다. 같은 이름의 변수가 내부에 있으면 외부 변수를 가립니다(shadowing)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "블록 스코프: {}로 정의 (let, const, 대부분의 언어)",
+            "함수 스코프: var (JavaScript) — 함수 내에서만 유효",
+            "전역 스코프: 어디서나 접근 가능 (주의: 오염 위험)",
+            "변수 섀도잉: 내부 스코프 동명 변수가 외부 가림"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "클로저",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "클로저(Closure)는 함수가 자신이 생성될 때의 렉시컬 환경을 기억하는 것입니다. 외부 함수의 실행이 끝난 후에도 내부 함수가 외부 함수의 변수에 접근할 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "클로저의 실용 예시: 카운터 팩토리 함수, 이벤트 핸들러에서 외부 변수 참조, 부분 적용(Partial Application), 모듈 패턴(외부에서 접근 불가능한 private 상태 구현). 클로저는 함수형 프로그래밍의 핵심 도구입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "클로저: 함수 + 생성 시점의 렉시컬 환경",
+            "자유 변수: 클로저가 외부에서 참조하는 변수",
+            "메모리: 클로저가 살아있는 한 참조된 변수도 GC 안 됨",
+            "실용: 카운터, 커링, 이벤트 핸들러, 모듈 패턴"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "slug": "hash-table",
+  "tag": "HashTable",
+  "estimatedTime": "30분",
+  "relatedSlugs": [
+    "array",
+    "linked-list",
+    "bst"
+  ],
+  "title": "해시 테이블",
+  "summary": "해시 테이블은 키-값 쌍을 저장하고 평균 O(1)에 탐색·삽입·삭제를 수행하는 자료구조입니다. 해시 함수의 설계와 충돌 해결 방법이 성능을 좌우합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "해시 테이블이란",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/hash-table.svg",
+          "alt": "Hash table with chaining",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "해시 테이블(Hash Table)은 키(key)를 해시 함수에 통과시켜 배열의 인덱스로 변환하고, 그 위치에 값을 저장하는 자료구조입니다."
+        },
+        {
+          "type": "text",
+          "content": "핵심은 해시 함수입니다. 같은 키는 항상 같은 인덱스를 반환해야 하고(결정론적), 값이 배열 전체에 고루 분포되어야 합니다(균등 분포)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "탐색·삽입·삭제 평균: O(1)",
+            "최악(모든 키가 충돌): O(n)",
+            "공간 복잡도: O(n)",
+            "Python dict, Java HashMap, JavaScript Object가 대표 구현체"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "해시 충돌과 체이닝",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "서로 다른 키가 같은 인덱스로 해시되는 충돌(collision)은 불가피합니다. 가장 직관적인 해결책은 체이닝(Chaining)입니다."
+        },
+        {
+          "type": "text",
+          "content": "체이닝은 같은 인덱스에 해당하는 값들을 연결 리스트(또는 다른 자료구조)로 연결하는 방식입니다. Java의 HashMap이 이 방식을 사용하며, 체인이 길어지면 트리로 변환합니다(Java 8+)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "각 버킷에 연결 리스트 유지",
+            "평균 탐색: O(1 + α), α = 적재율(n/m)",
+            "적재율이 높아지면 충돌 증가 → 리해싱 필요",
+            "Java HashMap: 체인 길이 8 이상 시 레드블랙트리로 전환"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "오픈 어드레싱",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "오픈 어드레싱(Open Addressing)은 충돌 시 빈 슬롯을 찾아 그 자리에 저장하는 방식입니다. 모든 데이터가 배열 내에 저장되므로 포인터 오버헤드가 없습니다."
+        },
+        {
+          "type": "text",
+          "content": "슬롯 탐색 방법으로는 선형 탐사(Linear Probing), 이차 탐사(Quadratic Probing), 이중 해싱(Double Hashing)이 있습니다. Python의 dict는 오픈 어드레싱 방식을 사용합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "선형 탐사: 다음 빈 슬롯 순차 탐색 → 클러스터링 문제",
+            "이차 탐사: i², 2i², ... 간격으로 탐색 → 2차 클러스터링",
+            "이중 해싱: 두 번째 해시 함수로 간격 결정 → 가장 균등",
+            "삭제 시 tombstone(삭제 표시) 필요"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "로드 팩터와 리해싱",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "로드 팩터(Load Factor)는 저장된 원소 수 / 버킷 수입니다. 로드 팩터가 높을수록 충돌이 많아져 성능이 저하됩니다."
+        },
+        {
+          "type": "text",
+          "content": "임계값(보통 0.75)을 초과하면 리해싱(Rehashing)이 일어납니다. 배열 크기를 2배로 늘리고 모든 원소를 새 위치에 재삽입합니다. O(n)이지만 드물게 발생하므로 분할 상환 O(1)입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Java HashMap 기본 로드 팩터: 0.75",
+            "리해싱 발생 시: O(n) — 모든 원소 재삽입",
+            "로드 팩터 낮추면 메모리 낭비 증가, 높이면 충돌 증가",
+            "분할 상환 분석으로 삽입 연산은 평균 O(1) 유지"
+          ]
+        }
+      ]
+    }
+  ]
+}

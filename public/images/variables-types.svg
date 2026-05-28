@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Variables &amp; Data Types — Static vs Dynamic Typing</text>
+
+  <\!-- Static typing (left) -->
+  <text x="150" y="34" font-size="10" font-weight="700" fill="#3b82f6" text-anchor="middle">Static Typing (compile-time)</text>
+
+  <rect x="20" y="42" width="260" height="76" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="25" y="47" width="250" height="66" rx="3" fill="#18181b"/>
+  
+  <text x="30" y="62" font-size="9" fill="#22d3ee" font-family="monospace">int age = 25;</text>
+  <text x="30" y="78" font-size="9" fill="#a78bfa" font-family="monospace">string name = "John";</text>
+  <text x="30" y="94" font-size="9" fill="#fb7185" font-family="monospace">bool active = true;</text>
+  <text x="30" y="108" font-size="8" fill="#ef4444" font-family="monospace">// age = "hello";  ← Compile error\!</text>
+
+  <\!-- Dynamic typing (right) -->
+  <text x="450" y="34" font-size="10" font-weight="700" fill="#f59e0b" text-anchor="middle">Dynamic Typing (runtime)</text>
+
+  <rect x="320" y="42" width="260" height="76" rx="5" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="325" y="47" width="250" height="66" rx="3" fill="#18181b"/>
+  
+  <text x="330" y="62" font-size="9" fill="#22d3ee" font-family="monospace">age = 25</text>
+  <text x="330" y="78" font-size="9" fill="#a78bfa" font-family="monospace">name = "John"</text>
+  <text x="330" y="94" font-size="9" fill="#fb7185" font-family="monospace">active = True</text>
+  <text x="330" y="108" font-size="8" fill="#10b981" font-family="monospace"># age = "hello"  ← Works at runtime</text>
+
+  <\!-- Type checking comparison -->
+  <rect x="20" y="130" width="560" height="58" rx="5" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+  <text x="300" y="148" font-size="9" font-weight="700" fill="#18181b" text-anchor="middle">Trade-offs</text>
+
+  <\!-- Static column -->
+  <text x="150" y="162" font-size="8.5" font-weight="700" fill="#3b82f6" text-anchor="middle">Static Typing</text>
+  <text x="80" y="176" font-size="8" fill="#10b981">✓ Catch errors early</text>
+  <text x="220" y="176" font-size="8" fill="#10b981">✓ Better tooling/IDE</text>
+
+  <\!-- Dynamic column -->
+  <text x="450" y="162" font-size="8.5" font-weight="700" fill="#f59e0b" text-anchor="middle">Dynamic Typing</text>
+  <text x="380" y="176" font-size="8" fill="#10b981">✓ Faster prototyping</text>
+  <text x="520" y="176" font-size="8" fill="#10b981">✓ More flexible</text>
+
+  <text x="300" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Examples: Static (C++, Java, Rust) · Dynamic (Python, JavaScript, Ruby)</text>
+</svg>

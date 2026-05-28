@@ -1,0 +1,125 @@
+{
+  "slug": "dynamic-programming",
+  "tag": "DP",
+  "estimatedTime": "35 min",
+  "relatedSlugs": [
+    "recursion",
+    "bfs-dfs",
+    "dijkstra"
+  ],
+  "title": "Dynamic Programming Fundamentals",
+  "summary": "Dynamic programming efficiently solves problems with overlapping subproblems and optimal substructure. Learn memoization (top-down), bottom-up tabulation, and key patterns.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "When DP Applies",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DP applies when two conditions hold. First, optimal substructure: the optimal solution to the whole problem is composed of optimal solutions to subproblems. Second, overlapping subproblems: the same subproblem appears repeatedly."
+        },
+        {
+          "type": "text",
+          "content": "Divide and conquer uses optimal substructure but without overlapping subproblems. DP caches results (memoization) to avoid recomputation. Fibonacci, LCS, and the knapsack problem are classic examples."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Optimal substructure: subproblem optima → global optimum",
+            "Overlapping subproblems: same arguments called multiple times",
+            "vs greedy: DP explores all options before choosing",
+            "vs divide & conquer: subproblems overlap in DP"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Top-Down — Memoization",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dynamic-programming.svg",
+          "alt": "DP table for LCS problem",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Top-down starts from the full problem and recurses into subproblems, caching results. It is intuitive and only computes needed subproblems."
+        },
+        {
+          "type": "text",
+          "content": "Implementation: add a memo dict/array to the recursive function. At the start, return from cache if present; otherwise compute and store. Python's @lru_cache handles this automatically."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Recursion + cache (hash map or array)",
+            "Advantage: intuitive, only solves needed subproblems",
+            "Disadvantage: recursion overhead, stack overflow risk",
+            "Python @lru_cache makes it trivial"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# Manual memoization\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
+          "javascript": "function climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Bottom-Up — Table Filling",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Bottom-up starts from the smallest subproblems and fills a table iteratively until the full problem is solved. No recursion overhead."
+        },
+        {
+          "type": "text",
+          "content": "Fibonacci bottom-up: initialize dp[0]=0, dp[1]=1, then dp[i] = dp[i-1] + dp[i-2]. Since only two previous values are needed, space can be optimized to O(1)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Iterative → no stack overflow",
+            "Recurrence relation (transition) is the core",
+            "Space optimization: keep only the previous values",
+            "Disadvantage: computes all subproblems (top-down computes only needed)"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "# Fibonacci bottom-up — O(n) time, O(n) space\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# Space-optimized — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+          "javascript": "function fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// Space-optimized\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
+          "java": "long fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
+          "c": "long long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Key DP Patterns",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Recognizing DP patterns makes problems much easier. Key patterns: 1D DP, 2D DP (LCS, edit distance), 0/1 Knapsack, interval DP, tree DP."
+        },
+        {
+          "type": "text",
+          "content": "DP design in 4 steps: (1) define the subproblem — what does dp[i] represent? (2) write the recurrence, (3) set base values, (4) determine computation order. Step 1 is the hardest and most important."
+        },
+        {
+          "type": "points",
+          "items": [
+            "1D DP: stair climbing, house robber, LIS",
+            "2D DP: LCS, edit distance",
+            "Knapsack: 0/1 knapsack, unbounded knapsack",
+            "DP design: define subproblem → recurrence → base case → order"
+          ]
+        }
+      ]
+    }
+  ]
+}

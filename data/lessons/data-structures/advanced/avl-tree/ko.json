@@ -1,0 +1,112 @@
+{
+  "slug": "avl-tree",
+  "tag": "AVL Tree",
+  "estimatedTime": "35분",
+  "relatedSlugs": [
+    "bst",
+    "heap",
+    "graph"
+  ],
+  "title": "AVL 트리와 자가 균형",
+  "summary": "AVL 트리는 모든 노드에서 왼쪽과 오른쪽 서브트리 높이 차이가 1 이하로 유지되는 자가 균형 이진 탐색 트리입니다. 회전 연산으로 균형을 유지해 O(log n)을 보장합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "균형 인수(Balance Factor)",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "AVL 트리는 각 노드마다 균형 인수(Balance Factor) = 왼쪽 서브트리 높이 - 오른쪽 서브트리 높이를 관리합니다."
+        },
+        {
+          "type": "text",
+          "content": "균형 인수가 -1, 0, +1이면 균형 상태입니다. ±2 이상이 되면 회전(Rotation)을 통해 균형을 복구합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "BF = height(left) - height(right)",
+            "균형 조건: |BF| ≤ 1 (모든 노드)",
+            "삽입/삭제 후 경로상의 모든 노드 BF 갱신 필요",
+            "n개 노드의 AVL 트리 높이: O(log n) 보장"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "단순 회전 — LL, RR",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/avl-rotation.svg",
+          "alt": "AVL tree LL and RR rotations",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "LL 케이스: 루트의 왼쪽 자식의 왼쪽에 삽입 → 우회전(Right Rotation)으로 해결합니다."
+        },
+        {
+          "type": "text",
+          "content": "RR 케이스: 루트의 오른쪽 자식의 오른쪽에 삽입 → 좌회전(Left Rotation)으로 해결합니다. 회전은 O(1) 연산이며 BST 불변식을 유지합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "우회전: 왼쪽 자식이 새 루트, 기존 루트는 오른쪽 자식으로",
+            "좌회전: 오른쪽 자식이 새 루트, 기존 루트는 왼쪽 자식으로",
+            "회전 후 BST 속성 (왼쪽 < 루트 < 오른쪽) 유지됨 증명 필요",
+            "각 회전: O(1)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "이중 회전 — LR, RL",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "LR 케이스: 왼쪽 자식의 오른쪽에 삽입 → 먼저 왼쪽 자식을 좌회전, 그다음 루트를 우회전합니다."
+        },
+        {
+          "type": "text",
+          "content": "RL 케이스: 오른쪽 자식의 왼쪽에 삽입 → 먼저 오른쪽 자식을 우회전, 그다음 루트를 좌회전합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "LR = Left Rotate(left child) + Right Rotate(root)",
+            "RL = Right Rotate(right child) + Left Rotate(root)",
+            "총 4가지 케이스: LL, RR, LR, RL",
+            "삽입 후 최대 1번의 회전(단순/이중) 만으로 균형 복구 가능"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "AVL vs Red-Black 트리",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "AVL 트리는 엄격한 균형(높이 차 ≤ 1)을 유지해 탐색이 빠르지만, 삽입/삭제 시 더 많은 회전이 필요합니다."
+        },
+        {
+          "type": "text",
+          "content": "Red-Black 트리는 느슨한 균형(높이 차 ≤ 2log n)을 허용해 삽입/삭제가 더 빠릅니다. 실무 라이브러리(Java TreeMap, C++ std::map)는 대부분 Red-Black 트리를 선택합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "AVL: 탐색 빠름, 삽입/삭제 회전 더 많음",
+            "Red-Black: 삽입/삭제 빠름, 탐색 약간 느림",
+            "두 트리 모두 최악 O(log n) 보장",
+            "실무: 읽기 집중 → AVL, 쓰기 집중 → Red-Black"
+          ]
+        }
+      ]
+    }
+  ]
+}

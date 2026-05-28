@@ -1,0 +1,112 @@
+{
+  "slug": "graph",
+  "tag": "Graph",
+  "estimatedTime": "30분",
+  "relatedSlugs": [
+    "bst",
+    "avl-tree",
+    "linked-list"
+  ],
+  "title": "그래프 표현 방법",
+  "summary": "그래프는 정점(Vertex)과 간선(Edge)으로 이루어진 자료구조입니다. 인접 행렬과 인접 리스트 두 가지 표현 방식의 시간·공간 복잡도 트레이드오프를 이해하는 것이 핵심입니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "그래프의 기본 개념",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "그래프 G = (V, E)는 정점 집합 V와 간선 집합 E로 정의됩니다. 방향 그래프(Directed)와 무방향 그래프(Undirected), 가중 그래프(Weighted)로 분류됩니다."
+        },
+        {
+          "type": "text",
+          "content": "트리는 사이클 없는 연결 그래프의 특수한 경우입니다. n개 정점을 가진 트리는 항상 n-1개의 간선을 갖습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "차수(Degree): 한 정점에 연결된 간선 수",
+            "밀집 그래프(Dense): E ≈ V²",
+            "희소 그래프(Sparse): E ≈ V",
+            "연결 그래프: 모든 정점 쌍 사이에 경로 존재"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "인접 행렬",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/graph-representation.svg",
+          "alt": "Adjacency matrix vs adjacency list",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "인접 행렬(Adjacency Matrix)은 V×V 크기의 2차원 배열로 그래프를 표현합니다. adj[u][v] = 1이면 u→v 간선 존재, 0이면 없음을 나타냅니다."
+        },
+        {
+          "type": "text",
+          "content": "간선 존재 여부를 O(1)에 확인할 수 있지만, V² 공간이 필요합니다. 밀집 그래프에 적합하며 희소 그래프에서는 메모리 낭비가 큽니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "공간 복잡도: O(V²)",
+            "간선 존재 확인: O(1)",
+            "특정 정점의 모든 이웃 탐색: O(V)",
+            "밀집 그래프, 플로이드-워셜 알고리즘에 적합"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "인접 리스트",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "인접 리스트(Adjacency List)는 각 정점마다 연결된 이웃 정점들의 리스트를 저장합니다. 배열 of 연결 리스트, 또는 배열 of 동적 배열로 구현합니다."
+        },
+        {
+          "type": "text",
+          "content": "공간이 O(V + E)로 희소 그래프에 효율적입니다. 대부분의 그래프 알고리즘(BFS, DFS, 다익스트라)은 인접 리스트를 기본으로 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "공간 복잡도: O(V + E)",
+            "특정 정점의 모든 이웃 탐색: O(degree(v))",
+            "간선 존재 확인: O(degree(v))",
+            "희소 그래프, BFS/DFS/다익스트라에 적합"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "표현 방식 선택 기준",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "어떤 표현을 선택할지는 그래프의 밀도와 수행할 연산에 따라 결정됩니다."
+        },
+        {
+          "type": "text",
+          "content": "소셜 네트워크(수백만 정점, 희소 연결)는 인접 리스트, 도로 교차로 최단 경로(비교적 밀집)는 인접 행렬이 유리할 수 있습니다. 실무에서는 대부분 인접 리스트를 선택합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "인접 행렬 선택: V 작음, 간선 존재 확인 빈번, 밀집 그래프",
+            "인접 리스트 선택: E << V², 이웃 순회 빈번, 희소 그래프",
+            "가중 그래프: 행렬에 가중치 저장 or 리스트에 (정점, 가중치) 쌍 저장",
+            "암시적 그래프(예: 격자): 인접 행렬/리스트 없이 좌표 계산으로 이웃 접근"
+          ]
+        }
+      ]
+    }
+  ]
+}

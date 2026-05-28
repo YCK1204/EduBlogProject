@@ -1,0 +1,126 @@
+{
+  "slug": "stack-queue",
+  "tag": "Stack · Queue",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "array",
+    "linked-list",
+    "bst"
+  ],
+  "title": "Stacks & Queues",
+  "summary": "Stacks and queues are linear data structures with a defined insertion and removal order. Stacks operate LIFO (last-in, first-out) and queues FIFO (first-in, first-out), forming the backbone of many algorithms and systems.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Stack — LIFO",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/stack-queue.svg",
+          "alt": "Stack LIFO and Queue FIFO",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A stack is a Last In, First Out structure. The last element pushed is the first to be popped. Think of a stack of plates."
+        },
+        {
+          "type": "text",
+          "content": "The two core operations are push (insert) and pop (remove). Both act on the top of the stack, so they run in O(1)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "push: add element to top O(1)",
+            "pop: remove element from top O(1)",
+            "peek: view top element without removing O(1)",
+            "Uses: function call stack, bracket validation, browser back button"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "stack = []\nstack.append(1)  # push\nstack.append(2)\nstack.append(3)\nprint(stack.pop())  # 3 (LIFO)\nprint(stack[-1])    # peek: 2",
+          "javascript": "const stack = [];\nstack.push(1);\nstack.push(2);\nstack.push(3);\nconsole.log(stack.pop());  // 3 (LIFO)\nconsole.log(stack[stack.length - 1]);  // peek: 2",
+          "java": "import java.util.Deque;\nimport java.util.ArrayDeque;\nDeque<Integer> stack = new ArrayDeque<>();\nstack.push(1);\nstack.push(2);\nstack.push(3);\nSystem.out.println(stack.pop());   // 3\nSystem.out.println(stack.peek());  // 2",
+          "c": "#define MAX 100\nint stack[MAX];\nint top = -1;\n\nvoid push(int val) { stack[++top] = val; }\nint pop() { return stack[top--]; }\nint peek() { return stack[top]; }",
+          "cpp": "#include <stack>\nstd::stack<int> s;\ns.push(1);\ns.push(2);\ns.push(3);\nstd::cout << s.top();  // peek: 3\ns.pop();               // remove 3"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Queue — FIFO",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A queue is a First In, First Out structure. The first element enqueued is the first dequeued. Think of a line of people waiting."
+        },
+        {
+          "type": "text",
+          "content": "The core operations are enqueue (insert at rear) and dequeue (remove from front). A naive array-based dequeue shifts all elements: O(n). Use a circular buffer or linked list to avoid this."
+        },
+        {
+          "type": "points",
+          "items": [
+            "enqueue: insert at rear O(1)",
+            "dequeue: remove from front O(1) (linked list implementation)",
+            "Uses: BFS traversal, printer spooling, process scheduling",
+            "Variants: Deque, Priority Queue"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
+          "javascript": "const queue = [];\nqueue.push(1);\nqueue.push(2);\nqueue.push(3);\nconsole.log(queue.shift());  // 1 (FIFO) — O(n)!\n// Efficient queue requires a custom implementation",
+          "java": "import java.util.Queue;\nimport java.util.LinkedList;\nQueue<Integer> queue = new LinkedList<>();\nqueue.offer(1);\nqueue.offer(2);\nqueue.offer(3);\nSystem.out.println(queue.poll());  // 1 (FIFO)"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Implementation Comparison",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Stacks and queues can be implemented with arrays or linked lists, each with trade-offs."
+        },
+        {
+          "type": "text",
+          "content": "Array-based implementations are cache-friendly and simple but have a fixed size. Linked-list-based implementations support dynamic sizes but add pointer overhead and cache misses."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Array-based: simple, good cache efficiency, fixed size",
+            "Linked-list-based: dynamic size, pointer overhead",
+            "Python: list (stack), collections.deque (queue)",
+            "Java: Deque interface (ArrayDeque recommended)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Call Stack and Recursion",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Programming languages implement function calls with a stack. Each call pushes a stack frame; returning from a function pops it."
+        },
+        {
+          "type": "text",
+          "content": "If recursion goes too deep, the stack overflows. Converting recursion to iteration with an explicit stack avoids this problem."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Each call creates a stack frame (local variables, return address)",
+            "Recursion depth limit: Python default is 1000",
+            "Tail-call optimization (TCO): reuses stack frames in some languages",
+            "DFS: recursion and explicit stack are interchangeable"
+          ]
+        }
+      ]
+    }
+  ]
+}

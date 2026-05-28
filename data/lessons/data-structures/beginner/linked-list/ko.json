@@ -1,0 +1,125 @@
+{
+  "slug": "linked-list",
+  "title": "연결 리스트",
+  "tag": "LinkedList",
+  "estimatedTime": "25분",
+  "relatedSlugs": [
+    "array",
+    "stack-queue",
+    "bst"
+  ],
+  "summary": "연결 리스트는 각 원소가 다음 원소를 가리키는 포인터를 갖는 자료구조입니다. 배열과 달리 연속된 메모리가 필요 없어 삽입·삭제가 빠르지만, 임의 접근이 불가능합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "연결 리스트란",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-structure.svg",
+          "alt": "Linked list node structure",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "연결 리스트(Linked List)는 노드(Node)들이 포인터로 연결된 자료구조입니다. 각 노드는 데이터와 다음 노드를 가리키는 참조(next)로 구성됩니다."
+        },
+        {
+          "type": "text",
+          "content": "배열과의 가장 큰 차이는 메모리 배치입니다. 배열은 연속적 메모리가 필요하지만, 연결 리스트는 메모리 어디에나 노드를 배치하고 포인터로 연결할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "단방향 연결 리스트: next 포인터만 존재",
+            "양방향 연결 리스트: next + prev 포인터",
+            "원형 연결 리스트: 마지막 노드가 첫 노드를 가리킴"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
+          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
+          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "삽입과 삭제 연산",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-insert.svg",
+          "alt": "Linked list insert operation",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "연결 리스트의 핵심 장점은 삽입과 삭제가 O(1)이라는 점입니다. 단, 삽입/삭제할 위치의 노드에 대한 참조를 이미 갖고 있을 때의 이야기입니다."
+        },
+        {
+          "type": "text",
+          "content": "특정 위치에 삽입하려면 그 위치까지 순회(O(n))해야 하므로, 위치 탐색 시간을 포함하면 O(n)이 됩니다. 헤드(맨 앞) 삽입/삭제는 항상 O(1)입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "헤드 삽입: O(1)",
+            "헤드 삭제: O(1)",
+            "임의 위치 삽입/삭제: O(n) (탐색) + O(1) (작업)",
+            "테일 삽입: tail 포인터 있으면 O(1), 없으면 O(n)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "배열 vs 연결 리스트",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "두 자료구조는 상호 보완적입니다. 접근 패턴에 따라 어느 것이 더 적합한지가 결정됩니다."
+        },
+        {
+          "type": "text",
+          "content": "읽기가 잦고 크기가 고정적이면 배열, 삽입·삭제가 잦고 크기가 유동적이면 연결 리스트가 유리합니다. 실무에서는 캐시 지역성(cache locality) 때문에 배열이 더 자주 선택됩니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "임의 접근: 배열 O(1) vs 연결 리스트 O(n)",
+            "헤드 삽입: 배열 O(n) vs 연결 리스트 O(1)",
+            "메모리: 배열은 연속 필요, 연결 리스트는 포인터 오버헤드",
+            "캐시 성능: 배열 유리 (공간 지역성)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "실제 활용 사례",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "연결 리스트는 단독으로 사용하기보다 다른 자료구조의 내부 구현에 자주 사용됩니다."
+        },
+        {
+          "type": "text",
+          "content": "해시 테이블의 체이닝(chaining) 충돌 해결, LRU 캐시 구현, 운영체제의 프로세스 관리 테이블 등이 연결 리스트를 활용하는 대표 사례입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "해시 테이블 체이닝",
+            "LRU 캐시 (이중 연결 리스트 + 해시맵)",
+            "OS 프로세스 스케줄링 큐",
+            "스택·큐의 내부 구현"
+          ]
+        }
+      ]
+    }
+  ]
+}

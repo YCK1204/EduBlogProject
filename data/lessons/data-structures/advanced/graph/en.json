@@ -1,0 +1,112 @@
+{
+  "slug": "graph",
+  "tag": "Graph",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "bst",
+    "avl-tree",
+    "linked-list"
+  ],
+  "title": "Graph Representations",
+  "summary": "A graph is a data structure of vertices and edges. Understanding the time/space trade-offs between adjacency matrix and adjacency list representations is the key insight.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Graph Basics",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A graph G = (V, E) is defined by a vertex set V and an edge set E. Graphs can be directed, undirected, or weighted."
+        },
+        {
+          "type": "text",
+          "content": "A tree is a special case of a connected acyclic graph. A tree with n vertices always has exactly n-1 edges."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Degree: number of edges connected to a vertex",
+            "Dense graph: E ≈ V²",
+            "Sparse graph: E ≈ V",
+            "Connected graph: a path exists between every pair of vertices"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Adjacency Matrix",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/graph-representation.svg",
+          "alt": "Adjacency matrix vs adjacency list",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "An adjacency matrix represents the graph as a V×V 2D array. adj[u][v] = 1 means there is an edge u→v; 0 means there is not."
+        },
+        {
+          "type": "text",
+          "content": "Edge existence can be checked in O(1), but the structure requires O(V²) space. It suits dense graphs but wastes memory on sparse ones."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Space complexity: O(V²)",
+            "Edge existence check: O(1)",
+            "Iterate all neighbors of a vertex: O(V)",
+            "Best for dense graphs and Floyd-Warshall"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Adjacency List",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "An adjacency list stores, for each vertex, a list of its neighbors. Implemented as an array of linked lists or an array of dynamic arrays."
+        },
+        {
+          "type": "text",
+          "content": "Space is O(V + E), making it efficient for sparse graphs. Most graph algorithms (BFS, DFS, Dijkstra) are built around adjacency lists."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Space complexity: O(V + E)",
+            "Iterate all neighbors of a vertex: O(degree(v))",
+            "Edge existence check: O(degree(v))",
+            "Best for sparse graphs and BFS/DFS/Dijkstra"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Choosing a Representation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The right representation depends on graph density and the operations you need."
+        },
+        {
+          "type": "text",
+          "content": "Social networks (millions of vertices, sparse edges) suit adjacency lists; road-intersection shortest-path problems (denser) may favor adjacency matrices. In practice, adjacency lists are the default."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Choose adjacency matrix: small V, frequent edge checks, dense graph",
+            "Choose adjacency list: E << V², frequent neighbor iteration, sparse graph",
+            "Weighted graph: store weights in matrix cells or (vertex, weight) pairs in lists",
+            "Implicit graph (e.g., grid): compute neighbors via coordinate arithmetic"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "slug": "dynamic-programming",
+  "tag": "DP",
+  "estimatedTime": "35분",
+  "relatedSlugs": [
+    "recursion",
+    "bfs-dfs",
+    "dijkstra"
+  ],
+  "title": "동적 프로그래밍 기초",
+  "summary": "동적 프로그래밍(DP)은 중복 부분 문제와 최적 부분 구조를 가진 문제를 효율적으로 푸는 기법입니다. 메모이제이션(탑다운)과 바텀업 방식, 그리고 대표 패턴을 학습합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "DP가 적용되는 조건",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DP는 두 가지 조건이 모두 성립할 때 적용됩니다. 첫째, 최적 부분 구조(Optimal Substructure): 전체 문제의 최적해가 부분 문제의 최적해로 구성됩니다. 둘째, 중복 부분 문제(Overlapping Subproblems): 같은 부분 문제가 반복해서 나타납니다."
+        },
+        {
+          "type": "text",
+          "content": "분할 정복도 최적 부분 구조를 사용하지만 부분 문제가 중복되지 않습니다. DP는 중복 계산을 피하기 위해 계산 결과를 저장(메모이제이션)합니다. 피보나치, 최장 공통 부분 수열(LCS), 배낭 문제가 대표 예시입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "최적 부분 구조: 부분 문제의 최적해 → 전체 최적해",
+            "중복 부분 문제: 같은 인수로 함수가 여러 번 호출",
+            "그리디와 차이: DP는 모든 경우 탐색 후 최적 선택",
+            "분할 정복과 차이: 부분 문제 중복 여부"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "탑다운 — 메모이제이션",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dynamic-programming.svg",
+          "alt": "DP table for LCS problem",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "탑다운(Top-Down) 방식은 재귀로 큰 문제부터 시작해 부분 문제로 내려가면서 이미 계산한 결과를 캐시에 저장합니다. 직관적이고 필요한 부분 문제만 계산하는 장점이 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "구현은 간단합니다. 재귀 함수에 memo 딕셔너리/배열을 추가하고, 함수 시작 시 memo에 있으면 즉시 반환, 없으면 계산 후 저장합니다. Python의 @lru_cache 데코레이터가 이를 자동으로 처리합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "재귀 + 캐시(해시맵 또는 배열)",
+            "장점: 직관적, 필요한 부분 문제만 계산",
+            "단점: 재귀 스택 오버헤드, Stack Overflow 위험",
+            "Python @lru_cache로 쉽게 적용 가능"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n# 계단 오르기: 1칸 또는 2칸씩 오를 수 있을 때 n번째 계단까지의 경우의 수\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# 수동 메모이제이션\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
+          "javascript": "// 계단 오르기 (탑다운)\nfunction climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "// 계단 오르기 (탑다운)\nMap<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "바텀업 — 테이블 채우기",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "바텀업(Bottom-Up) 방식은 가장 작은 부분 문제부터 시작해 테이블을 채워나가며 최종적으로 전체 문제의 답을 구합니다. 반복문으로 구현하므로 재귀 오버헤드가 없습니다."
+        },
+        {
+          "type": "text",
+          "content": "피보나치 바텀업: dp[0]=0, dp[1]=1로 초기화하고 dp[i] = dp[i-1] + dp[i-2]로 테이블을 채워나갑니다. 이 경우 dp[i-1]과 dp[i-2]만 필요하므로 공간을 O(n)에서 O(1)로 최적화할 수도 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "반복문으로 구현 → Stack Overflow 없음",
+            "점화식(Recurrence Relation)이 핵심",
+            "공간 최적화 가능: 이전 값만 유지",
+            "단점: 모든 부분 문제를 계산 (탑다운은 필요한 것만)"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "# 피보나치 바텀업 — O(n) 시간, O(n) 공간\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# 공간 최적화 — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+          "javascript": "// 피보나치 바텀업\nfunction fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// 공간 최적화\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
+          "java": "// 피보나치 바텀업\nlong fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
+          "c": "// 피보나치 바텀업 (공간 최적화)\nlong long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "대표 DP 패턴",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DP 문제는 패턴을 인식하면 풀기 쉬워집니다. 1D DP(피보나치, 계단 오르기), 2D DP(LCS, 편집 거리), 배낭 문제(0/1 Knapsack), 구간 DP(행렬 연쇄 곱셈), 트리 DP 등이 주요 패턴입니다."
+        },
+        {
+          "type": "text",
+          "content": "DP 설계 4단계: (1) 부분 문제 정의 — dp[i]가 무엇을 의미하는지, (2) 점화식 세우기, (3) 초기값 설정, (4) 계산 순서 결정. 부분 문제 정의가 가장 중요하며, 이것이 결정되면 나머지는 따라옵니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "1D DP: 계단 오르기, 도둑 문제, LIS(최장 증가 부분 수열)",
+            "2D DP: LCS, 편집 거리, 최장 공통 부분 수열",
+            "배낭(Knapsack): 0/1 배낭, 분할 가능 배낭",
+            "DP 설계: 부분 문제 정의 → 점화식 → 초기값 → 순서"
+          ]
+        }
+      ]
+    }
+  ]
+}

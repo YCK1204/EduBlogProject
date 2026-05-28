@@ -1,0 +1,120 @@
+{
+  "slug": "oop-intro",
+  "tag": "OOP",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "variables-types",
+    "design-patterns-creational",
+    "clean-code"
+  ],
+  "title": "Object-Oriented Programming Introduction",
+  "summary": "An introduction to the four OOP pillars — classes and instances, encapsulation, inheritance, and polymorphism — with real examples, strengths, and common misuse patterns.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Classes and Instances",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/oop-intro.svg",
+          "alt": "OOP class and instances",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A class is a blueprint for objects. An instance is a concrete object created from that blueprint. For example, a 'Car' class defines the template; your car and mine are separate instances of the same class."
+        },
+        {
+          "type": "text",
+          "content": "A class consists of fields (state) and methods (behavior). The constructor runs when an instance is created and sets up initial state. The 'this' keyword refers to the current instance."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Class: blueprint of state (fields) and behavior (methods)",
+            "Instance: created with 'new', stored on the heap",
+            "Constructor: responsible for initializing the object",
+            "this: reference to the current instance"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "class Dog:\n    def __init__(self, name: str, breed: str):\n        self.name = name      # instance field\n        self.breed = breed\n\n    def bark(self) -> str:\n        return f\"{self.name}: Woof!\"\n\n# create instances\ndog1 = Dog(\"Buddy\", \"Labrador\")\ndog2 = Dog(\"Max\", \"Poodle\")\nprint(dog1.bark())  # Buddy: Woof!\nprint(dog2.name)    # Max",
+          "javascript": "class Dog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n  }\n\n  bark() {\n    return `${this.name}: Woof!`;\n  }\n}\n\nconst dog1 = new Dog(\"Buddy\", \"Labrador\");\nconst dog2 = new Dog(\"Max\", \"Poodle\");\nconsole.log(dog1.bark()); // Buddy: Woof!",
+          "java": "public class Dog {\n    private String name;\n    private String breed;\n\n    public Dog(String name, String breed) {\n        this.name = name;\n        this.breed = breed;\n    }\n\n    public String bark() {\n        return name + \": Woof!\";\n    }\n}\n\nDog dog1 = new Dog(\"Buddy\", \"Labrador\");\nSystem.out.println(dog1.bark()); // Buddy: Woof!",
+          "csharp": "public class Dog {\n    public string Name { get; }\n    public string Breed { get; }\n\n    public Dog(string name, string breed) {\n        Name = name;\n        Breed = breed;\n    }\n\n    public string Bark() => $\"{Name}: Woof!\";\n}\n\nvar dog1 = new Dog(\"Buddy\", \"Labrador\");\nConsole.WriteLine(dog1.Bark()); // Buddy: Woof!",
+          "cpp": "#include <string>\n#include <iostream>\n\nclass Dog {\nprivate:\n    std::string name;\n    std::string breed;\npublic:\n    Dog(const std::string& name, const std::string& breed)\n        : name(name), breed(breed) {}\n\n    std::string bark() const {\n        return name + \": Woof!\";\n    }\n};\n\nDog dog1(\"Buddy\", \"Labrador\");\nstd::cout << dog1.bark(); // Buddy: Woof!"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Encapsulation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Encapsulation hides an object's internal implementation and allows access only through a defined interface (methods). Declaring fields private and exposing only getters/setters is the canonical example."
+        },
+        {
+          "type": "text",
+          "content": "The core benefit of encapsulation is flexibility. Changing internal implementation does not break external code as long as the interface stays the same. Validation logic can be centralized in setters to guarantee the object always stays in a valid state."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Private fields: cannot be modified directly from outside",
+            "Public methods: state can only change through allowed operations",
+            "Immutable objects: all fields are final/readonly — no external mutation",
+            "Tell, Don't Ask: tell the object to do work instead of extracting its data"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Inheritance",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Inheritance lets a child class reuse fields and methods from a parent (super) class. It reduces code duplication and centralizes common behavior in the parent."
+        },
+        {
+          "type": "text",
+          "content": "However, inheritance is easily overused. Deep hierarchies make code hard to follow, and changes to the parent ripple to all children. 'Composition over Inheritance' is the guiding principle in modern OOP."
+        },
+        {
+          "type": "points",
+          "items": [
+            "is-a relationship: Dog is an Animal → inheritance fits",
+            "has-a relationship: Car has an Engine → composition fits",
+            "super: calls the parent class method",
+            "Diamond problem: only C++ supports multiple inheritance; most languages use interfaces instead"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Polymorphism",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Polymorphism means the same interface can work with different underlying implementations. Runtime polymorphism (dynamic dispatch): method overriding makes the same method call behave differently depending on the actual type."
+        },
+        {
+          "type": "text",
+          "content": "Polymorphism lets code depend on an abstract interface rather than concrete types, keeping it flexible. The OCP (Open-Closed Principle): you can extend behavior by adding new types without modifying existing code."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Overriding: child redefines a parent method",
+            "Overloading: same name, different parameters (static polymorphism)",
+            "Interface / abstract class: enforces a contract",
+            "LSP (Liskov Substitution): a child must be substitutable for its parent"
+          ]
+        }
+      ]
+    }
+  ]
+}

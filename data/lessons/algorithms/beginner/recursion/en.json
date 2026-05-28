@@ -1,0 +1,125 @@
+{
+  "slug": "recursion",
+  "tag": "Recursion",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "dynamic-programming",
+    "bfs-dfs",
+    "bubble-selection-sort"
+  ],
+  "title": "Recursion & the Call Stack",
+  "summary": "A recursive function calls itself. Learn how to design base cases and recursive cases, understand call stack mechanics, and optimize with memoization.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Basic Structure of Recursion",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/recursion-call-stack.svg",
+          "alt": "Recursion call stack factorial",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "Recursion is a technique where a function calls itself. Every recursive function must have a base case (returns without further calls) and a recursive case (reduces the problem and calls itself)."
+        },
+        {
+          "type": "text",
+          "content": "Recursion without a base case loops forever and causes a stack overflow. The recursive case must always move closer to the base case."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Base case: the condition that stops recursion",
+            "Recursive case: break into a smaller instance",
+            "Factorial: n! = n × (n-1)!, base case: 0! = 1",
+            "Fibonacci: fib(n) = fib(n-1) + fib(n-2), base: fib(0)=0, fib(1)=1"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
+          "java": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Call Stack and Stack Frames",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each function call pushes a stack frame onto the call stack. The frame holds local variables, parameters, and the return address."
+        },
+        {
+          "type": "text",
+          "content": "Deep recursion builds up many frames. Stack memory is limited, so too-deep recursion causes a stack overflow. Python's default limit is 1000."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Each call creates a new stack frame",
+            "Space complexity: recursion depth × frame size",
+            "Python default recursion limit: 1000 (change with sys.setrecursionlimit)",
+            "Java default stack size: ~500 KB per thread"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Recursion vs Iteration",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Most recursion can be converted to iteration and vice versa. Recursion is concise and natural for tree/graph traversal. Iteration has no stack overflow risk."
+        },
+        {
+          "type": "text",
+          "content": "DFS is very intuitive recursively, but can also use an explicit stack. Tree traversals are naturally expressed recursively."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Recursion advantage: concise, natural for recursive structures",
+            "Iteration advantage: no stack overflow, more memory-efficient",
+            "Tail recursion: last operation is the recursive call",
+            "TCO: some languages reuse the stack frame for tail calls"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Optimizing with Memoization",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Naive recursive Fibonacci is O(2ⁿ). Memoization caches results by argument, reducing it to O(n)."
+        },
+        {
+          "type": "text",
+          "content": "Memoization is the top-down approach to dynamic programming. Store computed results in a hash map or array to avoid redundant work."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Naive fib(50): hundreds of billions of calls",
+            "Memoized fib(50): 50 unique calls",
+            "Python @lru_cache / @cache decorator for easy application",
+            "Memoization = top-down DP"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "function fib(n, memo = new Map()) {\n  if (memo.has(n)) return memo.get(n);\n  if (n <= 1) return n;\n  const result = fib(n - 1, memo) + fib(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        }
+      ]
+    }
+  ]
+}

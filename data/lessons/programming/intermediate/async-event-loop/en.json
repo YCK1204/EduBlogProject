@@ -1,0 +1,119 @@
+{
+  "slug": "async-event-loop",
+  "tag": "Async",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "functions-first-class",
+    "type-system-generics",
+    "clean-code"
+  ],
+  "title": "Async Processing and the Event Loop",
+  "summary": "The evolution from callbacks to Promises to async/await, and a deep dive into how the JavaScript event loop works. Learn to write and debug asynchronous code correctly.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Synchronous vs Asynchronous",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/async-event-loop.svg",
+          "alt": "Event loop asynchronous execution",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Synchronous execution means each task must finish before the next one starts. Asynchronous execution starts a task and moves on without waiting for it to complete. Long-running I/O operations like file reads and network requests benefit greatly from async handling."
+        },
+        {
+          "type": "text",
+          "content": "JavaScript is single-threaded. Running network requests synchronously would freeze the browser entirely. The event loop and async APIs solve this problem."
+        },
+        {
+          "type": "points",
+          "items": [
+            "I/O-bound work: async is the efficient choice",
+            "CPU-bound work: needs multi-threading or multi-processing",
+            "Blocking: halts the current thread",
+            "Non-blocking: fires the request and returns immediately"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Callbacks and Callback Hell",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A callback is a function passed in to be called when an async operation completes. It was JavaScript's original async mechanism: setTimeout, addEventListener, Node.js fs.readFile all use callbacks."
+        },
+        {
+          "type": "text",
+          "content": "Nesting callbacks produces 'callback hell' (the pyramid of doom) — code that drifts further right with every nested level. Error handling must happen at each level and the overall flow becomes hard to follow."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Callback pattern: fs.readFile(path, (err, data) => {})",
+            "Error-first callbacks (Node.js): first argument is the error",
+            "Callback hell: nested callbacks are hard to read and error-prone",
+            "Event emitter pattern: on('event', callback)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Promises and async/await",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A Promise represents the future result of an async operation. It moves through three states: Pending → Fulfilled / Rejected. Chaining .then() for success and .catch() for errors eliminates callback hell."
+        },
+        {
+          "type": "text",
+          "content": "async/await is syntactic sugar over Promises that lets you write async code that reads like synchronous code. Await pauses inside an async function until a Promise settles. try/catch handles errors in the familiar synchronous style."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Promise: container for a future value (then/catch/finally)",
+            "Promise.all: run multiple async operations in parallel, wait for all",
+            "async/await: syntactic sugar over Promise — more readable",
+            "Missing await: the Promise is returned but not waited on (common bug)"
+          ]
+        },
+        {
+          "type": "code",
+          "javascript": "// Promise chaining\nfetch('/api/user')\n  .then(res => res.json())\n  .then(user => fetchPosts(user.id))\n  .then(posts => console.log(posts))\n  .catch(err => console.error(err));\n\n// async/await — same logic, more readable\nasync function loadUserPosts() {\n  try {\n    const res  = await fetch('/api/user');\n    const user = await res.json();\n    const posts = await fetchPosts(user.id);\n    console.log(posts);\n  } catch (err) {\n    console.error(err);\n  }\n}\n\n// parallel execution\nconst [user, settings] = await Promise.all([\n  fetchUser(id),\n  fetchSettings(id),\n]);",
+          "python": "import asyncio\nimport aiohttp\n\n# async/await (Python 3.5+)\nasync def fetch_user(session, user_id):\n    async with session.get(f'/api/users/{user_id}') as resp:\n        return await resp.json()\n\nasync def main():\n    async with aiohttp.ClientSession() as session:\n        # parallel execution\n        users = await asyncio.gather(\n            fetch_user(session, 1),\n            fetch_user(session, 2),\n        )\n        print(users)\n\nasyncio.run(main())",
+          "java": "import java.util.concurrent.CompletableFuture;\n\n// CompletableFuture (Java 8+)\nCompletableFuture<User> futureUser = CompletableFuture\n    .supplyAsync(() -> fetchUser(userId))\n    .thenApply(user -> enrichUser(user))\n    .exceptionally(ex -> defaultUser());\n\n// parallel execution\nCompletableFuture<Void> all = CompletableFuture.allOf(\n    fetchUserAsync(id),\n    fetchSettingsAsync(id)\n);\nall.join();",
+          "csharp": "// async/await (C# 5+)\nasync Task<User> LoadUserPostsAsync(int userId) {\n    try {\n        var user  = await FetchUserAsync(userId);\n        var posts = await FetchPostsAsync(user.Id);\n        return user with { Posts = posts };\n    } catch (HttpRequestException ex) {\n        Console.WriteLine(ex.Message);\n        throw;\n    }\n}\n\n// parallel execution\nvar (user, settings) = await (\n    FetchUserAsync(id),\n    FetchSettingsAsync(id)\n).WhenAll();"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "How the Event Loop Works",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "JavaScript's event loop consists of the call stack, the task queue (macro-tasks), and the microtask queue. When the call stack empties, all microtasks (Promise .then) are processed first, then one task (setTimeout, I/O) is dequeued."
+        },
+        {
+          "type": "text",
+          "content": "Understanding this order lets you predict async execution sequences. setTimeout(fn, 0) does not run immediately — it waits until the call stack is empty. Promise.then always runs before setTimeout because microtasks are processed first."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Call stack: currently executing code",
+            "Microtasks: Promise.then, queueMicrotask — all processed when stack empties",
+            "Task queue: setTimeout, setInterval, I/O — one at a time, after microtasks",
+            "Execution order: synchronous → microtasks → tasks"
+          ]
+        }
+      ]
+    }
+  ]
+}

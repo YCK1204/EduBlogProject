@@ -1,0 +1,124 @@
+{
+  "slug": "bubble-selection-sort",
+  "tag": "Sort",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "merge-sort",
+    "binary-search"
+  ],
+  "title": "Bubble Sort & Selection Sort",
+  "summary": "Bubble sort and selection sort are simple O(n²) algorithms. Compare how each works and see why more efficient algorithms are needed.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "How Bubble Sort Works",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/bubble-sort-pass.svg",
+          "alt": "Bubble sort first pass",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "Bubble sort repeatedly compares adjacent elements and swaps them when out of order. After one pass, the largest element has 'bubbled' to the end."
+        },
+        {
+          "type": "text",
+          "content": "Sorting n elements requires at most n-1 passes. In the best case (already sorted), one pass confirms this in O(n) using the early-exit optimization."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Comparisons: worst/average O(n²), best O(n)",
+            "Swaps: worst O(n²) — for reverse-sorted input",
+            "Stable sort: preserves relative order of equal elements",
+            "In-place: O(1) extra space"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swapped = True\n        if not swapped:\n            break\n    return arr",
+          "javascript": "function bubbleSort(arr) {\n  const n = arr.length;\n  for (let i = 0; i < n; i++) {\n    let swapped = false;\n    for (let j = 0; j < n - i - 1; j++) {\n      if (arr[j] > arr[j + 1]) {\n        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n        swapped = true;\n      }\n    }\n    if (!swapped) break;\n  }\n  return arr;\n}",
+          "java": "void bubbleSort(int[] arr) {\n    int n = arr.length;\n    for (int i = 0; i < n - 1; i++) {\n        boolean swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int tmp = arr[j]; arr[j] = arr[j+1]; arr[j+1] = tmp;\n                swapped = true;\n            }\n        }\n        if (!swapped) break;\n    }\n}",
+          "c": "void bubbleSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int swapped = 0;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int tmp = arr[j]; arr[j] = arr[j+1]; arr[j+1] = tmp;\n                swapped = 1;\n            }\n        }\n        if (!swapped) break;\n    }\n}"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "How Selection Sort Works",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Selection sort finds the minimum in the unsorted portion and places it at the current position. After pass i, the i-th position holds its final value."
+        },
+        {
+          "type": "text",
+          "content": "Comparisons are always n(n-1)/2 regardless of input. However, swaps are at most n-1, which can be an advantage when swapping is expensive."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Comparisons: always O(n²) — same for best and worst case",
+            "Swaps: at most O(n) — relatively few",
+            "Unstable sort: relative order of equal elements not guaranteed",
+            "In-place: O(1) extra space"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr",
+          "javascript": "function selectionSort(arr) {\n  const n = arr.length;\n  for (let i = 0; i < n; i++) {\n    let minIdx = i;\n    for (let j = i + 1; j < n; j++) {\n      if (arr[j] < arr[minIdx]) minIdx = j;\n    }\n    [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];\n  }\n  return arr;\n}",
+          "java": "void selectionSort(int[] arr) {\n    int n = arr.length;\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        int tmp = arr[i]; arr[i] = arr[minIdx]; arr[minIdx] = tmp;\n    }\n}"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Comparative Analysis",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Both are O(n²), but differ in behavior. Bubble sort has many swaps but can exit early on sorted input. Selection sort has few swaps but always scans the full array."
+        },
+        {
+          "type": "text",
+          "content": "Stability also differs. Bubble sort only swaps adjacent elements, so it is stable. Selection sort swaps distant elements, breaking the relative order of equal values."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Bubble: many swaps, best O(n), stable",
+            "Selection: few swaps, always O(n²), unstable",
+            "Cache performance: both access adjacent memory → cache-friendly",
+            "Neither is used in production code"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Limitations and Better Alternatives",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "O(n²) sorts become very slow beyond a few thousand elements. At n=10,000, comparisons exceed 50 million. In practice, use O(n log n) algorithms like merge sort or quicksort."
+        },
+        {
+          "type": "text",
+          "content": "Why study them? They convey foundational concepts (comparison, swap, stability, in-place) intuitively, and are fast enough for very small inputs (n < 50)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "n=1,000: O(n²) ≈ 1M ops vs O(n log n) ≈ 10K ops",
+            "Insertion sort: O(n) on nearly-sorted data — sometimes practical",
+            "Tim Sort: insertion + merge sort hybrid, default in Python/Java",
+            "Comparison sort lower bound: Ω(n log n) proven"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "slug": "binary-search",
+  "title": "이진 탐색",
+  "tag": "Search,Tree",
+  "estimatedTime": "15분",
+  "relatedSlugs": [
+    "bubble-selection-sort",
+    "two-pointer",
+    "dynamic-programming",
+    "recursion"
+  ],
+  "summary": "이진 탐색은 정렬된 배열에서 O(log n)에 원소를 찾는 알고리즘입니다. 단순해 보이지만 경계값 처리가 까다롭고, 파라메트릭 서치까지 응용 범위가 넓습니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "이진 탐색이란",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/binary-search.svg",
+          "alt": "Binary search target finding",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "이진 탐색(Binary Search)은 정렬된 배열에서 탐색 범위를 절반씩 줄여가는 알고리즘입니다. 중간값(mid)을 목표값과 비교해 목표가 더 크면 오른쪽 절반, 작으면 왼쪽 절반만 탐색합니다."
+        },
+        {
+          "type": "text",
+          "content": "선형 탐색이 n개를 모두 확인하는 O(n)인 반면, 이진 탐색은 매 단계마다 범위를 절반으로 좁히므로 O(log n)입니다. n=1,000,000이면 최대 20번 비교만으로 찾을 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "전제 조건: 배열이 정렬되어 있어야 함",
+            "시간 복잡도: O(log n)",
+            "공간 복잡도: 반복 구현 O(1), 재귀 구현 O(log n) 스택",
+            "n=10억이어도 최대 30번 비교로 탐색 완료"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "구현 방법과 반복 불변식",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "이진 탐색의 핵심은 left, right, mid 세 포인터입니다. mid = (left + right) / 2로 중간 인덱스를 구하고, arr[mid]와 목표값을 비교해 범위를 좁힙니다."
+        },
+        {
+          "type": "text",
+          "content": "주의: left + right가 정수 오버플로우를 일으킬 수 있습니다. 안전한 계산은 mid = left + (right - left) / 2입니다. 반복 불변식(Loop Invariant)을 명확히 정의하면 경계값 오류를 방지할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "while(left <= right): 정확히 같은 위치도 확인",
+            "mid = left + (right - left) / 2: 오버플로우 방지",
+            "찾으면 즉시 반환, 못 찾으면 -1 반환",
+            "반복 불변식: 답이 [left, right] 범위에 있다"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1  # 없으면 -1",
+          "javascript": "function binarySearch(arr, target) {\n  let left = 0, right = arr.length - 1;\n  while (left <= right) {\n    const mid = left + Math.floor((right - left) / 2);\n    if (arr[mid] === target) return mid;\n    else if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}",
+          "java": "int binarySearch(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "cpp": "int binarySearch(vector<int>& arr, int target) {\n    int left = 0, right = arr.size() - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "c": "int binarySearch(int arr[], int n, int target) {\n    int left = 0, right = n - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "csharp": "int BinarySearch(int[] arr, int target) {\n    int left = 0, right = arr.Length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "경계값 처리의 핵심",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "이진 탐색 버그의 90%는 경계값 처리 실수에서 발생합니다. while(left < right)를 쓸지 while(left <= right)를 쓸지, right를 mid-1로 갱신할지 mid로 할지 선택에 따라 동작이 달라집니다."
+        },
+        {
+          "type": "text",
+          "content": "목표에 따라 구현이 달라집니다. '정확히 일치하는 원소 찾기'와 '첫 번째로 조건을 만족하는 위치 찾기(lower_bound)'는 다른 구현이 필요합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "정확 탐색: while(left <= right), 찾으면 return mid",
+            "lower_bound: 조건 만족 시 right = mid (답 후보 보존)",
+            "upper_bound: 조건 초과 시 left = mid + 1",
+            "off-by-one: 항상 작은 예시(n=2,3)로 검증"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "파라메트릭 서치 응용",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "이진 탐색은 값을 찾는 것 외에도 '최적값 탐색'에 강력하게 응용됩니다. '어떤 조건을 만족하는 최솟값/최댓값 찾기'를 이진 탐색으로 O(log(범위) × 조건확인 비용)에 풀 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "예시: '밧줄을 k개로 잘라 각각 길이 m 이상이 되게 할 때 최대 m은?' 이 문제는 m 값에 이진 탐색을 적용하고, 각 m에 대해 조건 만족 여부를 O(n)에 확인합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "파라메트릭 서치: 답의 범위에 이진 탐색 적용",
+            "조건 함수 f(x)가 단조(monotone)하면 적용 가능",
+            "대표 문제: 나무 자르기, 랜선 자르기, 징검다리 건너기",
+            "정수 범위 이진 탐색: O(log N), 실수 범위: eps 기반 반복"
+          ]
+        }
+      ]
+    }
+  ]
+}

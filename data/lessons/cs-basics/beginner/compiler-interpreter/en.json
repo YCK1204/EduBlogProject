@@ -1,0 +1,112 @@
+{
+  "slug": "compiler-interpreter",
+  "tag": "PL",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "os-intro",
+    "http-https",
+    "process-thread"
+  ],
+  "title": "Compiler vs Interpreter",
+  "summary": "Understand how source code becomes a running program. Compare compiled and interpreted languages, their trade-offs, and how JIT compilation combines both approaches.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "From Source Code to Execution",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/compiler-interpreter.svg",
+          "alt": "Compiler vs interpreter code execution",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Source code written by programmers cannot be understood directly by the CPU. The CPU only understands machine code (0s and 1s), so source code must be translated or interpreted."
+        },
+        {
+          "type": "text",
+          "content": "This translation takes two forms: compilation (translate the whole program before running) and interpretation (read and execute one line at a time while running)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Lexing → Parsing → Semantic Analysis → Code Generation",
+            "Assembly: low-level language more readable than machine code",
+            "Linking: combine object files into an executable",
+            "Runtime: execution environment (memory allocation, OS services)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Compilers",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A compiler analyzes the entire source code and converts it to machine code (or intermediate code) in one pass. C, C++, Rust, and Go are compiled. Many bugs (type errors) are caught at compile time."
+        },
+        {
+          "type": "text",
+          "content": "The generated binary runs directly, making execution very fast. However, the output is platform-specific (CPU architecture, OS), so recompilation is needed for different targets."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Execution speed: fast (direct machine code)",
+            "Build time: slow (full analysis required)",
+            "Error detection: type errors caught at compile time",
+            "Platform-dependent: separate build per OS/CPU"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Interpreters and JIT",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "An interpreter reads and executes source code line by line at runtime. Python, Ruby, and early JavaScript use this. No build step is needed and the code is platform-independent, but execution is slower."
+        },
+        {
+          "type": "text",
+          "content": "JIT (Just-In-Time) compilation combines both approaches. It starts interpreting, then detects hot paths and compiles them to machine code at runtime. Java HotSpot, V8 (JavaScript), and PyPy use JIT."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Interpreter: fast startup, slow execution, platform-independent",
+            "JIT: runtime compilation → near-compiled performance",
+            "AOT (Ahead-of-Time): compile everything before deployment (Dart, Swift)",
+            "V8: runs JavaScript at near-C speed via JIT"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Language Classification and Selection",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Modern languages often use hybrid approaches. Java and Python compile to bytecode (an intermediate representation), then a VM interprets or JIT-compiles it."
+        },
+        {
+          "type": "text",
+          "content": "Selection guide: maximum performance → C/C++/Rust; developer productivity/scripting → Python/JavaScript/Ruby; balanced performance and safety → Go/Java/Kotlin."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Python: CPython is interpreted, PyPy uses JIT",
+            "Java: bytecode → JVM (JIT)",
+            "JavaScript: V8 JIT, various runtimes (Deno, Bun)",
+            "Rust/Go: AOT compiled, fast execution, no GC (Rust)"
+          ]
+        }
+      ]
+    }
+  ]
+}

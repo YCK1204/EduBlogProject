@@ -1,0 +1,112 @@
+{
+  "slug": "heap",
+  "tag": "Heap",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "bst",
+    "avl-tree",
+    "array"
+  ],
+  "title": "Heap Data Structure",
+  "summary": "A heap is a complete binary tree where every parent is always greater than (max-heap) or less than (min-heap) its children. The minimum or maximum can be peeked in O(1) and inserted/deleted in O(log n), making it ideal for priority queues.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Two Properties of a Heap",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A heap must satisfy two properties simultaneously: the complete binary tree structure and the heap property."
+        },
+        {
+          "type": "text",
+          "content": "In a min-heap, every parent node is less than or equal to its children, so the root is always the global minimum. A max-heap is the reverse."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Complete binary tree: all levels filled except possibly the last",
+            "Min-heap property: parent ≤ children (for every node)",
+            "Root = minimum (min-heap) or maximum (max-heap)",
+            "Can be implemented efficiently with an array"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Implementing a Heap with an Array",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/heap-array.svg",
+          "alt": "Max-heap array representation",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A complete binary tree maps cleanly to an array. For node at index i: parent is at (i-1)/2, left child at 2i+1, right child at 2i+2."
+        },
+        {
+          "type": "text",
+          "content": "This formula lets you traverse the tree using only array indices — no pointers needed, which is memory-efficient."
+        },
+        {
+          "type": "points",
+          "items": [
+            "0-indexed: parent = (i-1)//2",
+            "Left child: 2*i + 1, Right child: 2*i + 2",
+            "No pointers → zero pointer overhead",
+            "Excellent cache locality"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Heapify — Insertion and Deletion",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "On insertion, append the new element to the end of the array and sift it up (bubble up) by comparing it with its parent."
+        },
+        {
+          "type": "text",
+          "content": "On deletion (extract root), swap the root with the last element, remove the last, then sift down from the root by comparing with children."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Insertion (Sift Up): O(log n)",
+            "Peek min/max: O(1)",
+            "Extract-Min/Max: O(log n)",
+            "Arbitrary deletion: O(log n) — requires knowing the position"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Heap Sort and Priority Queue",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A heap enables O(n log n) heap sort. First build the heap (O(n)), then perform n extractions."
+        },
+        {
+          "type": "text",
+          "content": "The priority queue is the heap's most common application. It is used in Dijkstra's algorithm, Prim's MST, and CPU scheduling."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Build Heap: O(n) — more efficient than n repeated insertions O(n log n)",
+            "Heap Sort: O(n log n), in-place, unstable",
+            "Python: heapq module (min-heap)",
+            "Java: PriorityQueue class"
+          ]
+        }
+      ]
+    }
+  ]
+}

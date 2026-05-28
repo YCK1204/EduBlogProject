@@ -1,0 +1,112 @@
+{
+  "slug": "hash-table",
+  "tag": "HashTable",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "array",
+    "linked-list",
+    "bst"
+  ],
+  "title": "Hash Tables",
+  "summary": "A hash table stores key-value pairs and achieves average O(1) lookup, insertion, and deletion. The design of the hash function and the collision resolution strategy determine its performance.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What is a Hash Table?",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/hash-table.svg",
+          "alt": "Hash table with chaining",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A hash table passes a key through a hash function to produce an array index, then stores the value at that index."
+        },
+        {
+          "type": "text",
+          "content": "The hash function is the core. It must be deterministic (same key → same index) and distribute values uniformly across the array."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Average lookup/insert/delete: O(1)",
+            "Worst case (all keys collide): O(n)",
+            "Space complexity: O(n)",
+            "Examples: Python dict, Java HashMap, JavaScript Object"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Collisions & Chaining",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Collisions — different keys hashing to the same index — are inevitable. The most intuitive solution is chaining."
+        },
+        {
+          "type": "text",
+          "content": "Chaining stores colliding entries in a linked list (or another structure) at each bucket. Java's HashMap uses this and converts chains to trees when they grow long (Java 8+)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Each bucket maintains a linked list",
+            "Average lookup: O(1 + α), α = load factor (n/m)",
+            "High load factor → more collisions → rehashing needed",
+            "Java HashMap: converts chain to red-black tree at length ≥ 8"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Open Addressing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Open addressing resolves collisions by finding an empty slot in the array and storing the entry there. All data stays within the array, eliminating pointer overhead."
+        },
+        {
+          "type": "text",
+          "content": "Probing strategies include linear probing, quadratic probing, and double hashing. Python's dict uses open addressing."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Linear probing: scan next slots sequentially → clustering problem",
+            "Quadratic probing: probe at i², 2i², ... → secondary clustering",
+            "Double hashing: use a second hash function for step size → most uniform",
+            "Deletion requires a tombstone marker"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Load Factor & Rehashing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The load factor is the ratio of stored elements to bucket count. Higher load factors cause more collisions and degrade performance."
+        },
+        {
+          "type": "text",
+          "content": "When the load factor exceeds a threshold (typically 0.75), rehashing occurs: the array doubles in size and all entries are re-inserted. This is O(n) but happens infrequently, so the amortized cost stays O(1)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Java HashMap default load factor: 0.75",
+            "Rehashing cost: O(n) — all entries re-inserted",
+            "Lower load factor wastes memory; higher increases collisions",
+            "Amortized analysis keeps insertion at average O(1)"
+          ]
+        }
+      ]
+    }
+  ]
+}

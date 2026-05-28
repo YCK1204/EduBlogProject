@@ -1,0 +1,112 @@
+{
+  "slug": "tcp-ip",
+  "tag": "Network",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "http-https",
+    "os-intro",
+    "process-thread"
+  ],
+  "title": "TCP/IP 4-Layer Model",
+  "summary": "The TCP/IP model is the foundation of internet communication. Understand the role of each layer (application, transport, internet, link) and how data is encapsulated as it passes through them.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Layered Network Model",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/tcp-ip.svg",
+          "alt": "TCP/IP 4-layer model encapsulation",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "The TCP/IP model divides network communication into 4 layers, each with an independent responsibility. Layering means each layer can evolve without affecting others."
+        },
+        {
+          "type": "text",
+          "content": "The OSI 7-layer model is a theoretical reference; the TCP/IP 4-layer model is what the real internet uses. HTTP is application, TCP/UDP is transport, IP is internet, and Ethernet/Wi-Fi is the link layer."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Application: HTTP, FTP, DNS, SMTP",
+            "Transport: TCP, UDP (port numbers)",
+            "Internet: IP (IP addresses, routing)",
+            "Link: Ethernet, Wi-Fi (MAC addresses)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "TCP — Reliable Transport",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "TCP (Transmission Control Protocol) is connection-oriented and provides reliable delivery. It uses a 3-way handshake (SYN → SYN-ACK → ACK) and offers retransmission, ordering, and flow control."
+        },
+        {
+          "type": "text",
+          "content": "TCP flow control and congestion control prevent network overload. These features make TCP the choice for HTTP, email, and file transfer where reliability is critical."
+        },
+        {
+          "type": "points",
+          "items": [
+            "3-way handshake: SYN → SYN-ACK → ACK",
+            "Reliability: ACK confirmation, retransmit on timeout",
+            "Ordering: sequence numbers for reassembly",
+            "Flow control: prevents receiver buffer overflow"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "UDP — Fast Connectionless Transport",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "UDP (User Datagram Protocol) sends datagrams without establishing a connection. No reliability, ordering, or flow control — much faster with less overhead than TCP."
+        },
+        {
+          "type": "text",
+          "content": "UDP is suitable for real-time streaming (some packet loss is acceptable), online games (low latency matters more than reliability), and DNS queries (short, one-shot requests). HTTP/3 (QUIC) implements its own reliability on top of UDP."
+        },
+        {
+          "type": "points",
+          "items": [
+            "No connection: transmit immediately without a handshake",
+            "Minimal overhead: 8-byte header (vs TCP's 20+ bytes)",
+            "No ordering/reliability: must be handled at the application layer",
+            "Uses: DNS, VoIP, gaming, streaming, QUIC"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Encapsulation and the Journey of a Packet",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "As data is sent, each layer adds a header — a process called encapsulation. HTTP data → TCP header (segment) → IP header (packet) → Ethernet header (frame)."
+        },
+        {
+          "type": "text",
+          "content": "On the receiving end, each layer strips its own header (decapsulation). Each layer processes only its own header and passes the data portion up unchanged."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Encapsulation: data → segment → packet → frame",
+            "Each layer reads, adds, or removes only its own header",
+            "NAT: private IP ↔ public IP translation (router)",
+            "DNS: domain → IP resolution (UDP port 53)"
+          ]
+        }
+      ]
+    }
+  ]
+}

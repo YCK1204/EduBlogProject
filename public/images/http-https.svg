@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
+    <marker id="r" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ef4444"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">HTTP vs HTTPS — Request-Response Flow</text>
+
+  <\!-- Client -->
+  <rect x="40" y="42" width="60" height="40" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="70" y="60" font-size="9" font-weight="700" fill="#1e40af" text-anchor="middle">Client</text>
+  <text x="70" y="74" font-size="8" fill="#3b82f6" text-anchor="middle">(Browser)</text>
+
+  <\!-- Server -->
+  <rect x="500" y="42" width="60" height="40" rx="5" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="530" y="60" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">Server</text>
+  <text x="530" y="74" font-size="8" fill="#10b981" text-anchor="middle">(Web App)</text>
+
+  <\!-- HTTP (plain) -->
+  <text x="200" y="104" font-size="9" font-weight="700" fill="#ef4444" text-anchor="middle">HTTP — Plain Text (Port 80)</text>
+  <line x1="100" y1="112" x2="480" y2="112" stroke="#ef4444" stroke-width="2" marker-end="url(#r)" stroke-dasharray="8,4"/>
+  <text x="290" y="106" font-size="8" fill="#ef4444" text-anchor="middle">GET /api/user  (unencrypted)</text>
+
+  <line x1="480" y1="124" x2="100" y2="124" stroke="#ef4444" stroke-width="2" marker-end="url(#r)" stroke-dasharray="8,4"/>
+  <text x="290" y="139" font-size="8" fill="#ef4444" text-anchor="middle">200 OK {"name": "John"}  (visible to attackers)</text>
+
+  <\!-- HTTPS (encrypted) -->
+  <text x="200" y="154" font-size="9" font-weight="700" fill="#3b82f6" text-anchor="middle">HTTPS — Encrypted (Port 443)</text>
+  <line x1="100" y1="162" x2="480" y2="162" stroke="#3b82f6" stroke-width="2" marker-end="url(#a)"/>
+  <text x="290" y="156" font-size="8" fill="#3b82f6" text-anchor="middle">GET /api/user  (TLS encrypted)</text>
+
+  <line x1="480" y1="174" x2="100" y2="174" stroke="#3b82f6" stroke-width="2" marker-end="url(#a)"/>
+  <text x="290" y="189" font-size="8" fill="#3b82f6" text-anchor="middle">200 OK {"name": "John"}  (secure transmission)</text>
+
+  <\!-- Security indicators -->
+  <circle cx="170" cy="104" r="8" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+  <text x="170" y="109" font-size="10" fill="#ef4444" text-anchor="middle">\!</text>
+
+  <circle cx="170" cy="154" r="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+  <text x="170" y="159" font-size="10" fill="#10b981" text-anchor="middle">🔒</text>
+</svg>

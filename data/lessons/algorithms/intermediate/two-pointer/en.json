@@ -1,0 +1,112 @@
+{
+  "slug": "two-pointer",
+  "tag": "Two Pointer",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "binary-search",
+    "dynamic-programming",
+    "bubble-selection-sort"
+  ],
+  "title": "Two Pointer Technique",
+  "summary": "Two pointer uses two positions in an array to reduce O(n²) brute force to O(n). Covers two variants: the opposite-ends pointer and the sliding window.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What is the Two Pointer Pattern?",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/two-pointer.svg",
+          "alt": "Two-pointer and sliding window patterns",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Two pointer moves two indices simultaneously over an array or linked list to find a pair or subarray satisfying a condition. It reduces nested loops from O(n²) to O(n)."
+        },
+        {
+          "type": "text",
+          "content": "Key requirement: the array must be sorted, or the condition must be monotone so pointers can move directionally without crossing."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Time complexity: O(n) — each pointer moves at most n times",
+            "Space complexity: O(1) — no extra space needed",
+            "Prerequisite: sorted array or monotone condition",
+            "Replaces O(n²) nested loops with O(n)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Opposite-Ends Pointer",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The classic pattern: place left at the start and right at the end. Move one pointer inward based on the condition. Classic problem: find a pair summing to a target in a sorted array."
+        },
+        {
+          "type": "text",
+          "content": "If arr[left] + arr[right] > target, decrement right; if less, increment left. Stop when they cross. This relies on the sorted property."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Initialize: left = 0, right = n - 1",
+            "Sum > target: right--",
+            "Sum < target: left++",
+            "Sum == target: found, advance both"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Sliding Window",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Sliding window is a variant where both pointers move in the same direction. A window [left, right] expands by moving right and shrinks by moving left when a condition is violated."
+        },
+        {
+          "type": "text",
+          "content": "Classic problems: 'longest subarray with sum ≤ k', 'longest substring without repeating characters'. Both pointers only move forward, so total moves are O(n)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Initialize: left = 0, right = 0",
+            "Expand: move right to add an element to the window",
+            "Shrink: move left when the condition is violated",
+            "Classic problems: longest substring, minimum subarray sum"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Problem Type Reference",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Recognizing which problems fit the two pointer/sliding window pattern lets you quickly identify the approach."
+        },
+        {
+          "type": "text",
+          "content": "Pattern recognition tip: when a nested loop feels natural but the array is sorted or involves a range sum/length, suspect two pointer."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Two-sum (sorted): opposite-ends pointer",
+            "Three-sum: fix one element, two pointer for the rest",
+            "Longest substring without repeats: sliding window + hash set",
+            "Minimum size subarray (sum ≥ s): sliding window"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "slug": "http-https",
+  "tag": "Network",
+  "estimatedTime": "20분",
+  "relatedSlugs": [
+    "tcp-ip",
+    "compiler-interpreter",
+    "os-intro"
+  ],
+  "title": "HTTP와 HTTPS의 차이",
+  "summary": "HTTP는 웹의 기반이 되는 요청-응답 프로토콜입니다. 상태 코드, 헤더, 메서드의 역할과 TLS 핸드셰이크를 통해 HTTPS가 어떻게 보안 통신을 제공하는지 설명합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "HTTP 요청-응답 모델",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/http-https.svg",
+          "alt": "HTTP vs HTTPS request-response",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "HTTP(HyperText Transfer Protocol)는 클라이언트-서버 모델의 비연결성(stateless) 프로토콜입니다. 클라이언트가 요청(Request)을 보내면 서버가 응답(Response)을 반환하는 단순한 구조입니다."
+        },
+        {
+          "type": "text",
+          "content": "HTTP 메서드는 의도를 나타냅니다. GET(조회), POST(생성), PUT/PATCH(수정), DELETE(삭제)가 REST API의 기본입니다. URL + 메서드 조합으로 어떤 자원에 어떤 작업을 할지 표현합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Stateless: 각 요청은 독립적 — 이전 상태 저장 안 함",
+            "GET: 데이터 조회 (캐싱 가능, body 없음)",
+            "POST: 데이터 생성 (body에 데이터 포함)",
+            "멱등성: GET/PUT/DELETE는 같은 요청 반복해도 결과 동일"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "상태 코드와 헤더",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTP 상태 코드는 응답의 결과를 숫자로 표현합니다. 2xx(성공), 3xx(리다이렉션), 4xx(클라이언트 오류), 5xx(서버 오류) 범주로 나뉩니다."
+        },
+        {
+          "type": "text",
+          "content": "HTTP 헤더는 요청/응답의 메타데이터를 전달합니다. Content-Type(데이터 형식), Authorization(인증 토큰), Cache-Control(캐시 정책), Accept-Encoding(압축 방식) 등이 대표적입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "200 OK, 201 Created, 204 No Content",
+            "301 Moved Permanently, 302 Found (임시 리다이렉트)",
+            "400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found",
+            "500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "HTTPS와 TLS 핸드셰이크",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTPS는 HTTP에 TLS(Transport Layer Security) 암호화를 추가한 것입니다. 세 가지를 보장합니다: 기밀성(도청 방지), 무결성(중간 변조 방지), 인증(진짜 서버인지 확인)."
+        },
+        {
+          "type": "text",
+          "content": "TLS 핸드셰이크는 연결 시 한 번 수행됩니다. 클라이언트와 서버가 암호화 방식을 협상하고, 서버의 인증서를 검증하고, 세션 키를 안전하게 교환합니다. 이후 통신은 대칭 키로 빠르게 암호화됩니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "TLS 1.3: 핸드셰이크 1-RTT(기존 2-RTT) — 더 빠름",
+            "인증서: CA(Certificate Authority)가 서버 공개키 서명",
+            "대칭 키 교환: ECDH(키 교환) → 세션 키 생성",
+            "HSTS: 브라우저에 HTTPS만 허용 지시"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "HTTP 버전 비교",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTP/1.1은 연결당 하나의 요청을 처리해 여러 리소스 로딩 시 병렬 연결을 여러 개 열어야 했습니다. HTTP/2는 하나의 연결에서 멀티플렉싱으로 여러 스트림을 동시에 처리해 성능을 크게 개선했습니다."
+        },
+        {
+          "type": "text",
+          "content": "HTTP/3는 TCP 대신 QUIC(UDP 기반) 프로토콜을 사용합니다. TCP의 head-of-line blocking 문제를 해결하고 연결 수립 속도를 높입니다. 현재 주요 웹사이트와 브라우저가 HTTP/3를 지원합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "HTTP/1.1: 연결 재사용(Keep-Alive), HOL blocking 문제",
+            "HTTP/2: 멀티플렉싱, 헤더 압축(HPACK), 서버 푸시",
+            "HTTP/3: QUIC(UDP 기반), 더 빠른 핸드셰이크",
+            "실무: 서버에서 HTTP/2 활성화가 성능 개선의 첫 단계"
+          ]
+        }
+      ]
+    }
+  ]
+}

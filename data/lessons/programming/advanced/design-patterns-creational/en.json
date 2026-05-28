@@ -1,0 +1,112 @@
+{
+  "slug": "design-patterns-creational",
+  "tag": "Design Pattern",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "oop-intro",
+    "clean-code",
+    "memory-gc"
+  ],
+  "title": "Design Patterns — Creational",
+  "summary": "Real use cases for Singleton, Factory, and Builder patterns alongside the problems they cause when overused, and alternative approaches. Patterns are tools, not goals.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What Are Design Patterns?",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/design-patterns-creational.svg",
+          "alt": "Singleton and Factory design patterns",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Design patterns are reusable solutions to recurring design problems. The GoF (Gang of Four) catalogued 23 classic patterns, categorized as Creational, Structural, and Behavioral."
+        },
+        {
+          "type": "text",
+          "content": "The point of learning patterns is not to apply them everywhere. It is to build a shared vocabulary between developers ('this is the Observer pattern') and to inherit the wisdom of how similar problems were solved before. Overusing patterns increases complexity."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Creational: object creation — Singleton, Factory, Builder, Prototype",
+            "Structural: class/object composition — Adapter, Composite, Decorator",
+            "Behavioral: responsibility distribution — Observer, Strategy, Command",
+            "Pattern = guideline, not a prescribed solution"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Singleton Pattern",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Singleton ensures that a class has exactly one instance. It is used for global configuration, loggers, database connection pools — anything that should exist only once in the system."
+        },
+        {
+          "type": "text",
+          "content": "Singleton creates global state and tight coupling, making testing difficult. Replacing it with Dependency Injection lets you inject a mock object during tests, giving you more flexibility. In modern development Singleton is often treated as an anti-pattern."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Implementation: private constructor + static getInstance() method",
+            "Problems: global state → hard to test, thread-safety concerns",
+            "Thread safety: double-checked locking or initialization-time guarantee",
+            "Alternative: manage singleton lifetime in a DI container"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Factory Pattern",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The Factory pattern extracts object-creation logic into a separate class. Use it when the class to instantiate is determined at runtime, when creation logic is complex, or when you want to encapsulate construction."
+        },
+        {
+          "type": "text",
+          "content": "The Factory Method pattern defines a creation interface in a parent class and lets subclasses decide which concrete class to instantiate. Abstract Factory provides an interface for creating families of related objects."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Static factory: Date.now(), List.of() — descriptive name instead of constructor",
+            "Factory method: subclass decides which object to create",
+            "Abstract factory: groups related classes (e.g., Button, Input) for a UI theme",
+            "Reducing direct 'new' usage → less dependency on concrete classes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Builder Pattern",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The Builder pattern constructs complex objects step by step. It is especially useful when a constructor has too many arguments to read comfortably, or when many arguments are optional."
+        },
+        {
+          "type": "text",
+          "content": "Kotlin named arguments and Python keyword arguments often make a Builder unnecessary. In Java and JavaScript the Builder pattern remains practical. Lombok @Builder (Java) and HTTP client builders are canonical examples."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Method chaining: HttpRequest.builder().url().method().header().build()",
+            "Immutable result: validate in build() then return an immutable object",
+            "Distinguish required vs optional arguments",
+            "Alternatives: Kotlin data class + named args, Python dataclass"
+          ]
+        }
+      ]
+    }
+  ]
+}

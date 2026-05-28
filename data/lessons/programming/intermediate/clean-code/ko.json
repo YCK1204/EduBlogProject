@@ -1,0 +1,112 @@
+{
+  "slug": "clean-code",
+  "tag": "Clean Code",
+  "estimatedTime": "20분",
+  "relatedSlugs": [
+    "functions-first-class",
+    "oop-intro",
+    "design-patterns-creational"
+  ],
+  "title": "클린 코드 원칙",
+  "summary": "읽기 쉬운 이름 짓기, 함수 분리, 주석의 올바른 사용법 등 코드 품질을 높이는 실천적 원칙들을 정리합니다. DRY, YAGNI, SOLID의 핵심을 이해합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "의미 있는 이름 짓기",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/clean-code.svg",
+          "alt": "Clean code before vs after refactoring",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "좋은 이름은 주석 없이도 코드의 의도를 전달합니다. 변수명은 무엇을 담고 있는지, 함수명은 무엇을 하는지 명확히 표현해야 합니다. d, temp, data 같은 이름은 피하고 elapsedTimeInDays, userAge, fetchUserProfile처럼 구체적으로 짓습니다."
+        },
+        {
+          "type": "text",
+          "content": "Boolean 변수는 is, has, should, can 접두사를 사용합니다. 함수는 동사로 시작합니다(get, set, create, fetch, validate). 클래스는 명사로 시작합니다(UserRepository, PaymentService). 일관된 컨벤션이 코드 전체에 걸쳐 가독성을 높입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "명확함: d → elapsedTimeInDays",
+            "발음 가능: genymdhms → generationTimestamp",
+            "검색 가능: 7 → MAX_RETRY_COUNT",
+            "컨텍스트 포함: firstName → customer.firstName (필요한 경우)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "함수는 하나의 일만",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "단일 책임 원칙(Single Responsibility Principle): 함수는 하나의 일을, 그 일을 잘 해야 합니다. 100줄짜리 함수는 여러 책임을 가진 신호입니다. 함수를 더 작게 쪼개면 이름 짓기가 쉬워지고, 테스트하기 쉬워지고, 재사용성이 높아집니다."
+        },
+        {
+          "type": "text",
+          "content": "함수의 추상화 수준을 일관되게 유지하세요. 한 함수 안에 비즈니스 로직과 SQL 쿼리가 뒤섞이면 읽기 어렵습니다. 각 함수는 같은 수준의 추상화로 구성되어야 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "함수 길이: 20줄 이하 권장 (Martin: 4~5줄)",
+            "인수 수: 3개 이하 권장 (객체로 묶기)",
+            "플래그 인수: boolean 인수는 함수를 둘로 분리하라는 신호",
+            "부수 효과: 함수 이름이 말하는 것 외 하지 않기"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "주석과 코드",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "좋은 코드는 스스로 설명합니다. 주석이 필요하다면 대개 코드가 명확하지 않다는 신호입니다. 먼저 코드를 개선해 주석 없이도 이해 가능하게 만드세요."
+        },
+        {
+          "type": "text",
+          "content": "그러나 주석이 가치 있는 경우도 있습니다: 비즈니스 로직의 '왜'를 설명할 때, 특정 버그의 회피 방법을 기록할 때, 비직관적인 알고리즘의 의도를 설명할 때입니다. 무엇을 하는지보다 왜 이렇게 했는지를 설명하는 주석이 유용합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "나쁜 주석: // i 증가 → i++ (코드를 반복)",
+            "좋은 주석: // RFC 2822 형식 필요 (외부 제약 설명)",
+            "죽은 코드: 주석 처리 대신 삭제 (버전 관리가 있음)",
+            "TODO 주석: 기한과 담당자 명시, 방치 주의"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "DRY, YAGNI, SOLID 핵심",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DRY(Don't Repeat Yourself): 중복 지식을 제거하세요. 같은 로직이 두 곳 이상에 있으면 한 곳이 바뀔 때 나머지도 바꿔야 한다는 것을 잊기 쉽습니다. 단, 우연히 비슷해 보이는 코드를 무리하게 추상화하면 잘못된 DRY가 됩니다."
+        },
+        {
+          "type": "text",
+          "content": "YAGNI(You Aren't Gonna Need It): 지금 필요하지 않은 기능은 만들지 마세요. '나중에 쓸 것 같아서' 추가한 코드는 대개 쓰이지 않고 복잡도만 높입니다. SOLID 중 OCP와 DIP가 특히 중요: 변경에는 닫히고 확장에는 열려 있어야 하며, 추상화에 의존해야 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "DRY: 지식의 중복 제거 (코드 중복과 다름)",
+            "YAGNI: 필요할 때 만들기 — 추측 개발 금지",
+            "OCP: 수정 없이 새 기능 추가 가능",
+            "DIP: 구현이 아닌 인터페이스에 의존"
+          ]
+        }
+      ]
+    }
+  ]
+}

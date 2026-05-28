@@ -1,0 +1,120 @@
+{
+  "slug": "oop-intro",
+  "tag": "OOP",
+  "estimatedTime": "25분",
+  "relatedSlugs": [
+    "variables-types",
+    "design-patterns-creational",
+    "clean-code"
+  ],
+  "title": "객체지향 프로그래밍 입문",
+  "summary": "클래스, 인스턴스, 캡슐화, 상속, 다형성의 네 가지 원칙을 실제 예시와 함께 소개합니다. 객체지향의 강점과 흔한 오용 패턴도 살펴봅니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "클래스와 인스턴스",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/oop-intro.svg",
+          "alt": "OOP class and instances",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "클래스(Class)는 객체의 설계도입니다. 인스턴스(Instance)는 그 설계도로 만든 실제 객체입니다. 예를 들어 '자동차' 클래스를 정의하면, 내 차와 네 차는 같은 설계도를 가진 서로 다른 인스턴스입니다."
+        },
+        {
+          "type": "text",
+          "content": "클래스는 필드(상태)와 메서드(행동)로 구성됩니다. 생성자(Constructor)는 인스턴스가 만들어질 때 호출되어 초기 상태를 설정합니다. this 키워드는 현재 인스턴스를 가리킵니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "클래스: 상태(필드)와 행동(메서드)의 청사진",
+            "인스턴스: new 키워드로 생성, 힙 메모리에 저장",
+            "생성자: 객체 초기화 담당",
+            "this: 현재 인스턴스 참조"
+          ]
+        },
+        {
+          "type": "code",
+          "python": "class Dog:\n    def __init__(self, name: str, breed: str):\n        self.name = name      # 인스턴스 필드\n        self.breed = breed\n\n    def bark(self) -> str:\n        return f\"{self.name}: Woof!\"\n\n# 인스턴스 생성\ndog1 = Dog(\"Buddy\", \"Labrador\")\ndog2 = Dog(\"Max\", \"Poodle\")\nprint(dog1.bark())  # Buddy: Woof!\nprint(dog2.name)    # Max",
+          "javascript": "class Dog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n  }\n\n  bark() {\n    return `${this.name}: Woof!`;\n  }\n}\n\nconst dog1 = new Dog(\"Buddy\", \"Labrador\");\nconst dog2 = new Dog(\"Max\", \"Poodle\");\nconsole.log(dog1.bark()); // Buddy: Woof!",
+          "java": "public class Dog {\n    private String name;\n    private String breed;\n\n    public Dog(String name, String breed) {\n        this.name = name;\n        this.breed = breed;\n    }\n\n    public String bark() {\n        return name + \": Woof!\";\n    }\n}\n\nDog dog1 = new Dog(\"Buddy\", \"Labrador\");\nSystem.out.println(dog1.bark()); // Buddy: Woof!",
+          "csharp": "public class Dog {\n    public string Name { get; }\n    public string Breed { get; }\n\n    public Dog(string name, string breed) {\n        Name = name;\n        Breed = breed;\n    }\n\n    public string Bark() => $\"{Name}: Woof!\";\n}\n\nvar dog1 = new Dog(\"Buddy\", \"Labrador\");\nConsole.WriteLine(dog1.Bark()); // Buddy: Woof!",
+          "cpp": "#include <string>\n#include <iostream>\n\nclass Dog {\nprivate:\n    std::string name;\n    std::string breed;\npublic:\n    Dog(const std::string& name, const std::string& breed)\n        : name(name), breed(breed) {}\n\n    std::string bark() const {\n        return name + \": Woof!\";\n    }\n};\n\nDog dog1(\"Buddy\", \"Labrador\");\nstd::cout << dog1.bark(); // Buddy: Woof!"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "캡슐화",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "캡슐화(Encapsulation)는 객체의 내부 구현을 외부에 숨기고, 정의된 인터페이스(메서드)를 통해서만 접근하게 하는 원칙입니다. 필드를 private으로 선언하고 getter/setter로만 접근하는 것이 대표적입니다."
+        },
+        {
+          "type": "text",
+          "content": "캡슐화의 핵심 이점은 유연성입니다. 내부 구현을 변경해도 인터페이스가 그대로이면 외부 코드에 영향이 없습니다. 또한 유효성 검증을 setter에 집중시켜 객체가 항상 유효한 상태를 유지하도록 보장할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "private 필드: 외부에서 직접 수정 불가",
+            "public 메서드: 허용된 방식으로만 상태 변경",
+            "불변 객체: 모든 필드가 final/readonly → 외부 변경 불가",
+            "Tell, Don't Ask: 데이터를 꺼내지 말고 객체에게 일 시키기"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "상속",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "상속(Inheritance)은 기존 클래스(부모/슈퍼)의 속성과 메서드를 새 클래스(자식/서브)가 재사용하는 메커니즘입니다. 코드 중복을 줄이고 공통 기능을 부모에 집중시킬 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "그러나 상속은 남용하면 안 됩니다. 깊은 상속 계층은 코드 이해를 어렵게 하고, 부모 클래스의 변경이 모든 자식에 영향을 미칩니다. '상속보다 구성(Composition over Inheritance)' 원칙이 현대 OOP의 지침입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "is-a 관계: Dog is a Animal → 상속 적합",
+            "has-a 관계: Car has a Engine → 구성(Composition) 적합",
+            "super: 부모 클래스의 메서드 호출",
+            "다중 상속 문제(다이아몬드): C++만 지원, 대부분 인터페이스로 해결"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "다형성",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "다형성(Polymorphism)은 같은 인터페이스로 다른 구현을 다룰 수 있는 성질입니다. 런타임 다형성(동적 디스패치): 메서드 오버라이딩으로 같은 메서드 호출이 실제 타입에 따라 다르게 동작합니다."
+        },
+        {
+          "type": "text",
+          "content": "다형성을 활용하면 코드가 구체 타입에 의존하지 않고 추상화된 인터페이스에 의존해 유연해집니다. SOLID 원칙의 OCP(개방-폐쇄 원칙): 새 타입을 추가할 때 기존 코드를 수정하지 않고 확장할 수 있습니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "오버라이딩: 자식이 부모 메서드를 재정의",
+            "오버로딩: 같은 이름, 다른 매개변수 (정적 다형성)",
+            "인터페이스/추상 클래스: 구현 강제",
+            "LSP(리스코프 치환): 자식은 부모를 대체 가능해야 함"
+          ]
+        }
+      ]
+    }
+  ]
+}

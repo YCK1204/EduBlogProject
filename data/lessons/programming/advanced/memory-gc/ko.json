@@ -1,0 +1,112 @@
+{
+  "slug": "memory-gc",
+  "tag": "Memory",
+  "estimatedTime": "30분",
+  "relatedSlugs": [
+    "variables-types",
+    "design-patterns-creational",
+    "async-event-loop"
+  ],
+  "title": "메모리 관리와 GC",
+  "summary": "참조 카운팅과 마크-앤-스윕 방식의 가비지 컬렉션 전략, 메모리 누수의 원인과 탐지 방법, 그리고 GC가 성능에 미치는 영향을 이해합니다.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "수동 메모리 관리",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/memory-gc.svg",
+          "alt": "Garbage collection mark and sweep",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "C/C++에서는 개발자가 직접 malloc/free(C) 또는 new/delete(C++)로 메모리를 할당하고 해제합니다. 해제하지 않으면 메모리 누수(Memory Leak), 이미 해제한 메모리를 또 해제하면 Double Free, 해제 후 접근하면 Use-After-Free 버그가 발생합니다."
+        },
+        {
+          "type": "text",
+          "content": "Rust는 소유권(Ownership) 시스템으로 컴파일 시점에 메모리 안전성을 보장합니다. GC 없이도 메모리 누수와 댕글링 포인터를 방지합니다. C++ 스마트 포인터(unique_ptr, shared_ptr)도 유사한 접근입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "스택: 함수 종료 시 자동 해제 (크기 컴파일 타임 결정)",
+            "힙: 수동 또는 GC로 해제 (동적 크기)",
+            "메모리 누수: 할당 후 해제 안 함",
+            "Rust: 소유권으로 컴파일 시 메모리 안전성 보장"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "참조 카운팅",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "참조 카운팅(Reference Counting)은 각 객체에 자신을 참조하는 수를 기록하는 GC 방식입니다. 카운트가 0이 되는 순간 즉시 메모리를 해제합니다. CPython(Python의 C 구현체)이 기본 GC로 사용합니다."
+        },
+        {
+          "type": "text",
+          "content": "참조 카운팅의 치명적 한계는 순환 참조(Circular Reference)입니다. A가 B를 참조하고 B가 A를 참조하면 둘 다 카운트가 0이 되지 않아 영원히 해제되지 않습니다. Python은 보조 GC로 순환 참조를 별도 처리합니다. Swift의 ARC(Automatic Reference Counting)도 같은 방식입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "즉시 해제: 카운트 0이 되는 순간 메모리 반환",
+            "결정론적: 언제 해제되는지 예측 가능",
+            "순환 참조: A→B→A 사이클 → 카운트 0이 안 됨",
+            "Swift ARC: weak 참조로 순환 참조 방지"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "마크-앤-스윕과 세대별 GC",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "마크-앤-스윕(Mark-and-Sweep)은 GC 루트(전역 변수, 스택 변수)에서 시작해 도달 가능한 모든 객체를 마킹하고, 마킹되지 않은 객체를 쓸어냅니다. 순환 참조를 자연스럽게 처리할 수 있습니다."
+        },
+        {
+          "type": "text",
+          "content": "세대별 GC(Generational GC)는 대부분의 객체가 금방 죽는다는 약한 세대 가설(Weak Generational Hypothesis)에 기반합니다. 새로 생성된 객체(Young Generation)를 자주, 오래된 객체(Old Generation)를 가끔 수집합니다. Java, V8, .NET의 GC가 이 방식입니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "마크 단계: GC 루트에서 그래프 탐색해 도달 가능 객체 표시",
+            "스윕 단계: 마킹 안 된 객체 해제",
+            "Stop-the-World: GC 실행 중 애플리케이션 일시 정지",
+            "Young Gen: 자주 수집(Minor GC), Old Gen: 가끔 수집(Major GC)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "GC와 메모리 누수 탐지",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "GC 언어에서도 메모리 누수가 발생합니다. GC는 도달 불가능한 객체만 수집합니다. 의도치 않게 살아있는 참조를 유지하면(예: 이벤트 리스너 미해제, 캐시 무한 증가) GC가 해제하지 못해 메모리가 계속 증가합니다."
+        },
+        {
+          "type": "text",
+          "content": "메모리 누수 탐지 도구: Java는 VisualVM, Eclipse MAT, 브라우저는 Chrome DevTools Memory 탭, Node.js는 --inspect 플래그 + HeapSnapshot. 메모리 사용량이 시간에 따라 계속 증가한다면 누수를 의심해야 합니다."
+        },
+        {
+          "type": "points",
+          "items": [
+            "GC 언어 누수: 참조가 남아있어 GC가 수집 못하는 경우",
+            "흔한 원인: 이벤트 리스너, 타이머, 클로저, 전역 캐시",
+            "WeakMap/WeakRef: 약한 참조 — GC 수집 허용",
+            "힙 스냅샷 비교: 메모리 증가 원인 추적"
+          ]
+        }
+      ]
+    }
+  ]
+}

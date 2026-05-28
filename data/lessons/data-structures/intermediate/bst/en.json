@@ -1,0 +1,112 @@
+{
+  "slug": "bst",
+  "tag": "BST",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "array",
+    "heap",
+    "avl-tree"
+  ],
+  "title": "Binary Search Trees",
+  "summary": "A Binary Search Tree (BST) keeps values smaller than each node on the left and larger values on the right. Search, insertion, and deletion run in O(log n) on average.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "BST Structure and Properties",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/bst-structure.svg",
+          "alt": "Binary Search Tree structure",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "A BST maintains the invariant: left child < current node < right child for every node."
+        },
+        {
+          "type": "text",
+          "content": "This property lets you find an element in O(h) (h = tree height) by comparing and descending from the root. In a balanced tree, h = log n."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Inorder traversal produces elements in sorted order",
+            "Average search/insert/delete: O(log n)",
+            "Worst case (skewed tree): O(n)",
+            "A skewed tree degenerates into a linked list"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Insertion and Search",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Insertion follows the same path as search until it finds a null child slot, then attaches a new node there."
+        },
+        {
+          "type": "text",
+          "content": "Search starts at the root, comparing the target with the current node and moving left or right accordingly, until the value is found or null is reached."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Insertion: new node always added as a leaf",
+            "Search: exactly one path from root to leaf",
+            "Duplicate handling: implementation-dependent",
+            "Both recursive and iterative approaches work"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Deletion — 3 Cases",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "BST deletion falls into three cases. Deleting a leaf is trivial, but deleting a node with children must preserve the tree structure."
+        },
+        {
+          "type": "text",
+          "content": "When deleting a node with two children, find the in-order successor (minimum of the right subtree), copy its value to the current node, then delete the successor."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Case 1: No children (leaf) → simply remove",
+            "Case 2: One child → replace with child",
+            "Case 3: Two children → replace with in-order successor (or predecessor)",
+            "Must prove the BST invariant is maintained after deletion"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "The Skewed Tree Problem",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Inserting a sorted array into a BST in order creates a skewed tree where every node is a right child."
+        },
+        {
+          "type": "text",
+          "content": "A skewed tree has height n, degrading search to O(n). Self-balancing trees like AVL and Red-Black trees were invented to solve this."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Best case: complete binary tree, h = log n",
+            "Worst case: skewed tree, h = n",
+            "Self-balancing solutions: AVL tree, Red-Black tree",
+            "In practice: Java TreeMap and C++ std::map use Red-Black trees"
+          ]
+        }
+      ]
+    }
+  ]
+}

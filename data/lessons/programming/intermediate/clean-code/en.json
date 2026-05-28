@@ -1,0 +1,112 @@
+{
+  "slug": "clean-code",
+  "tag": "Clean Code",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "functions-first-class",
+    "oop-intro",
+    "design-patterns-creational"
+  ],
+  "title": "Clean Code Principles",
+  "summary": "Practical principles for raising code quality: meaningful naming, single-responsibility functions, correct use of comments, and the essentials of DRY, YAGNI, and SOLID.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Meaningful Names",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/clean-code.svg",
+          "alt": "Clean code before vs after refactoring",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "Good names convey intent without comments. Variables should say what they hold; functions should say what they do. Avoid d, temp, or data — prefer elapsedTimeInDays, userAge, fetchUserProfile."
+        },
+        {
+          "type": "text",
+          "content": "Boolean variables use is/has/should/can prefixes. Functions start with verbs (get, set, create, fetch, validate). Classes start with nouns (UserRepository, PaymentService). Consistent conventions improve readability across the entire codebase."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Clarity: d → elapsedTimeInDays",
+            "Pronounceable: genymdhms → generationTimestamp",
+            "Searchable: 7 → MAX_RETRY_COUNT",
+            "Context: firstName → customer.firstName (when context is missing)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Functions Do One Thing",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Single Responsibility Principle: a function should do one thing and do it well. A 100-line function is a signal of multiple responsibilities. Smaller functions are easier to name, test, and reuse."
+        },
+        {
+          "type": "text",
+          "content": "Keep the abstraction level consistent within a function. Mixing business logic with raw SQL queries in the same function is hard to read. Every function should operate at a single level of abstraction."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Function length: under 20 lines recommended (Martin: 4–5 lines)",
+            "Argument count: 3 or fewer recommended (group into an object)",
+            "Flag arguments: a boolean parameter is a signal to split into two functions",
+            "Side effects: don't do anything beyond what the function name promises"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Comments and Code",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Good code explains itself. If a comment is necessary, it usually signals that the code isn't clear enough. Try improving the code first so it is understandable without comments."
+        },
+        {
+          "type": "text",
+          "content": "Comments are still valuable when explaining the 'why': documenting a business constraint, recording a workaround for a specific bug, or clarifying a non-obvious algorithm. A comment explaining why beats one explaining what."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Bad comment: // increment i → i++ (just repeats the code)",
+            "Good comment: // RFC 2822 format required (explains an external constraint)",
+            "Dead code: delete it instead of commenting it out (version control has history)",
+            "TODO comments: specify a date and owner, don't leave them abandoned"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "DRY, YAGNI, and SOLID Essentials",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DRY (Don't Repeat Yourself): eliminate duplicated knowledge. When the same logic lives in two places, one change requires updating both — easy to forget. But don't force abstractions onto code that only looks similar."
+        },
+        {
+          "type": "text",
+          "content": "YAGNI (You Aren't Gonna Need It): don't build features you don't need yet. Code added 'just in case' usually sits unused and increases complexity. From SOLID, OCP and DIP matter most: open for extension, closed for modification; depend on abstractions, not implementations."
+        },
+        {
+          "type": "points",
+          "items": [
+            "DRY: eliminate knowledge duplication (not just code duplication)",
+            "YAGNI: build when needed — no speculative development",
+            "OCP: add new behavior without modifying existing code",
+            "DIP: depend on interfaces, not concrete implementations"
+          ]
+        }
+      ]
+    }
+  ]
+}

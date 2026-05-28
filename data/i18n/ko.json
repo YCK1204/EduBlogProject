@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "dataStructures": "자료구조",
+    "algorithms": "알고리즘",
+    "csBasics": "CS기초",
+    "programming": "프로그래밍"
+  },
+  "category": {
+    "data-structures": {
+      "label": "자료구조",
+      "description": "데이터를 효율적으로 저장하고 접근하는 방법을 다룹니다."
+    },
+    "algorithms": {
+      "label": "알고리즘",
+      "description": "문제를 단계적으로 해결하는 전략과 최적화 방법을 정리합니다."
+    },
+    "cs-basics": {
+      "label": "CS기초",
+      "description": "운영체제, 네트워크, 데이터베이스 등 컴퓨터 과학의 핵심 개념을 다룹니다."
+    },
+    "programming": {
+      "label": "프로그래밍",
+      "description": "언어의 동작 원리부터 클린 코드, 디자인 패턴까지 정리합니다."
+    }
+  },
+  "lesson": {
+    "language": "언어",
+    "relatedTopics": "관련 항목",
+    "stepsCount": "개 스텝",
+    "stepsCompleted": "개 스텝 완료",
+    "backToListPrefix": "← ",
+    "backToListSuffix": " 목록으로",
+    "level": {
+      "초급": "초급",
+      "중급": "중급",
+      "고급": "고급"
+    }
+  },
+  "filter": {
+    "all": "전체",
+    "beginner": "초급",
+    "intermediate": "중급",
+    "advanced": "고급",
+    "searchPlaceholder": "제목, 설명, 태그 검색...",
+    "noResults": "에 해당하는 글이 없습니다.",
+    "noLevel": "해당 레벨의 글이 없습니다."
+  },
+  "home": {
+    "aboutLabel": "About This Blog",
+    "tagline1": "개발을 공부하는",
+    "tagline2": "모든 과정을 기록합니다.",
+    "intro1": "이 블로그는 개념을 외우는 것이 아닌, 직접 이해하고 구현하며 기록하는 공부 노트입니다. 단순한 요약이 아닌",
+    "introEmphasis": "왜 이렇게 동작하는지",
+    "intro2": "를 파고든 내용들을 담고 있습니다.",
+    "dsLabel": "자료구조",
+    "dsHeading1": "데이터를 담는 방법,",
+    "dsHeading2": "자료구조의 기초",
+    "dsBody": "스택, 큐, 트리, 그래프. 각 자료구조가 왜 필요한지, 어떤 문제를 해결하기 위해 고안되었는지부터 시작합니다. 직접 구현하며 내부 동작을 파악하는 방식으로 정리합니다.",
+    "dsCta": "글 보러 가기",
+    "algoLabel": "알고리즘",
+    "algoHeading1": "문제를 푸는 전략,",
+    "algoHeading2": "알고리즘 사고법",
+    "algoBody": "정렬, 탐색, 동적 프로그래밍, 그리디. 공식을 외우는 것이 아니라 각 알고리즘이 어떤 상황에서 유효한지, 왜 그 방식이 효율적인지를 함께 고민합니다.",
+    "algoCta": "글 보러 가기",
+    "csLabel": "CS 기초 · 프로그래밍",
+    "csHeading1": "기초가 단단해야",
+    "csHeading2": "응용이 가능합니다.",
+    "csBody": "운영체제, 네트워크, 데이터베이스, 언어의 동작 원리. 눈에 보이지 않는 곳에서 코드가 어떻게 실행되는지를 이해하면 코드를 보는 시각이 달라집니다.",
+    "csCta": "전체 글 보기"
+  },
+  "footer": {
+    "copyright": "© 2026 DevNote. 공부 기록 블로그."
+  }
+}

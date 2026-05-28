@@ -1,0 +1,112 @@
+{
+  "slug": "http-https",
+  "tag": "Network",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "tcp-ip",
+    "compiler-interpreter",
+    "os-intro"
+  ],
+  "title": "HTTP vs HTTPS",
+  "summary": "HTTP is the request-response protocol that powers the web. Learn about status codes, headers, methods, and how TLS handshakes enable secure HTTPS communication.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "HTTP Request-Response Model",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/http-https.svg",
+          "alt": "HTTP vs HTTPS request-response",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "HTTP (HyperText Transfer Protocol) is a stateless client-server protocol. The client sends a request; the server returns a response."
+        },
+        {
+          "type": "text",
+          "content": "HTTP methods express intent. GET (read), POST (create), PUT/PATCH (update), DELETE (remove) form the basis of REST APIs. The URL + method combination describes what resource to act on."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Stateless: each request is independent — no previous state stored",
+            "GET: retrieve data (cacheable, no body)",
+            "POST: create data (body contains payload)",
+            "Idempotent: GET/PUT/DELETE return the same result when repeated"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Status Codes and Headers",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTP status codes express the result of a request numerically. Ranges: 2xx (success), 3xx (redirection), 4xx (client error), 5xx (server error)."
+        },
+        {
+          "type": "text",
+          "content": "HTTP headers carry metadata for requests and responses: Content-Type (data format), Authorization (auth token), Cache-Control (caching policy), Accept-Encoding (compression)."
+        },
+        {
+          "type": "points",
+          "items": [
+            "200 OK, 201 Created, 204 No Content",
+            "301 Moved Permanently, 302 Found (temporary redirect)",
+            "400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found",
+            "500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "HTTPS and TLS Handshake",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTPS adds TLS (Transport Layer Security) encryption to HTTP. It provides three guarantees: confidentiality (no eavesdropping), integrity (no tampering), and authentication (verifying the server)."
+        },
+        {
+          "type": "text",
+          "content": "The TLS handshake runs once on connection. The client and server negotiate a cipher suite, verify the server certificate, and securely exchange a session key. Subsequent communication uses fast symmetric encryption."
+        },
+        {
+          "type": "points",
+          "items": [
+            "TLS 1.3: 1-RTT handshake (vs 2-RTT before) — faster",
+            "Certificate: CA (Certificate Authority) signs server's public key",
+            "Key exchange: ECDH → session key generation",
+            "HSTS: instructs browsers to only use HTTPS"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "HTTP Version Comparison",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTP/1.1 processes one request per connection, requiring multiple parallel connections for multiple resources. HTTP/2 uses multiplexing to handle many streams over one connection."
+        },
+        {
+          "type": "text",
+          "content": "HTTP/3 replaces TCP with QUIC (UDP-based). It eliminates TCP's head-of-line blocking and speeds up connection setup. Major sites and browsers now support HTTP/3."
+        },
+        {
+          "type": "points",
+          "items": [
+            "HTTP/1.1: connection reuse (Keep-Alive), HOL blocking",
+            "HTTP/2: multiplexing, header compression (HPACK), server push",
+            "HTTP/3: QUIC (UDP-based), faster handshake",
+            "Enabling HTTP/2 on your server is the first performance step"
+          ]
+        }
+      ]
+    }
+  ]
+}

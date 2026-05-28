@@ -1,0 +1,112 @@
+{
+  "slug": "rdb-basics",
+  "tag": "Database",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "os-intro",
+    "tcp-ip",
+    "cpu-cache"
+  ],
+  "title": "Relational Database Fundamentals",
+  "summary": "Understand tables, primary keys, foreign keys, and normalization in relational databases. Learn how SELECT/JOIN queries and indexes work.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "What is the Relational Model?",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/rdb-basics.svg",
+          "alt": "Relational database tables and relationships",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "A relational database stores data in tables. Each row is one record; each column is an attribute. Relationships between tables represent complex data structures."
+        },
+        {
+          "type": "text",
+          "content": "SQL (Structured Query Language) is declarative — you describe what you want, not how to find it. The query optimizer finds the best execution plan."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Table: a set of records with the same structure",
+            "Schema: defines columns, types, and constraints",
+            "ACID: Atomicity, Consistency, Isolation, Durability",
+            "Examples: PostgreSQL, MySQL, SQLite, Oracle"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Primary Key, Foreign Key, Normalization",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A primary key uniquely identifies each row. A foreign key references another table's primary key, defining relationships between tables."
+        },
+        {
+          "type": "text",
+          "content": "Normalization reduces data redundancy and prevents anomalies (insert/delete/update). 1NF → 2NF → 3NF → BCNF apply increasingly strict rules. Over-normalization increases joins, so some denormalization is common in practice."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Primary key: NOT NULL + UNIQUE, row identifier",
+            "Foreign key: referential integrity (no dangling references)",
+            "1NF: atomic values; 2NF: no partial dependencies; 3NF: no transitive dependencies",
+            "Denormalization: intentional redundancy for performance"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Types of JOINs",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A JOIN combines two tables on a condition into one result set. INNER JOIN returns rows matching in both tables; LEFT JOIN returns all rows from the left table plus matched rows from the right."
+        },
+        {
+          "type": "text",
+          "content": "The N+1 query problem is a common performance trap: fetching a list (1 query) then querying each item's details (N queries) causes N+1 total. Solve it with a JOIN or batch loading."
+        },
+        {
+          "type": "points",
+          "items": [
+            "INNER JOIN: rows matching on both sides",
+            "LEFT JOIN: all left rows + matching right rows (NULL if no match)",
+            "N+1 problem: common with ORMs, solve with JOIN or eager loading",
+            "Subquery vs JOIN: modern optimizers produce similar performance"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "How Indexes Work",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "An index is a data structure that speeds up lookups on a column. Most RDBMS use B-Tree indexes by default. Without an index, a full table scan is O(n); with one, it is O(log n)."
+        },
+        {
+          "type": "text",
+          "content": "Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE) due to maintenance cost. Create indexes on frequently queried columns used in WHERE/JOIN/ORDER BY; be cautious on high-write columns."
+        },
+        {
+          "type": "points",
+          "items": [
+            "B-Tree index: fast for range queries and sorting",
+            "Hash index: equality-only lookups (no range support)",
+            "Composite index: (A, B) can satisfy queries on A alone or A+B",
+            "EXPLAIN: check query execution plan — verify index usage"
+          ]
+        }
+      ]
+    }
+  ]
+}

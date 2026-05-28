@@ -1,0 +1,112 @@
+{
+  "slug": "cpu-cache",
+  "tag": "Architecture",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "virtual-memory",
+    "process-thread",
+    "os-intro"
+  ],
+  "title": "CPU Cache and Memory Hierarchy",
+  "summary": "Learn the cache hierarchy that bridges the CPU-memory speed gap, the types and cost of cache misses, and how to write cache-friendly code.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Memory Hierarchy",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/cpu-cache.svg",
+          "alt": "CPU cache hierarchy levels",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "Modern computers have a memory hierarchy where speed and capacity are inversely related. From fastest to slowest: registers → L1 → L2 → L3 cache → RAM → SSD → HDD."
+        },
+        {
+          "type": "text",
+          "content": "When the CPU needs data, it searches registers → L1 → L2 → L3 → RAM in order. A cache hit is fast; a cache miss fetches from a lower level and populates higher levels."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Registers: ~1 cycle, tens of bytes",
+            "L1 cache: ~4 cycles, 32–64 KB",
+            "L2 cache: ~12 cycles, 256 KB–1 MB",
+            "L3 cache: ~40 cycles, several MB"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Types of Cache Misses",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Cache misses fall into three categories. Cold miss (compulsory): first access to data not yet in cache. Capacity miss: working set exceeds cache size. Conflict miss: multiple addresses map to the same cache set."
+        },
+        {
+          "type": "text",
+          "content": "On a miss, a full cache line (typically 64 bytes) is loaded from main memory. Main memory is hundreds of times slower than L1, so reducing cache misses is fundamental to performance optimization."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Cold miss: first access — unavoidable",
+            "Capacity miss: working set larger than cache",
+            "Conflict miss: data crowded into the same cache set",
+            "Cache line: 64-byte unit for memory reads/writes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Spatial and Temporal Locality",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Caches exploit two locality principles. Temporal locality: recently accessed data is likely to be accessed again soon. Spatial locality: addresses near a recently accessed address are likely to be accessed soon."
+        },
+        {
+          "type": "text",
+          "content": "Example of high spatial locality: iterate a 2D array row-by-row. Column-by-column iteration causes far more cache misses because C/Java/Python store arrays in row-major order."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Temporal locality: reusing the same variable in a loop",
+            "Spatial locality: sequential array access, struct field order",
+            "Row-major vs column-major: C/C++/Java/Python use row-major",
+            "Row-major traversal: higher cache hit rate (recommended)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Writing Cache-Friendly Code",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Cache-aware coding can produce dramatic performance differences. The same algorithm with different memory access patterns can vary by 10× or more in speed."
+        },
+        {
+          "type": "text",
+          "content": "False sharing in multi-threaded code occurs when independent variables used by different threads share a cache line. One thread modifying its variable invalidates the other thread's cache. Adding padding between variables separates them into different cache lines."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Structs: place frequently co-accessed fields together",
+            "Array vs linked list: array dominates cache efficiency for sequential access",
+            "False sharing: threads competing over the same cache line",
+            "Cache warming: pre-access data to populate the cache"
+          ]
+        }
+      ]
+    }
+  ]
+}

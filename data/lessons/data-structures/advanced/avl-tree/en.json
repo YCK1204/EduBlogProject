@@ -1,0 +1,112 @@
+{
+  "slug": "avl-tree",
+  "tag": "AVL Tree",
+  "estimatedTime": "35 min",
+  "relatedSlugs": [
+    "bst",
+    "heap",
+    "graph"
+  ],
+  "title": "AVL Trees & Self-Balancing",
+  "summary": "An AVL tree is a self-balancing BST that keeps the height difference between left and right subtrees at most 1 at every node. Rotations restore balance and guarantee O(log n) operations.",
+  "steps": [
+    {
+      "number": 1,
+      "title": "Balance Factor",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each node in an AVL tree tracks its balance factor (BF) = height(left subtree) − height(right subtree)."
+        },
+        {
+          "type": "text",
+          "content": "BF of -1, 0, or +1 means the node is balanced. When BF reaches ±2, rotations restore balance."
+        },
+        {
+          "type": "points",
+          "items": [
+            "BF = height(left) - height(right)",
+            "Balance condition: |BF| ≤ 1 for all nodes",
+            "BF of all ancestors must be updated after insertion/deletion",
+            "Height of an n-node AVL tree: O(log n) guaranteed"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Single Rotations — LL and RR",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/avl-rotation.svg",
+          "alt": "AVL tree LL and RR rotations",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "LL case: insertion into the left subtree of the left child → resolved with a right rotation."
+        },
+        {
+          "type": "text",
+          "content": "RR case: insertion into the right subtree of the right child → resolved with a left rotation. Rotations are O(1) and preserve the BST invariant."
+        },
+        {
+          "type": "points",
+          "items": [
+            "Right rotation: left child becomes new root, old root becomes right child",
+            "Left rotation: right child becomes new root, old root becomes left child",
+            "Must verify BST property (left < root < right) holds after rotation",
+            "Each rotation: O(1)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Double Rotations — LR and RL",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "LR case: insertion into the right subtree of the left child → left-rotate the left child, then right-rotate the root."
+        },
+        {
+          "type": "text",
+          "content": "RL case: insertion into the left subtree of the right child → right-rotate the right child, then left-rotate the root."
+        },
+        {
+          "type": "points",
+          "items": [
+            "LR = Left Rotate(left child) + Right Rotate(root)",
+            "RL = Right Rotate(right child) + Left Rotate(root)",
+            "Four cases in total: LL, RR, LR, RL",
+            "At most one rotation (single or double) needed to rebalance after insertion"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "AVL vs Red-Black Trees",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "AVL trees maintain strict balance (height diff ≤ 1), making lookups faster, but require more rotations on insertion/deletion."
+        },
+        {
+          "type": "text",
+          "content": "Red-Black trees allow looser balance (height diff ≤ 2 log n), making updates faster. Production libraries (Java TreeMap, C++ std::map) typically choose Red-Black."
+        },
+        {
+          "type": "points",
+          "items": [
+            "AVL: faster lookups, more rotations on updates",
+            "Red-Black: faster updates, slightly slower lookups",
+            "Both guarantee worst-case O(log n)",
+            "Read-heavy workloads → AVL; write-heavy → Red-Black"
+          ]
+        }
+      ]
+    }
+  ]
+}

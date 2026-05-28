@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="140" fill="#fafafa" rx="10"/>
+
+  <text x="16" y="22" font-size="10" font-weight="700" fill="#52525b">arr</text>
+  <rect x="30" y="28" width="540" height="82" rx="6" fill="none" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="5 3"/>
+
+  <rect x="46" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="90" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">42</text>
+  <text x="90" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">index 0</text>
+  <text x="90" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1000</text>
+
+  <rect x="146" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="190" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">78</text>
+  <text x="190" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">index 1</text>
+  <text x="190" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1004</text>
+
+  <rect x="246" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="290" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">13</text>
+  <text x="290" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">index 2</text>
+  <text x="290" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1008</text>
+
+  <rect x="346" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="390" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">91</text>
+  <text x="390" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">index 3</text>
+  <text x="390" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x100C</text>
+
+  <rect x="446" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="490" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">5</text>
+  <text x="490" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">index 4</text>
+  <text x="490" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1010</text>
+
+  <text x="300" y="130" font-size="10" fill="#71717a" text-anchor="middle">addr(arr[i]) = Base(0x1000) + i × 4 bytes</text>
+</svg>
