@@ -6,6 +6,8 @@ import Image from "next/image";
 import type { Lesson, Block, CodeBlock as CodeBlockType } from "@/lib/lessonTypes";
 import type { RelatedEntry } from "@/lib/lessonLoader";
 import CodeBlock from "@/components/CodeBlock";
+import EditableBlock from "@/components/EditableBlock";
+import Toast, { useToast } from "@/components/Toast";
 import { useLang } from "@/components/LanguageProvider";
 import { useProgress } from "@/lib/useProgress";
 
@@ -115,8 +117,37 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en"): React.ReactN
 
 export default function LessonView({ koLesson, enLesson, category, relatedEntries }: Props) {
   const { lang, t } = useLang();
-  const lesson = lang === "en" && enLesson ? enLesson : koLesson;
+  const { toast, showToast, hideToast } = useToast();
+  const [editableLesson, setEditableLesson] = useState<Lesson>(koLesson);
+  const [editableEnLesson, setEditableEnLesson] = useState<Lesson | null>(enLesson);
+  const lesson = lang === "en" && editableEnLesson ? editableEnLesson : editableLesson;
   const [activeStep, setActiveStep] = useState(1);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  // Load saved data on component mount
+  useEffect(() => {
+    const saveKey = `lesson-${koLesson.slug}-ko`;
+    const savedKoData = localStorage.getItem(saveKey);
+    if (savedKoData) {
+      try {
+        setEditableLesson(JSON.parse(savedKoData));
+      } catch (error) {
+        console.error("저장된 한국어 데이터를 불러오는 중 오류:", error);
+      }
+    }
+
+    if (enLesson) {
+      const saveKeyEn = `lesson-${koLesson.slug}-en`;
+      const savedEnData = localStorage.getItem(saveKeyEn);
+      if (savedEnData) {
+        try {
+          setEditableEnLesson(JSON.parse(savedEnData));
+        } catch (error) {
+          console.error("저장된 영어 데이터를 불러오는 중 오류:", error);
+        }
+      }
+    }
+  }, [koLesson.slug, enLesson]);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
   const sidebarItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const { markComplete, isComplete } = useProgress();
@@ -159,6 +190,107 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY - 120;
     window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  // Block editing functions
+  const updateLessonData = (updater: (lesson: Lesson) => Lesson) => {
+    if (lang === "en" && editableEnLesson) {
+      setEditableEnLesson(updater(editableEnLesson));
+    } else {
+      setEditableLesson(updater(editableLesson));
+    }
+  };
+
+  const handleDeleteBlock = (stepIndex: number, blockIndex: number) => {
+    updateLessonData(lesson => ({
+      ...lesson,
+      steps: lesson.steps.map((step, i) => 
+        i === stepIndex 
+          ? { ...step, blocks: step.blocks.filter((_, j) => j !== blockIndex) }
+          : step
+      )
+    }));
+  };
+
+  const handleMoveBlock = (stepIndex: number, fromIndex: number, toIndex: number) => {
+    updateLessonData(lesson => ({
+      ...lesson,
+      steps: lesson.steps.map((step, i) => {
+        if (i !== stepIndex) return step;
+        
+        const blocks = [...step.blocks];
+        const [movedBlock] = blocks.splice(fromIndex, 1);
+        const newToIndex = toIndex > fromIndex ? toIndex - 1 : toIndex;
+        blocks.splice(Math.max(0, Math.min(newToIndex, blocks.length)), 0, movedBlock);
+        
+        return { ...step, blocks };
+      })
+    }));
+  };
+
+  const handleDuplicateBlock = (stepIndex: number, blockIndex: number) => {
+    updateLessonData(lesson => ({
+      ...lesson,
+      steps: lesson.steps.map((step, i) => 
+        i === stepIndex 
+          ? { 
+              ...step, 
+              blocks: [
+                ...step.blocks.slice(0, blockIndex + 1),
+                JSON.parse(JSON.stringify(step.blocks[blockIndex])), // Deep copy
+                ...step.blocks.slice(blockIndex + 1)
+              ]
+            }
+          : step
+      )
+    }));
+  };
+
+  const handleCopyBlock = async (stepIndex: number, blockIndex: number) => {
+    try {
+      const blockToCopy = lesson.steps[stepIndex].blocks[blockIndex];
+      const textToCopy = JSON.stringify(blockToCopy, null, 2);
+      
+      // Copy to clipboard using the modern Clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(textToCopy);
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        textArea.remove();
+      }
+      
+      // Show success toast
+      showToast('블록이 클립보드에 복사되었습니다', 'success');
+      
+    } catch (error) {
+      console.error('클립보드 복사 중 오류가 발생했습니다:', error);
+      showToast('클립보드 복사에 실패했습니다', 'error');
+    }
+  };
+
+  const handleSaveChanges = () => {
+    try {
+      // Save to localStorage for demo purposes
+      // In a real app, this would be an API call
+      const saveKey = `lesson-${koLesson.slug}-${lang}`;
+      const dataToSave = lang === "en" && editableEnLesson ? editableEnLesson : editableLesson;
+      localStorage.setItem(saveKey, JSON.stringify(dataToSave));
+      
+      // Show success toast
+      showToast("변경사항이 저장되었습니다!", "success");
+    } catch (error) {
+      console.error("저장 중 오류가 발생했습니다:", error);
+      showToast("저장 중 오류가 발생했습니다.", "error");
+    }
   };
 
   return (
@@ -218,7 +350,29 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
             </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">{lesson.title}</h1>
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{lesson.title}</h1>
+            <div className="flex items-center gap-2">
+              {isEditMode && (
+                <button
+                  onClick={() => handleSaveChanges()}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 transition-colors"
+                >
+                  변경사항 저장
+                </button>
+              )}
+              <button
+                onClick={() => setIsEditMode(!isEditMode)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  isEditMode
+                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+                    : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                }`}
+              >
+                {isEditMode ? "편집 완료" : "편집 모드"}
+              </button>
+            </div>
+          </div>
           <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{lesson.summary}</p>
 
           <div className="mt-6 border-t border-zinc-100 dark:border-zinc-800 pt-5 flex items-start justify-between gap-4">
@@ -287,11 +441,30 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
               id={`step-${step.number}`}
               className="rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden"
             >
-              <div className="p-8 space-y-4">
+              <div className={`p-8 space-y-4 ${isEditMode ? 'pl-16' : ''}`}>
                 <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
                   {step.number}. {step.title}
                 </h2>
-                {step.blocks.map((block, j) => renderBlock(block, j, lang))}
+                <div className="space-y-3">
+                  {step.blocks.map((block, j) => 
+                    isEditMode ? (
+                      <EditableBlock
+                        key={`${step.number}-${j}`}
+                        block={block}
+                        blockIndex={j}
+                        stepIndex={i}
+                        lang={lang}
+                        onDeleteBlock={handleDeleteBlock}
+                        onMoveBlock={handleMoveBlock}
+                        onDuplicateBlock={handleDuplicateBlock}
+                        onCopyBlock={handleCopyBlock}
+                        renderBlock={renderBlock}
+                      />
+                    ) : (
+                      <div key={j}>{renderBlock(block, j, lang)}</div>
+                    )
+                  )}
+                </div>
               </div>
             </section>
           );
@@ -332,6 +505,14 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
           </div>
         </div>
       </div>
+
+      {/* Toast notification */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onHide={hideToast}
+      />
     </div>
   );
 }
