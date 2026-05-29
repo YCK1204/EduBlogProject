@@ -1,0 +1,132 @@
+{
+  "slug": "binary-search",
+  "title": "二分探索",
+  "tag": "Search",
+  "estimatedTime": "15分",
+  "relatedSlugs": [
+    "bubble-selection-sort",
+    "two-pointer",
+    "dynamic-programming"
+  ],
+  "summary": "二分探索は、ソート済み配列から要素をO(log n)で見つけるアルゴリズムです。単純に見えますが境界値の処理が難しく、パラメトリックサーチまで応用範囲が広いです。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "二分探索とは",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/binary-search-ja.svg",
+          "alt": "二分探索による目標値の探索",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "二分探索(Binary Search)は、ソート済み配列で探索範囲を半分ずつ狭めていくアルゴリズムです。中央値(mid)を目標値と比較し、目標値の方が大きければ右半分、小さければ左半分だけを探索します。"
+        },
+        {
+          "type": "text",
+          "content": "線形探索がn個すべてを確認するO(n)であるのに対し、二分探索は各ステップで範囲を半分に狭めるためO(log n)です。n=1,000,000でも最大20回の比較だけで見つけられます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "前提条件: 配列がソート済みである必要がある",
+            "時間計算量: O(log n)",
+            "空間計算量: 反復実装はO(1)、再帰実装はO(log n)のスタック",
+            "n=10億でも最大30回の比較で探索完了"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "実装方法とループ不変条件",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "二分探索の核心はleft、right、midの3つのポインタです。mid = (left + right) / 2で中央のインデックスを求め、arr[mid]と目標値を比較して範囲を狭めます。"
+        },
+        {
+          "type": "text",
+          "content": "注意: left + rightは整数オーバーフローを引き起こす可能性があります。安全な計算はmid = left + (right - left) / 2です。ループ不変条件(Loop Invariant)を明確に定義すると、境界値の誤りを防げます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "while(left <= right): 完全に同じ位置も確認する",
+            "mid = left + (right - left) / 2: オーバーフロー防止",
+            "見つかれば即座に返し、見つからなければ-1を返す",
+            "ループ不変条件: 答えは[left, right]の範囲にある"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "境界値処理の核心",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "二分探索のバグの90%は境界値処理のミスから発生します。while(left < right)を使うかwhile(left <= right)を使うか、rightをmid-1に更新するかmidにするかの選択によって動作が変わります。"
+        },
+        {
+          "type": "text",
+          "content": "目標によって実装が変わります。「完全に一致する要素を探す」場合と「条件を満たす最初の位置を探す(lower_bound)」場合では、異なる実装が必要です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "完全一致探索: while(left <= right)、見つかればreturn mid",
+            "lower_bound: 条件を満たすときright = mid(答えの候補を保存)",
+            "upper_bound: 条件を超過するときleft = mid + 1",
+            "off-by-one: 常に小さな例(n=2,3)で検証する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "パラメトリックサーチの応用",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "二分探索は値を探すこと以外に、「最適値の探索」にも強力に応用できます。「ある条件を満たす最小値/最大値を探す」問題を、二分探索でO(log(範囲) × 条件確認のコスト)で解けます。"
+        },
+        {
+          "type": "text",
+          "content": "例: 「ロープをk本に切って、それぞれの長さがm以上になるようにするとき、最大のmは?」この問題は、mの値に二分探索を適用し、各mに対して条件を満たすかどうかをO(n)で確認します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "パラメトリックサーチ: 答えの範囲に二分探索を適用する",
+            "条件関数f(x)が単調(monotone)であれば適用可能",
+            "代表的な問題: 木の切断、LANケーブルの切断、飛び石渡り",
+            "整数範囲の二分探索: O(log N)、実数範囲: epsに基づく反復"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "実装方法とループ不変条件"
+        },
+        {
+          "type": "code",
+          "python": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1  # 없으면 -1",
+          "javascript": "function binarySearch(arr, target) {\n  let left = 0, right = arr.length - 1;\n  while (left <= right) {\n    const mid = left + Math.floor((right - left) / 2);\n    if (arr[mid] === target) return mid;\n    else if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}",
+          "java": "int binarySearch(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "cpp": "int binarySearch(vector<int>& arr, int target) {\n    int left = 0, right = arr.size() - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "c": "int binarySearch(int arr[], int n, int target) {\n    int left = 0, right = n - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+          "csharp": "int BinarySearch(int[] arr, int target) {\n    int left = 0, right = arr.Length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}"
+        }
+      ]
+    }
+  ]
+}

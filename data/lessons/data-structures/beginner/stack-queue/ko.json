@@ -36,14 +36,6 @@
             "peek: top 원소 확인 (제거 없이) O(1)",
             "활용: 함수 콜 스택, 괄호 유효성 검사, 브라우저 뒤로 가기"
           ]
-        },
-        {
-          "type": "code",
-          "python": "stack = []\nstack.append(1)  # push\nstack.append(2)\nstack.append(3)\nprint(stack.pop())  # 3 (LIFO)\nprint(stack[-1])    # peek: 2",
-          "javascript": "const stack = [];\nstack.push(1);\nstack.push(2);\nstack.push(3);\nconsole.log(stack.pop());  // 3 (LIFO)\nconsole.log(stack[stack.length - 1]);  // peek: 2",
-          "java": "import java.util.Deque;\nimport java.util.ArrayDeque;\nDeque<Integer> stack = new ArrayDeque<>();\nstack.push(1);\nstack.push(2);\nstack.push(3);\nSystem.out.println(stack.pop());   // 3\nSystem.out.println(stack.peek());  // 2",
-          "c": "#define MAX 100\nint stack[MAX];\nint top = -1;\n\nvoid push(int val) { stack[++top] = val; }\nint pop() { return stack[top--]; }\nint peek() { return stack[top]; }",
-          "cpp": "#include <stack>\nstd::stack<int> s;\ns.push(1);\ns.push(2);\ns.push(3);\nstd::cout << s.top();  // peek: 3\ns.pop();               // remove 3"
         }
       ]
     },
@@ -67,12 +59,6 @@
             "활용: BFS 탐색, 프린터 스풀, 프로세스 스케줄링",
             "변형: 덱(Deque), 우선순위 큐(Priority Queue)"
           ]
-        },
-        {
-          "type": "code",
-          "python": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
-          "javascript": "const queue = [];\nqueue.push(1);  // enqueue\nqueue.push(2);\nqueue.push(3);\nconsole.log(queue.shift());  // 1 (FIFO) — O(n)!\n// 효율적인 큐는 별도 구현 필요",
-          "java": "import java.util.Queue;\nimport java.util.LinkedList;\nQueue<Integer> queue = new LinkedList<>();\nqueue.offer(1);  // enqueue\nqueue.offer(2);\nqueue.offer(3);\nSystem.out.println(queue.poll());  // 1 (FIFO)"
         }
       ]
     },
@@ -119,6 +105,36 @@
             "꼬리 재귀 최적화(TCO): 일부 언어에서 스택 프레임 재사용",
             "DFS 구현: 재귀 ↔ 명시적 스택으로 상호 변환 가능"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "예시 코드",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "스택(Stack) — LIFO"
+        },
+        {
+          "type": "code",
+          "python": "stack = []\nstack.append(1)  # push\nstack.append(2)\nstack.append(3)\nprint(stack.pop())  # 3 (LIFO)\nprint(stack[-1])    # peek: 2",
+          "javascript": "const stack = [];\nstack.push(1);\nstack.push(2);\nstack.push(3);\nconsole.log(stack.pop());  // 3 (LIFO)\nconsole.log(stack[stack.length - 1]);  // peek: 2",
+          "java": "import java.util.Deque;\nimport java.util.ArrayDeque;\nDeque<Integer> stack = new ArrayDeque<>();\nstack.push(1);\nstack.push(2);\nstack.push(3);\nSystem.out.println(stack.pop());   // 3\nSystem.out.println(stack.peek());  // 2",
+          "c": "#define MAX 100\nint stack[MAX];\nint top = -1;\n\nvoid push(int val) { stack[++top] = val; }\nint pop() { return stack[top--]; }\nint peek() { return stack[top]; }",
+          "cpp": "#include <stack>\nstd::stack<int> s;\ns.push(1);\ns.push(2);\ns.push(3);\nstd::cout << s.top();  // peek: 3\ns.pop();               // remove 3"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "큐(Queue) — FIFO"
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
+          "javascript": "const queue = [];\nqueue.push(1);  // enqueue\nqueue.push(2);\nqueue.push(3);\nconsole.log(queue.shift());  // 1 (FIFO) — O(n)!\n// 효율적인 큐는 별도 구현 필요",
+          "java": "import java.util.Queue;\nimport java.util.LinkedList;\nQueue<Integer> queue = new LinkedList<>();\nqueue.offer(1);  // enqueue\nqueue.offer(2);\nqueue.offer(3);\nSystem.out.println(queue.poll());  // 1 (FIFO)"
         }
       ]
     }

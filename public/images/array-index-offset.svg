@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 170" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <rect width="600" height="170" fill="#fafafa" rx="10"/>
 
-  <text x="300" y="18" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Index = offset from base address</text>
+  <text x="300" y="18" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">인덱스 = 기준 주소로부터의 오프셋</text>
 
   <rect x="30" y="26" width="84" height="50" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
   <text x="72" y="50" font-size="14" font-weight="700" fill="#18181b" text-anchor="middle">42</text>
@@ -32,10 +32,10 @@
   <line x1="20" y1="100" x2="580" y2="100" stroke="#e4e4e7" stroke-width="1"/>
 
   <rect x="30" y="110" width="240" height="42" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
-  <text x="150" y="126" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">0-based (current)</text>
+  <text x="150" y="126" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">0 기반 (현재)</text>
   <text x="150" y="142" font-size="10" fill="#047857" text-anchor="middle" font-weight="600">addr = Base + i × size  ✓</text>
 
   <rect x="290" y="110" width="280" height="42" rx="6" fill="#fef2f2" stroke="#f87171" stroke-width="1"/>
-  <text x="430" y="126" font-size="9.5" font-weight="700" fill="#991b1b" text-anchor="middle">1-based (hypothetical)</text>
+  <text x="430" y="126" font-size="9.5" font-weight="700" fill="#991b1b" text-anchor="middle">1 기반 (가정)</text>
   <text x="430" y="142" font-size="10" fill="#b91c1c" text-anchor="middle" font-weight="600">addr = Base + (i−1) × size  ✗</text>
 </svg>

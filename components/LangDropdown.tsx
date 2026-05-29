@@ -7,6 +7,7 @@ import type { Lang } from "@/lib/i18n";
 const OPTIONS: { value: Lang; label: string }[] = [
   { value: "ko", label: "한국어" },
   { value: "en", label: "English" },
+  { value: "ja", label: "日本語" },
 ];
 
 export default function LangDropdown() {

@@ -5,13 +5,13 @@
     <marker id="g" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#10b981"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Dijkstra's Algorithm — Shortest Path from A</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">다익스트라 알고리즘 — A에서의 최단 경로</text>
 
   <!-- Graph -->
   <!-- Nodes: A(source), B, C, D, E -->
   <circle cx="80"  cy="100" r="22" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
   <text x="80"  y="105" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
-  <text x="80"  y="82" font-size="8" fill="#f59e0b" text-anchor="middle">start</text>
+  <text x="80"  y="82" font-size="8" fill="#f59e0b" text-anchor="middle">시작</text>
 
   <circle cx="200" cy="50"  r="20" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <text x="200" y="55" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
@@ -41,17 +41,17 @@
 
   <!-- dist table on right -->
   <rect x="360" y="28" width="220" height="148" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="470" y="46" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">Distance Table (from A)</text>
+  <text x="470" y="46" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">거리 표 (A 기준)</text>
 
   <!-- header -->
-  <text x="395" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">Node</text>
-  <text x="480" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">dist</text>
-  <text x="550" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">prev</text>
+  <text x="395" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">노드</text>
+  <text x="480" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">거리</text>
+  <text x="550" y="62" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">이전</text>
   <line x1="365" y1="66" x2="576" y2="66" stroke="#d4d4d8" stroke-width="1"/>
 
   <!-- rows -->
   <rect x="365" y="68" width="210" height="20" rx="0" fill="#fef3c7"/>
-  <text x="395" y="82" font-size="9" fill="#18181b" text-anchor="middle">A (start)</text>
+  <text x="395" y="82" font-size="9" fill="#18181b" text-anchor="middle">A (시작)</text>
   <text x="480" y="82" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">0</text>
   <text x="550" y="82" font-size="9" fill="#a1a1aa" text-anchor="middle">—</text>
 
@@ -71,5 +71,5 @@
   <text x="480" y="162" font-size="9" font-weight="700" fill="#18181b" text-anchor="middle">7</text>
   <text x="550" y="162" font-size="9" fill="#52525b" text-anchor="middle">C</text>
 
-  <text x="300" y="190" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Greedy: always expand the unvisited node with smallest dist  ·  O((V+E) log V) with priority queue</text>
+  <text x="300" y="190" font-size="8.5" fill="#a1a1aa" text-anchor="middle">탐욕: 항상 거리가 가장 작은 미방문 노드를 확장  ·  우선순위 큐 사용 시 O((V+E) log V)</text>
 </svg>

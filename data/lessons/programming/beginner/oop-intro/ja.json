@@ -1,0 +1,131 @@
+{
+  "slug": "oop-intro",
+  "tag": "OOP",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "variables-types",
+    "design-patterns-creational",
+    "clean-code"
+  ],
+  "title": "オブジェクト指向プログラミング入門",
+  "summary": "オブジェクト指向の4つの柱 — クラスとインスタンス、カプセル化、継承、ポリモーフィズム — を実際の例とともに紹介し、それぞれの強みやよくある誤用パターンを解説します。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "クラスとインスタンス",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/oop-intro-ja.svg",
+          "alt": "オブジェクト指向のクラスとインスタンス",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "クラスはオブジェクトの設計図です。インスタンスはその設計図から作られた具体的なオブジェクトです。たとえば「Car」クラスはテンプレートを定義し、あなたの車と私の車は同じクラスの別々のインスタンスです。"
+        },
+        {
+          "type": "text",
+          "content": "クラスはフィールド（状態）とメソッド（振る舞い）から構成されます。コンストラクタはインスタンスが生成されるときに実行され、初期状態を設定します。'this' キーワードは現在のインスタンスを指します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "クラス: 状態（フィールド）と振る舞い（メソッド）の設計図",
+            "インスタンス: 'new' で生成され、ヒープに格納される",
+            "コンストラクタ: オブジェクトの初期化を担当する",
+            "this: 現在のインスタンスへの参照"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "カプセル化",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "カプセル化はオブジェクトの内部実装を隠し、定義されたインターフェース（メソッド）を通してのみアクセスを許可します。フィールドをprivateにして、getter/setterだけを公開するのが代表的な例です。"
+        },
+        {
+          "type": "text",
+          "content": "カプセル化の中心的な利点は柔軟性です。インターフェースが同じままであれば、内部実装を変更しても外部のコードは壊れません。検証ロジックをsetterに集約することで、オブジェクトが常に正しい状態を保つことを保証できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "privateフィールド: 外部から直接変更できない",
+            "publicメソッド: 許可された操作を通してのみ状態が変わる",
+            "イミュータブルなオブジェクト: すべてのフィールドがfinal/readonly — 外部からの変更なし",
+            "Tell, Don't Ask: データを取り出すのではなく、オブジェクトに作業を依頼する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "継承",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "継承を使うと、子クラスは親（super）クラスのフィールドやメソッドを再利用できます。コードの重複を減らし、共通の振る舞いを親に集約できます。"
+        },
+        {
+          "type": "text",
+          "content": "しかし継承は過剰に使われやすいものです。深い階層はコードを追いにくくし、親への変更がすべての子に波及します。「継承よりコンポジション（Composition over Inheritance）」が現代のオブジェクト指向における指針です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "is-a関係: DogはAnimalである → 継承が適している",
+            "has-a関係: CarはEngineを持つ → コンポジションが適している",
+            "super: 親クラスのメソッドを呼び出す",
+            "ダイヤモンド問題: 多重継承をサポートするのはC++のみ、ほとんどの言語は代わりにインターフェースを使う"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "ポリモーフィズム",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ポリモーフィズムとは、同じインターフェースが異なる実装に対して機能できることを意味します。実行時ポリモーフィズム（動的ディスパッチ）では、メソッドのオーバーライドによって、同じメソッド呼び出しが実際の型に応じて異なる振る舞いをします。"
+        },
+        {
+          "type": "text",
+          "content": "ポリモーフィズムによって、コードは具象型ではなく抽象的なインターフェースに依存でき、柔軟性が保たれます。OCP（開放閉鎖の原則）: 既存のコードを変更することなく、新しい型を追加することで振る舞いを拡張できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "オーバーライド: 子が親のメソッドを再定義する",
+            "オーバーロード: 同じ名前で異なる仮引数（静的ポリモーフィズム）",
+            "インターフェース／抽象クラス: 契約を強制する",
+            "LSP（リスコフの置換原則）: 子は親と置き換え可能でなければならない"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "クラスとインスタンス"
+        },
+        {
+          "type": "code",
+          "python": "class Dog:\n    def __init__(self, name: str, breed: str):\n        self.name = name      # instance field\n        self.breed = breed\n\n    def bark(self) -> str:\n        return f\"{self.name}: Woof!\"\n\n# create instances\ndog1 = Dog(\"Buddy\", \"Labrador\")\ndog2 = Dog(\"Max\", \"Poodle\")\nprint(dog1.bark())  # Buddy: Woof!\nprint(dog2.name)    # Max",
+          "javascript": "class Dog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n  }\n\n  bark() {\n    return `${this.name}: Woof!`;\n  }\n}\n\nconst dog1 = new Dog(\"Buddy\", \"Labrador\");\nconst dog2 = new Dog(\"Max\", \"Poodle\");\nconsole.log(dog1.bark()); // Buddy: Woof!",
+          "java": "public class Dog {\n    private String name;\n    private String breed;\n\n    public Dog(String name, String breed) {\n        this.name = name;\n        this.breed = breed;\n    }\n\n    public String bark() {\n        return name + \": Woof!\";\n    }\n}\n\nDog dog1 = new Dog(\"Buddy\", \"Labrador\");\nSystem.out.println(dog1.bark()); // Buddy: Woof!",
+          "csharp": "public class Dog {\n    public string Name { get; }\n    public string Breed { get; }\n\n    public Dog(string name, string breed) {\n        Name = name;\n        Breed = breed;\n    }\n\n    public string Bark() => $\"{Name}: Woof!\";\n}\n\nvar dog1 = new Dog(\"Buddy\", \"Labrador\");\nConsole.WriteLine(dog1.Bark()); // Buddy: Woof!",
+          "cpp": "#include <string>\n#include <iostream>\n\nclass Dog {\nprivate:\n    std::string name;\n    std::string breed;\npublic:\n    Dog(const std::string& name, const std::string& breed)\n        : name(name), breed(breed) {}\n\n    std::string bark() const {\n        return name + \": Woof!\";\n    }\n};\n\nDog dog1(\"Buddy\", \"Labrador\");\nstd::cout << dog1.bark(); // Buddy: Woof!"
+        }
+      ]
+    }
+  ]
+}

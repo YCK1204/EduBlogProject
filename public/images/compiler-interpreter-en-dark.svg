@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#52525b"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">Compiler vs Interpreter — Code Execution Models</text>
+
+  <!-- Top: Compiler -->
+  <text x="150" y="34" font-size="10" font-weight="700" fill="#60a5fa" text-anchor="middle">Compiler (ahead-of-time)</text>
+
+  <rect x="20" y="42" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="60" y="58" font-size="9" font-weight="700" fill="#93c5fd" text-anchor="middle">Source Code</text>
+
+  <line x1="100" y1="54" x2="134" y2="54" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="134" y="42" width="80" height="26" rx="4" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="174" y="58" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">Compiler</text>
+
+  <line x1="214" y1="54" x2="248" y2="54" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="248" y="42" width="80" height="26" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="288" y="58" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">Machine Code</text>
+
+  <!-- Bottom: Interpreter -->
+  <text x="150" y="108" font-size="10" font-weight="700" fill="#fbbf24" text-anchor="middle">Interpreter (just-in-time)</text>
+
+  <rect x="20" y="116" width="80" height="26" rx="4" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="60" y="132" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">Source Code</text>
+
+  <line x1="100" y1="128" x2="134" y2="128" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="134" y="116" width="80" height="26" rx="4" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="174" y="132" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">Interpreter</text>
+
+  <line x1="214" y1="128" x2="248" y2="128" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="248" y="116" width="80" height="26" rx="4" fill="#3a1a1a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="288" y="132" font-size="9" font-weight="700" fill="#fca5a5" text-anchor="middle">Execute</text>
+
+  <!-- Comparison table -->
+  <rect x="352" y="28" width="230" height="152" rx="6" fill="#27272a" stroke="#3f3f46" stroke-width="1"/>
+  <text x="467" y="46" font-size="9.5" font-weight="700" fill="#fafafa" text-anchor="middle">Key Differences</text>
+
+  <!-- Headers -->
+  <text x="390" y="62" font-size="8.5" font-weight="700" fill="#d4d4d8" text-anchor="middle">Aspect</text>
+  <text x="450" y="62" font-size="8.5" font-weight="700" fill="#60a5fa" text-anchor="middle">Compiler</text>
+  <text x="520" y="62" font-size="8.5" font-weight="700" fill="#fbbf24" text-anchor="middle">Interpreter</text>
+  <line x1="357" y1="65" x2="575" y2="65" stroke="#3f3f46" stroke-width="1"/>
+
+  <!-- Rows -->
+  <text x="390" y="78" font-size="8" fill="#d4d4d8" text-anchor="middle">Speed</text>
+  <text x="450" y="78" font-size="8" fill="#34d399" text-anchor="middle">Fast</text>
+  <text x="520" y="78" font-size="8" fill="#f87171" text-anchor="middle">Slower</text>
+
+  <text x="390" y="94" font-size="8" fill="#d4d4d8" text-anchor="middle">Setup</text>
+  <text x="450" y="94" font-size="8" fill="#f87171" text-anchor="middle">Build step</text>
+  <text x="520" y="94" font-size="8" fill="#34d399" text-anchor="middle">Immediate</text>
+
+  <text x="390" y="110" font-size="8" fill="#d4d4d8" text-anchor="middle">Debug</text>
+  <text x="450" y="110" font-size="8" fill="#f87171" text-anchor="middle">Complex</text>
+  <text x="520" y="110" font-size="8" fill="#34d399" text-anchor="middle">Easy</text>
+
+  <text x="390" y="126" font-size="8" fill="#d4d4d8" text-anchor="middle">Memory</text>
+  <text x="450" y="126" font-size="8" fill="#34d399" text-anchor="middle">Efficient</text>
+  <text x="520" y="126" font-size="8" fill="#f87171" text-anchor="middle">Higher</text>
+
+  <text x="390" y="142" font-size="8" fill="#d4d4d8" text-anchor="middle">Platform</text>
+  <text x="450" y="142" font-size="8" fill="#f87171" text-anchor="middle">Specific</text>
+  <text x="520" y="142" font-size="8" fill="#34d399" text-anchor="middle">Portable</text>
+
+  <text x="390" y="158" font-size="8" fill="#d4d4d8" text-anchor="middle">Examples</text>
+  <text x="450" y="158" font-size="7.5" fill="#60a5fa" text-anchor="middle">C, Rust, Go</text>
+  <text x="520" y="158" font-size="7.5" fill="#fbbf24" text-anchor="middle">Python, JS</text>
+
+  <text x="300" y="192" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Modern languages often use hybrid approaches (bytecode, JIT compilation)</text>
+</svg>

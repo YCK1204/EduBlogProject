@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/design-patterns-creational.svg",
+          "src": "/images/design-patterns-creational-en.svg",
           "alt": "Singleton and Factory design patterns",
           "width": 88
         },

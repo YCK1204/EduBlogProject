@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "dataStructures": "データ構造",
+    "algorithms": "アルゴリズム",
+    "csBasics": "CS基礎",
+    "programming": "プログラミング"
+  },
+  "category": {
+    "data-structures": {
+      "label": "データ構造",
+      "description": "データを効率的に保存・アクセスする方法を扱います。"
+    },
+    "algorithms": {
+      "label": "アルゴリズム",
+      "description": "問題を段階的に解決する戦略と最適化の方法を整理します。"
+    },
+    "cs-basics": {
+      "label": "CS基礎",
+      "description": "OS、ネットワーク、データベースなど、コンピュータサイエンスの核心概念を扱います。"
+    },
+    "programming": {
+      "label": "プログラミング",
+      "description": "言語の動作原理からクリーンコード、デザインパターンまで整理します。"
+    }
+  },
+  "lesson": {
+    "language": "言語",
+    "relatedTopics": "関連項目",
+    "stepsCount": "ステップ",
+    "stepsCompleted": "ステップ完了",
+    "backToListPrefix": "← ",
+    "backToListSuffix": "の一覧へ戻る",
+    "level": {
+      "초급": "初級",
+      "중급": "中級",
+      "고급": "上級"
+    }
+  },
+  "filter": {
+    "all": "すべて",
+    "beginner": "初級",
+    "intermediate": "中級",
+    "advanced": "上級",
+    "searchPlaceholder": "タイトル・説明・タグで検索...",
+    "noResults": "に一致する記事がありません。",
+    "noLevel": "このレベルの記事はありません。"
+  },
+  "home": {
+    "aboutLabel": "About This Blog",
+    "tagline1": "開発を学ぶ",
+    "tagline2": "すべての過程を記録します。",
+    "intro1": "このブログは概念を暗記するのではなく、自分で理解し、実装し、記録する学習ノートです。単なる要約ではなく、",
+    "introEmphasis": "なぜこう動作するのか",
+    "intro2": "を掘り下げた内容をまとめています。",
+    "dsLabel": "データ構造",
+    "dsHeading1": "データを格納する方法、",
+    "dsHeading2": "データ構造の基礎",
+    "dsBody": "スタック、キュー、ツリー、グラフ。各データ構造がなぜ必要なのか、どんな問題を解決するために考案されたのかから始めます。自分で実装しながら内部の動作を把握する形で整理します。",
+    "dsCta": "記事を見る",
+    "algoLabel": "アルゴリズム",
+    "algoHeading1": "問題を解く戦略、",
+    "algoHeading2": "アルゴリズム的思考",
+    "algoBody": "ソート、探索、動的計画法、貪欲法。公式を暗記するのではなく、各アルゴリズムがどんな状況で有効なのか、なぜその方法が効率的なのかを一緒に考えます。",
+    "algoCta": "記事を見る",
+    "csLabel": "CS基礎 · プログラミング",
+    "csHeading1": "基礎が固いほど",
+    "csHeading2": "応用が可能になります。",
+    "csBody": "OS、ネットワーク、データベース、言語の動作原理。目に見えないところでコードがどう実行されるかを理解すると、コードを見る視点が変わります。",
+    "csCta": "すべての記事を見る"
+  },
+  "footer": {
+    "copyright": "© 2026 DevNote. 学習記録ブログ。"
+  }
+}

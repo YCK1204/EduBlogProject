@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#52525b"/></marker>
+    <marker id="g" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#10b981"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">다익스트라 알고리즘 — A에서의 최단 경로</text>
+
+  <!-- Graph -->
+  <!-- Nodes: A(source), B, C, D, E -->
+  <circle cx="80"  cy="100" r="22" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="80"  y="105" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">A</text>
+  <text x="80"  y="82" font-size="8" fill="#fbbf24" text-anchor="middle">시작</text>
+
+  <circle cx="200" cy="50"  r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="200" y="55" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">B</text>
+  <circle cx="200" cy="150" r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="200" y="155" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">C</text>
+  <circle cx="310" cy="80"  r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="310" y="85" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">D</text>
+  <circle cx="310" cy="145" r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="310" y="150" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">E</text>
+
+  <!-- Edges with weights -->
+  <line x1="100" y1="88" x2="182" y2="60" stroke="#52525b" stroke-width="1.5"/>
+  <text x="138" y="70" font-size="9" fill="#d4d4d8" text-anchor="middle">4</text>
+  <line x1="100" y1="112" x2="182" y2="140" stroke="#52525b" stroke-width="1.5"/>
+  <text x="138" y="132" font-size="9" fill="#d4d4d8" text-anchor="middle">2</text>
+  <line x1="218" y1="62" x2="292" y2="80" stroke="#52525b" stroke-width="1.5"/>
+  <text x="258" y="65" font-size="9" fill="#d4d4d8" text-anchor="middle">3</text>
+  <line x1="218" y1="142" x2="292" y2="138" stroke="#52525b" stroke-width="1.5"/>
+  <text x="258" y="148" font-size="9" fill="#d4d4d8" text-anchor="middle">5</text>
+  <line x1="200" y1="70" x2="200" y2="132" stroke="#52525b" stroke-width="1.5"/>
+  <text x="212" y="104" font-size="9" fill="#d4d4d8">6</text>
+  <line x1="310" y1="100" x2="310" y2="127" stroke="#52525b" stroke-width="1.5"/>
+  <text x="322" y="116" font-size="9" fill="#d4d4d8">1</text>
+
+  <!-- Shortest path highlight: A→C→D→E cost 2+?+1 no, A→C→E=2+5=7, A→B→D=4+3=7 -->
+  <!-- Shortest: A→C=2, A→C→E=7, A→B=4, A→B→D=7 -->
+
+  <!-- dist table on right -->
+  <rect x="360" y="28" width="220" height="148" rx="6" fill="#27272a" stroke="#3f3f46" stroke-width="1"/>
+  <text x="470" y="46" font-size="9.5" font-weight="700" fill="#fafafa" text-anchor="middle">거리 표 (A 기준)</text>
+
+  <!-- header -->
+  <text x="395" y="62" font-size="9" font-weight="700" fill="#d4d4d8" text-anchor="middle">노드</text>
+  <text x="480" y="62" font-size="9" font-weight="700" fill="#d4d4d8" text-anchor="middle">거리</text>
+  <text x="550" y="62" font-size="9" font-weight="700" fill="#d4d4d8" text-anchor="middle">이전</text>
+  <line x1="365" y1="66" x2="576" y2="66" stroke="#3f3f46" stroke-width="1"/>
+
+  <!-- rows -->
+  <rect x="365" y="68" width="210" height="20" rx="0" fill="#33280f"/>
+  <text x="395" y="82" font-size="9" fill="#fafafa" text-anchor="middle">A (시작)</text>
+  <text x="480" y="82" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">0</text>
+  <text x="550" y="82" font-size="9" fill="#a1a1aa" text-anchor="middle">—</text>
+
+  <text x="395" y="102" font-size="9" fill="#fafafa" text-anchor="middle">B</text>
+  <text x="480" y="102" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">4</text>
+  <text x="550" y="102" font-size="9" fill="#d4d4d8" text-anchor="middle">A</text>
+
+  <text x="395" y="122" font-size="9" fill="#fafafa" text-anchor="middle">C</text>
+  <text x="480" y="122" font-size="9" font-weight="700" fill="#34d399" text-anchor="middle">2 ✓</text>
+  <text x="550" y="122" font-size="9" fill="#d4d4d8" text-anchor="middle">A</text>
+
+  <text x="395" y="142" font-size="9" fill="#fafafa" text-anchor="middle">D</text>
+  <text x="480" y="142" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">7</text>
+  <text x="550" y="142" font-size="9" fill="#d4d4d8" text-anchor="middle">B</text>
+
+  <text x="395" y="162" font-size="9" fill="#fafafa" text-anchor="middle">E</text>
+  <text x="480" y="162" font-size="9" font-weight="700" fill="#fafafa" text-anchor="middle">7</text>
+  <text x="550" y="162" font-size="9" fill="#d4d4d8" text-anchor="middle">C</text>
+
+  <text x="300" y="190" font-size="8.5" fill="#a1a1aa" text-anchor="middle">탐욕: 항상 거리가 가장 작은 미방문 노드를 확장  ·  우선순위 큐 사용 시 O((V+E) log V)</text>
+</svg>

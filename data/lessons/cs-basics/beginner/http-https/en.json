@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/http-https.svg",
+          "src": "/images/http-https-en.svg",
           "alt": "HTTP vs HTTPS request-response",
           "width": 85
         },

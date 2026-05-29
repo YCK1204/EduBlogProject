@@ -1,0 +1,129 @@
+{
+  "slug": "dijkstra",
+  "tag": "Shortest Path",
+  "estimatedTime": "35 min",
+  "relatedSlugs": [
+    "bfs-dfs",
+    "dynamic-programming",
+    "recursion"
+  ],
+  "title": "ダイクストラ法",
+  "summary": "ダイクストラ法は、重み付きグラフにおいて単一始点からの最短経路を求めるアルゴリズムです。貪欲法と優先度付きキューを用いることで、O((V+E) log V) を達成します。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "最短経路問題とは",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "最短経路問題は、重み付きグラフ内の2つの頂点間で最小コストの経路を求める問題です。ナビゲーション、ネットワークルーティング、ゲームの A* などの基盤となっています。"
+        },
+        {
+          "type": "text",
+          "content": "重みなしの最短経路は BFS により O(V+E) で解くことができます。重み付きグラフではダイクストラ法またはベルマン・フォード法が必要です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "単一始点最短経路 (SSSP): 1つの頂点から他のすべての頂点へ",
+            "全点対最短経路 (APSP): すべてのペア → フロイド・ワーシャル法",
+            "重みなし: BFS O(V+E)",
+            "正の重み: ダイクストラ法 O((V+E) log V)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "ダイクストラ法の核心となる考え方",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dijkstra-ja.svg",
+          "alt": "ダイクストラ最短経路アルゴリズム",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "ダイクストラ法は貪欲法を用います。始点からの既知の最短距離を保持する dist[] 配列を管理し、未処理の頂点のうち dist が最小のものを繰り返し選び、その隣接頂点を緩和（リラックス）します。"
+        },
+        {
+          "type": "text",
+          "content": "重要な定理: ある頂点の距離が確定すると、その最短経路は確定します。緩和: dist[u] + w(u,v) < dist[v] ならば dist[v] を更新します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "初期化: dist[start] = 0、その他すべて = ∞",
+            "各ステップ: dist が最小の未処理頂点を選ぶ",
+            "緩和: dist[u] + w(u,v) < dist[v] ならば dist[v] を更新",
+            "貪欲法の正当性: 負の辺がなければ保証される"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "優先度付きキューによる効率的な実装",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "素朴な実装（各ステップですべての頂点を走査）は O(V²) です。最小ヒープを使って最小距離の頂点を O(log V) で選択することで、全体を O((V+E) log V) に削減できます。"
+        },
+        {
+          "type": "text",
+          "content": "(dist[v], v) のペアをヒープに push します。pop するときは、保存された距離が現在の dist[v] を超えるエントリはスキップします。それらは古い情報だからです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "(距離, 頂点) のペアを最小ヒープに push する",
+            "pop 時: 保存された距離 > 現在の dist[v] ならスキップ",
+            "緩和に成功したとき: 新しい (距離, 頂点) を push する",
+            "計算量: 隣接リストで O((V+E) log V)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "限界と代替手法",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ダイクストラ法は負の辺の重みを扱えません。貪欲な選択が破綻するためです。ベルマン・フォード法は O(VE) ですが、負の辺を扱え、負の閉路を検出できます。"
+        },
+        {
+          "type": "text",
+          "content": "実用上、ダイクストラ法はナビゲーション（地図、ゲームの A*）やネットワークルーティング（OSPF）を支えています。負の辺がない現実世界の問題のほとんどにとって最良の選択肢です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "負の辺: 代わりにベルマン・フォード法を使う",
+            "負の閉路: 最短経路は未定義 — 検出のみ可能",
+            "密なグラフ: O(V²) の実装の方が速い場合がある",
+            "A*: ダイクストラ法 + ヒューリスティック（目的地方向を優先する）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "優先度付きキューによる効率的な実装"
+        },
+        {
+          "type": "code",
+          "python": "import heapq\n\ndef dijkstra(graph, start, V):\n    dist = [float('inf')] * V\n    dist[start] = 0\n    heap = [(0, start)]\n\n    while heap:\n        d, u = heapq.heappop(heap)\n        if d > dist[u]:\n            continue\n        for v, w in graph[u]:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n                heapq.heappush(heap, (dist[v], v))\n    return dist",
+          "javascript": "function dijkstra(graph, start, V) {\n  const dist = new Array(V).fill(Infinity);\n  dist[start] = 0;\n  const visited = new Set();\n\n  for (let i = 0; i < V; i++) {\n    let u = -1;\n    for (let v = 0; v < V; v++)\n      if (!visited.has(v) && (u === -1 || dist[v] < dist[u])) u = v;\n    if (dist[u] === Infinity) break;\n    visited.add(u);\n    for (const [v, w] of graph[u])\n      if (dist[u] + w < dist[v]) dist[v] = dist[u] + w;\n  }\n  return dist;\n}",
+          "java": "int[] dijkstra(List<int[]>[] graph, int start, int V) {\n    int[] dist = new int[V];\n    Arrays.fill(dist, Integer.MAX_VALUE);\n    dist[start] = 0;\n    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n    pq.offer(new int[]{0, start});\n\n    while (!pq.isEmpty()) {\n        int[] cur = pq.poll();\n        int d = cur[0], u = cur[1];\n        if (d > dist[u]) continue;\n        for (int[] edge : graph[u]) {\n            int v = edge[0], w = edge[1];\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                pq.offer(new int[]{dist[v], v});\n            }\n        }\n    }\n    return dist;\n}"
+        }
+      ]
+    }
+  ]
+}

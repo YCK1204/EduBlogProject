@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/oop-intro.svg",
+          "src": "/images/oop-intro-en.svg",
           "alt": "OOP class and instances",
           "width": 85
         },
@@ -36,14 +36,6 @@
             "Constructor: responsible for initializing the object",
             "this: reference to the current instance"
           ]
-        },
-        {
-          "type": "code",
-          "python": "class Dog:\n    def __init__(self, name: str, breed: str):\n        self.name = name      # instance field\n        self.breed = breed\n\n    def bark(self) -> str:\n        return f\"{self.name}: Woof!\"\n\n# create instances\ndog1 = Dog(\"Buddy\", \"Labrador\")\ndog2 = Dog(\"Max\", \"Poodle\")\nprint(dog1.bark())  # Buddy: Woof!\nprint(dog2.name)    # Max",
-          "javascript": "class Dog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n  }\n\n  bark() {\n    return `${this.name}: Woof!`;\n  }\n}\n\nconst dog1 = new Dog(\"Buddy\", \"Labrador\");\nconst dog2 = new Dog(\"Max\", \"Poodle\");\nconsole.log(dog1.bark()); // Buddy: Woof!",
-          "java": "public class Dog {\n    private String name;\n    private String breed;\n\n    public Dog(String name, String breed) {\n        this.name = name;\n        this.breed = breed;\n    }\n\n    public String bark() {\n        return name + \": Woof!\";\n    }\n}\n\nDog dog1 = new Dog(\"Buddy\", \"Labrador\");\nSystem.out.println(dog1.bark()); // Buddy: Woof!",
-          "csharp": "public class Dog {\n    public string Name { get; }\n    public string Breed { get; }\n\n    public Dog(string name, string breed) {\n        Name = name;\n        Breed = breed;\n    }\n\n    public string Bark() => $\"{Name}: Woof!\";\n}\n\nvar dog1 = new Dog(\"Buddy\", \"Labrador\");\nConsole.WriteLine(dog1.Bark()); // Buddy: Woof!",
-          "cpp": "#include <string>\n#include <iostream>\n\nclass Dog {\nprivate:\n    std::string name;\n    std::string breed;\npublic:\n    Dog(const std::string& name, const std::string& breed)\n        : name(name), breed(breed) {}\n\n    std::string bark() const {\n        return name + \": Woof!\";\n    }\n};\n\nDog dog1(\"Buddy\", \"Labrador\");\nstd::cout << dog1.bark(); // Buddy: Woof!"
         }
       ]
     },
@@ -113,6 +105,25 @@
             "Interface / abstract class: enforces a contract",
             "LSP (Liskov Substitution): a child must be substitutable for its parent"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Example Code",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Classes and Instances"
+        },
+        {
+          "type": "code",
+          "python": "class Dog:\n    def __init__(self, name: str, breed: str):\n        self.name = name      # instance field\n        self.breed = breed\n\n    def bark(self) -> str:\n        return f\"{self.name}: Woof!\"\n\n# create instances\ndog1 = Dog(\"Buddy\", \"Labrador\")\ndog2 = Dog(\"Max\", \"Poodle\")\nprint(dog1.bark())  # Buddy: Woof!\nprint(dog2.name)    # Max",
+          "javascript": "class Dog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n  }\n\n  bark() {\n    return `${this.name}: Woof!`;\n  }\n}\n\nconst dog1 = new Dog(\"Buddy\", \"Labrador\");\nconst dog2 = new Dog(\"Max\", \"Poodle\");\nconsole.log(dog1.bark()); // Buddy: Woof!",
+          "java": "public class Dog {\n    private String name;\n    private String breed;\n\n    public Dog(String name, String breed) {\n        this.name = name;\n        this.breed = breed;\n    }\n\n    public String bark() {\n        return name + \": Woof!\";\n    }\n}\n\nDog dog1 = new Dog(\"Buddy\", \"Labrador\");\nSystem.out.println(dog1.bark()); // Buddy: Woof!",
+          "csharp": "public class Dog {\n    public string Name { get; }\n    public string Breed { get; }\n\n    public Dog(string name, string breed) {\n        Name = name;\n        Breed = breed;\n    }\n\n    public string Bark() => $\"{Name}: Woof!\";\n}\n\nvar dog1 = new Dog(\"Buddy\", \"Labrador\");\nConsole.WriteLine(dog1.Bark()); // Buddy: Woof!",
+          "cpp": "#include <string>\n#include <iostream>\n\nclass Dog {\nprivate:\n    std::string name;\n    std::string breed;\npublic:\n    Dog(const std::string& name, const std::string& breed)\n        : name(name), breed(breed) {}\n\n    std::string bark() const {\n        return name + \": Woof!\";\n    }\n};\n\nDog dog1(\"Buddy\", \"Labrador\");\nstd::cout << dog1.bark(); // Buddy: Woof!"
         }
       ]
     }

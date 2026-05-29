@@ -3,7 +3,7 @@
 
   <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Array Memory Layout (English Version)</text>
 
-  <\!-- Memory cells -->
+  <!-- Memory cells -->
   <rect x="80" y="32" width="80" height="40" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
   <text x="120" y="48" font-size="9" fill="#1e40af" text-anchor="middle">index[0]</text>
   <text x="120" y="60" font-size="11" font-weight="700" fill="#18181b" text-anchor="middle">42</text>
@@ -29,7 +29,7 @@
   <text x="440" y="60" font-size="11" font-weight="700" fill="#18181b" text-anchor="middle">81</text>
   <text x="440" y="80" font-size="7" fill="#3b82f6" text-anchor="middle">0x1010</text>
 
-  <\!-- Formula box -->
+  <!-- Formula box -->
   <rect x="100" y="90" width="400" height="38" rx="5" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
   <text x="300" y="106" font-size="8.5" font-weight="700" fill="#18181b" text-anchor="middle">Memory Address Formula (for 4-byte integers)</text>
   <text x="300" y="120" font-size="8.5" fill="#52525b" text-anchor="middle" font-family="monospace">address = base_address + (index × sizeof(element))</text>

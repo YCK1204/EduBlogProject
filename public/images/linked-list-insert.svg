@@ -6,10 +6,10 @@
     <marker id="r" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#f87171"/></marker>
   </defs>
 
-  <text x="20" y="16" font-size="10" font-weight="700" fill="#52525b">Insert new node (30) between 25 and 47 — O(1)</text>
+  <text x="20" y="16" font-size="10" font-weight="700" fill="#52525b">25와 47 사이에 새 노드(30) 삽입 — O(1)</text>
 
   <!-- Before row -->
-  <text x="20" y="38" font-size="9" fill="#a1a1aa" font-weight="600">Before:</text>
+  <text x="20" y="38" font-size="9" fill="#a1a1aa" font-weight="600">이전:</text>
   <rect x="60"  y="26" width="48" height="32" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <rect x="108" y="26" width="28" height="32" rx="3" fill="#e4e4e7" stroke="#71717a" stroke-width="1.5"/>
   <text x="84"  y="45" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">10</text>
@@ -33,7 +33,7 @@
   <text x="300" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">① new_node.next = node_25.next  ② node_25.next = new_node</text>
 
   <!-- After row -->
-  <text x="20" y="118" font-size="9" fill="#a1a1aa" font-weight="600">After:</text>
+  <text x="20" y="118" font-size="9" fill="#a1a1aa" font-weight="600">이후:</text>
   <rect x="40"  y="96" width="44" height="32" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <rect x="84"  y="96" width="24" height="32" rx="3" fill="#e4e4e7" stroke="#71717a" stroke-width="1.5"/>
   <text x="62"  y="115" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">10</text>
@@ -49,7 +49,7 @@
   <rect x="280" y="96" width="24" height="32" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
   <text x="258" y="115" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">30</text>
   <line x1="304" y1="112" x2="326" y2="112" stroke="#10b981" stroke-width="2" marker-end="url(#g)"/>
-  <text x="258" y="142" font-size="8.5" fill="#047857" text-anchor="middle">new node</text>
+  <text x="258" y="142" font-size="8.5" fill="#047857" text-anchor="middle">새 노드</text>
 
   <rect x="334" y="96" width="44" height="32" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <rect x="378" y="96" width="24" height="32" rx="3" fill="#e4e4e7" stroke="#71717a" stroke-width="1.5"/>
@@ -60,5 +60,5 @@
   <text x="454" y="115" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">63</text>
   <text x="490" y="115" font-size="10" fill="#d4d4d8">∅</text>
 
-  <text x="300" y="158" font-size="9" fill="#10b981" text-anchor="middle">Only 2 pointer updates needed — O(1) regardless of list length</text>
+  <text x="300" y="158" font-size="9" fill="#10b981" text-anchor="middle">포인터 2개만 갱신하면 됨 — 리스트 길이와 무관하게 O(1)</text>
 </svg>

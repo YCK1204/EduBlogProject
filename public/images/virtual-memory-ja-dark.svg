@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">仮想メモリ — ページテーブルによるアドレス変換</text>
+
+  <!-- Virtual Address Space -->
+  <text x="100" y="34" font-size="9" font-weight="700" fill="#60a5fa" text-anchor="middle">仮想アドレス空間</text>
+  <text x="100" y="46" font-size="8" fill="#60a5fa" text-anchor="middle">(プロセスごと)</text>
+
+  <!-- Virtual pages -->
+  <rect x="30" y="54" width="140" height="18" rx="2" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="100" y="66" font-size="8" text-anchor="middle">ページ0 (コード)</text>
+
+  <rect x="30" y="76" width="140" height="18" rx="2" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="100" y="88" font-size="8" text-anchor="middle">ページ1 (データ)</text>
+
+  <rect x="30" y="98" width="140" height="18" rx="2" fill="#3a1a1a" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="100" y="110" font-size="8" text-anchor="middle">ページ2 (未マッピング)</text>
+
+  <rect x="30" y="120" width="140" height="18" rx="2" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="100" y="132" font-size="8" text-anchor="middle">ページ3 (スタック)</text>
+
+  <rect x="30" y="142" width="140" height="18" rx="2" fill="#33280f" stroke="#f59e0b" stroke-width="1"/>
+  <text x="100" y="154" font-size="8" text-anchor="middle">ページ4 (ディスク上)</text>
+
+  <!-- Page Table -->
+  <text x="300" y="34" font-size="9" font-weight="700" fill="#d4d4d8" text-anchor="middle">ページテーブル (MMU)</text>
+
+  <rect x="220" y="54" width="160" height="106" rx="4" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  
+  <!-- Page table entries -->
+  <text x="240" y="70" font-size="8" fill="#d4d4d8">ページ0 → フレーム5</text>
+  <text x="240" y="86" font-size="8" fill="#d4d4d8">ページ1 → フレーム2</text>
+  <text x="240" y="102" font-size="8" fill="#f87171">ページ2 → 無効</text>
+  <text x="240" y="118" font-size="8" fill="#d4d4d8">ページ3 → フレーム7</text>
+  <text x="240" y="134" font-size="8" fill="#fbbf24">ページ4 → スワップ上</text>
+  <text x="240" y="150" font-size="8" fill="#a1a1aa">...</text>
+
+  <!-- Physical Memory -->
+  <text x="500" y="34" font-size="9" font-weight="700" fill="#34d399" text-anchor="middle">物理メモリ</text>
+  <text x="500" y="46" font-size="8" fill="#34d399" text-anchor="middle">(RAM フレーム)</text>
+
+  <!-- Physical frames -->
+  <rect x="430" y="54" width="140" height="18" rx="2" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="500" y="66" font-size="8" text-anchor="middle">フレーム0 (他プロセス)</text>
+
+  <rect x="430" y="76" width="140" height="18" rx="2" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="500" y="88" font-size="8" text-anchor="middle">フレーム1 (空き)</text>
+
+  <rect x="430" y="98" width="140" height="18" rx="2" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="500" y="110" font-size="8" font-weight="700" text-anchor="middle">フレーム2 → ページ1</text>
+
+  <rect x="430" y="120" width="140" height="18" rx="2" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="500" y="132" font-size="8" text-anchor="middle">フレーム3 (他プロセス)</text>
+
+  <rect x="430" y="142" width="140" height="18" rx="2" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="500" y="154" font-size="8" text-anchor="middle">フレーム4 (空き)</text>
+
+  <!-- Translation arrows -->
+  <path d="M 170 63 Q 200 60 220 63" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M 170 85 Q 200 82 220 85" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M 170 129 Q 200 126 220 129" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <path d="M 380 85 Q 410 82 430 85" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <text x="300" y="186" font-size="8.5" fill="#a1a1aa" text-anchor="middle">OS がページフォルトを管理 — 必要に応じてディスクから RAM へページを読み込む</text>
+</svg>

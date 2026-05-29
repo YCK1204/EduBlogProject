@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">BFS vs DFS — 同じグラフでの巡回順序</text>
+
+  <!-- Left: BFS -->
+  <text x="130" y="34" font-size="10" font-weight="700" fill="#60a5fa" text-anchor="middle">幅優先探索(BFS) (階層ごと)</text>
+
+  <!-- Nodes: A at top, B C in level 2, D E F in level 3 -->
+  <!-- BFS order: A(1), B(2), C(3), D(4), E(5), F(6) -->
+  <circle cx="130" cy="58" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="130" y="63" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">A</text>
+  <text x="148" y="50" font-size="8" fill="#60a5fa">①</text>
+
+  <line x1="114" y1="72" x2="74" y2="98" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="146" y1="72" x2="186" y2="98" stroke="#52525b" stroke-width="1.5"/>
+
+  <circle cx="60" cy="112" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="60" y="117" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">B</text>
+  <text x="78" y="104" font-size="8" fill="#60a5fa">②</text>
+
+  <circle cx="200" cy="112" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="200" y="117" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">C</text>
+  <text x="218" y="104" font-size="8" fill="#60a5fa">③</text>
+
+  <line x1="48" y1="128" x2="34" y2="154" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="72" y1="128" x2="86" y2="154" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="212" y1="128" x2="226" y2="154" stroke="#52525b" stroke-width="1.5"/>
+
+  <circle cx="24" cy="168" r="14" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="24" y="173" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">D</text>
+  <text x="38" y="160" font-size="8" fill="#60a5fa">④</text>
+
+  <circle cx="96" cy="168" r="14" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="96" y="173" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">E</text>
+  <text x="110" y="160" font-size="8" fill="#60a5fa">⑤</text>
+
+  <circle cx="236" cy="168" r="14" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="236" y="173" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">F</text>
+  <text x="250" y="160" font-size="8" fill="#60a5fa">⑥</text>
+
+  <text x="130" y="196" font-size="8" fill="#60a5fa" text-anchor="middle">キューを使用 · 最短経路に適する</text>
+
+  <!-- Divider -->
+  <line x1="290" y1="26" x2="290" y2="192" stroke="#3f3f46" stroke-width="1.5"/>
+
+  <!-- Right: DFS -->
+  <text x="450" y="34" font-size="10" font-weight="700" fill="#fbbf24" text-anchor="middle">深さ優先探索(DFS) (深さ優先)</text>
+
+  <!-- DFS order: A(1), B(2), D(3), E(4), C(5), F(6) -->
+  <circle cx="450" cy="58" r="18" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="450" y="63" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">A</text>
+  <text x="468" y="50" font-size="8" fill="#fbbf24">①</text>
+
+  <line x1="434" y1="72" x2="394" y2="98" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="466" y1="72" x2="506" y2="98" stroke="#52525b" stroke-width="1.5"/>
+
+  <circle cx="380" cy="112" r="18" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="380" y="117" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">B</text>
+  <text x="398" y="104" font-size="8" fill="#fbbf24">②</text>
+
+  <circle cx="520" cy="112" r="18" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="520" y="117" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">C</text>
+  <text x="538" y="104" font-size="8" fill="#fbbf24">⑤</text>
+
+  <line x1="368" y1="128" x2="354" y2="154" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="392" y1="128" x2="406" y2="154" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="532" y1="128" x2="546" y2="154" stroke="#52525b" stroke-width="1.5"/>
+
+  <circle cx="344" cy="168" r="14" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="344" y="173" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">D</text>
+  <text x="358" y="160" font-size="8" fill="#fbbf24">③</text>
+
+  <circle cx="416" cy="168" r="14" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="416" y="173" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">E</text>
+  <text x="430" y="160" font-size="8" fill="#fbbf24">④</text>
+
+  <circle cx="556" cy="168" r="14" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="556" y="173" font-size="11" font-weight="700" fill="#fafafa" text-anchor="middle">F</text>
+  <text x="570" y="160" font-size="8" fill="#fbbf24">⑥</text>
+
+  <text x="450" y="196" font-size="8" fill="#fbbf24" text-anchor="middle">スタック/再帰を使用 · 閉路検出に適する</text>
+</svg>

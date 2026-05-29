@@ -1,0 +1,141 @@
+{
+  "slug": "dynamic-programming",
+  "tag": "DP",
+  "estimatedTime": "35 min",
+  "relatedSlugs": [
+    "recursion",
+    "bfs-dfs",
+    "dijkstra"
+  ],
+  "title": "動的計画法の基礎",
+  "summary": "動的計画法は、重複する部分問題と最適部分構造を持つ問題を効率的に解きます。メモ化（トップダウン）、ボトムアップのテーブル化、そして重要なパターンを学びます。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "動的計画法が適用できる場面",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "動的計画法は2つの条件が成り立つときに適用できます。1つ目は最適部分構造で、問題全体の最適解が部分問題の最適解から構成されることです。2つ目は重複する部分問題で、同じ部分問題が繰り返し現れることです。"
+        },
+        {
+          "type": "text",
+          "content": "分割統治法は最適部分構造を利用しますが、部分問題は重複しません。動的計画法は結果をキャッシュ（メモ化）して再計算を避けます。フィボナッチ、LCS、ナップサック問題が代表的な例です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "最適部分構造: 部分問題の最適解 → 全体の最適解",
+            "重複する部分問題: 同じ引数で複数回呼び出される",
+            "貪欲法との違い: 動的計画法は選択する前にすべての選択肢を探索する",
+            "分割統治法との違い: 動的計画法では部分問題が重複する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "トップダウン — メモ化",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/dynamic-programming-ja.svg",
+          "alt": "LCS 問題の動的計画法テーブル",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "トップダウンは問題全体から始めて部分問題へと再帰し、結果をキャッシュします。直感的であり、必要な部分問題のみを計算します。"
+        },
+        {
+          "type": "text",
+          "content": "実装: 再帰関数にメモ用の辞書／配列を追加します。冒頭でキャッシュに存在すればそれを返し、なければ計算して保存します。Python の @lru_cache はこれを自動的に処理します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "再帰 + キャッシュ（ハッシュマップまたは配列）",
+            "利点: 直感的で、必要な部分問題のみを解く",
+            "欠点: 再帰のオーバーヘッド、スタックオーバーフローのリスク",
+            "Python の @lru_cache を使えば簡単に実装できる"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "ボトムアップ — テーブルの充填",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ボトムアップは最小の部分問題から始めて、問題全体が解けるまで反復的にテーブルを埋めていきます。再帰のオーバーヘッドがありません。"
+        },
+        {
+          "type": "text",
+          "content": "フィボナッチのボトムアップ: dp[0]=0, dp[1]=1 と初期化し、dp[i] = dp[i-1] + dp[i-2] とします。直前の2つの値だけが必要なので、空間を O(1) に最適化できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "反復的 → スタックオーバーフローが起きない",
+            "漸化式（遷移）が核心となる",
+            "空間の最適化: 直前の値だけを保持する",
+            "欠点: すべての部分問題を計算する（トップダウンは必要な分だけ計算する）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "動的計画法の重要なパターン",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "動的計画法のパターンを認識できると、問題がはるかに簡単になります。重要なパターン: 1次元 DP、2次元 DP（LCS、編集距離）、0/1 ナップサック、区間 DP、木 DP。"
+        },
+        {
+          "type": "text",
+          "content": "動的計画法の設計は4ステップ: (1) 部分問題を定義する — dp[i] は何を表すか？ (2) 漸化式を書く、(3) 基底値を設定する、(4) 計算順序を決める。ステップ1が最も難しく、最も重要です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "1次元 DP: 階段登り、家の強盗 (house robber)、LIS",
+            "2次元 DP: LCS、編集距離",
+            "ナップサック: 0/1 ナップサック、個数無制限ナップサック",
+            "動的計画法の設計: 部分問題の定義 → 漸化式 → 基底ケース → 順序"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "トップダウン — メモ化"
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# Manual memoization\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
+          "javascript": "function climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "ボトムアップ — テーブルの充填"
+        },
+        {
+          "type": "code",
+          "python": "# Fibonacci bottom-up — O(n) time, O(n) space\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# Space-optimized — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+          "javascript": "function fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// Space-optimized\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
+          "java": "long fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
+          "c": "long long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
+        }
+      ]
+    }
+  ]
+}

@@ -39,7 +39,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/dynamic-programming.svg",
+          "src": "/images/dynamic-programming-en.svg",
           "alt": "DP table for LCS problem",
           "width": 88
         },
@@ -59,12 +59,6 @@
             "Disadvantage: recursion overhead, stack overflow risk",
             "Python @lru_cache makes it trivial"
           ]
-        },
-        {
-          "type": "code",
-          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# Manual memoization\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
-          "javascript": "function climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
-          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
         }
       ]
     },
@@ -88,13 +82,6 @@
             "Space optimization: keep only the previous values",
             "Disadvantage: computes all subproblems (top-down computes only needed)"
           ]
-        },
-        {
-          "type": "code",
-          "python": "# Fibonacci bottom-up — O(n) time, O(n) space\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# Space-optimized — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-          "javascript": "function fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// Space-optimized\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
-          "java": "long fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
-          "c": "long long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
         }
       ]
     },
@@ -118,6 +105,35 @@
             "Knapsack: 0/1 knapsack, unbounded knapsack",
             "DP design: define subproblem → recurrence → base case → order"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Example Code",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Top-Down — Memoization"
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# Manual memoization\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
+          "javascript": "function climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Bottom-Up — Table Filling"
+        },
+        {
+          "type": "code",
+          "python": "# Fibonacci bottom-up — O(n) time, O(n) space\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# Space-optimized — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+          "javascript": "function fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// Space-optimized\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
+          "java": "long fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
+          "c": "long long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
         }
       ]
     }

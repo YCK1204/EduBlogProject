@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/hash-table.svg",
+          "src": "/images/hash-table-en.svg",
           "alt": "Hash table with chaining",
           "width": 85
         },

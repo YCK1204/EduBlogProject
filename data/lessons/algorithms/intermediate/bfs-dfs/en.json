@@ -39,7 +39,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/bfs-dfs.svg",
+          "src": "/images/bfs-dfs-en.svg",
           "alt": "BFS vs DFS traversal order",
           "width": 88
         },
@@ -59,12 +59,6 @@
             "Shortest path guarantee: for unweighted graphs",
             "Level-by-level processing: handle each layer before the next"
           ]
-        },
-        {
-          "type": "code",
-          "python": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set([start])\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        print(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)",
-          "javascript": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node);\n    for (const neighbor of graph[node]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n}",
-          "java": "void bfs(Map<Integer, List<Integer>> graph, int start) {\n    Set<Integer> visited = new HashSet<>();\n    Queue<Integer> queue = new LinkedList<>();\n    visited.add(start);\n    queue.offer(start);\n    while (!queue.isEmpty()) {\n        int node = queue.poll();\n        System.out.println(node);\n        for (int neighbor : graph.getOrDefault(node, List.of())) {\n            if (!visited.contains(neighbor)) {\n                visited.add(neighbor);\n                queue.offer(neighbor);\n            }\n        }\n    }\n}"
         }
       ]
     },
@@ -88,12 +82,6 @@
             "Path tracking: maintain the set of currently visited vertices",
             "Applications: cycle detection, topological sort, SCC, backtracking"
           ]
-        },
-        {
-          "type": "code",
-          "python": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)",
-          "javascript": "function dfs(graph, node, visited = new Set()) {\n  visited.add(node);\n  console.log(node);\n  for (const neighbor of graph[node]) {\n    if (!visited.has(neighbor)) {\n      dfs(graph, neighbor, visited);\n    }\n  }\n}",
-          "java": "void dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {\n    visited.add(node);\n    System.out.println(node);\n    for (int neighbor : graph.getOrDefault(node, List.of())) {\n        if (!visited.contains(neighbor)) {\n            dfs(graph, neighbor, visited);\n        }\n    }\n}"
         }
       ]
     },
@@ -117,6 +105,34 @@
             "BFS memory: O(V) — large on wide graphs",
             "DFS memory: O(h) — watch for stack overflow on deep trees"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Example Code",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "BFS — Breadth-First Search"
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set([start])\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        print(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)",
+          "javascript": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node);\n    for (const neighbor of graph[node]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n}",
+          "java": "void bfs(Map<Integer, List<Integer>> graph, int start) {\n    Set<Integer> visited = new HashSet<>();\n    Queue<Integer> queue = new LinkedList<>();\n    visited.add(start);\n    queue.offer(start);\n    while (!queue.isEmpty()) {\n        int node = queue.poll();\n        System.out.println(node);\n        for (int neighbor : graph.getOrDefault(node, List.of())) {\n            if (!visited.contains(neighbor)) {\n                visited.add(neighbor);\n                queue.offer(neighbor);\n            }\n        }\n    }\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "DFS — Depth-First Search"
+        },
+        {
+          "type": "code",
+          "python": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)",
+          "javascript": "function dfs(graph, node, visited = new Set()) {\n  visited.add(node);\n  console.log(node);\n  for (const neighbor of graph[node]) {\n    if (!visited.has(neighbor)) {\n      dfs(graph, neighbor, visited);\n    }\n  }\n}",
+          "java": "void dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {\n    visited.add(node);\n    System.out.println(node);\n    for (int neighbor : graph.getOrDefault(node, List.of())) {\n        if (!visited.contains(neighbor)) {\n            dfs(graph, neighbor, visited);\n        }\n    }\n}"
         }
       ]
     }

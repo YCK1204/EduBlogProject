@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/bst-structure.svg",
+          "src": "/images/bst-structure-en.svg",
           "alt": "Binary Search Tree structure",
           "width": 85
         },

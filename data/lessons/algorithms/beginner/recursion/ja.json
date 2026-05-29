@@ -1,0 +1,141 @@
+{
+  "slug": "recursion",
+  "tag": "Recursion",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "dynamic-programming",
+    "bfs-dfs",
+    "bubble-selection-sort"
+  ],
+  "title": "再帰とコールスタック",
+  "summary": "再帰関数は自分自身を呼び出します。基底ケースと再帰ケースの設計方法を学び、コールスタックの仕組みを理解し、メモ化による最適化を行いましょう。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "再帰の基本構造",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/recursion-call-stack-ja.svg",
+          "alt": "再帰のコールスタック（階乗）",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "再帰とは、関数が自分自身を呼び出す手法です。すべての再帰関数には、基底ケース（それ以上呼び出さずに返す）と再帰ケース（問題を小さくして自分自身を呼び出す）が必要です。"
+        },
+        {
+          "type": "text",
+          "content": "基底ケースのない再帰は永遠にループし、スタックオーバーフローを引き起こします。再帰ケースは常に基底ケースに近づいていかなければなりません。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "基底ケース: 再帰を止める条件",
+            "再帰ケース: より小さなインスタンスに分解する",
+            "階乗: n! = n × (n-1)!、基底ケース: 0! = 1",
+            "フィボナッチ: fib(n) = fib(n-1) + fib(n-2)、基底: fib(0)=0, fib(1)=1"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "コールスタックとスタックフレーム",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "関数呼び出しのたびに、スタックフレームがコールスタックに積まれます。フレームにはローカル変数、引数、そして戻り先アドレスが保持されます。"
+        },
+        {
+          "type": "text",
+          "content": "深い再帰は多くのフレームを積み上げます。スタックメモリは限られているため、深すぎる再帰はスタックオーバーフローを引き起こします。Python の既定の上限は1000です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "呼び出しごとに新しいスタックフレームが作られる",
+            "空間計算量: 再帰の深さ × フレームのサイズ",
+            "Python の既定の再帰上限: 1000（sys.setrecursionlimit で変更可能）",
+            "Java の既定のスタックサイズ: スレッドあたり約 500 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "再帰と反復",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ほとんどの再帰は反復に変換でき、その逆も可能です。再帰は簡潔で、木やグラフの探索に自然です。反復はスタックオーバーフローのリスクがありません。"
+        },
+        {
+          "type": "text",
+          "content": "DFS は再帰で書くと非常に直感的ですが、明示的なスタックを使うこともできます。木の走査は再帰で自然に表現できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "再帰の利点: 簡潔で、再帰的な構造に自然",
+            "反復の利点: スタックオーバーフローがなく、メモリ効率が良い",
+            "末尾再帰: 最後の操作が再帰呼び出しである",
+            "TCO: 一部の言語は末尾呼び出しでスタックフレームを再利用する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "メモ化による最適化",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "素朴な再帰によるフィボナッチは O(2ⁿ) です。メモ化は引数ごとに結果をキャッシュし、これを O(n) に削減します。"
+        },
+        {
+          "type": "text",
+          "content": "メモ化は動的計画法のトップダウンのアプローチです。計算した結果をハッシュマップや配列に保存して、無駄な処理を避けます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "素朴な fib(50): 数千億回の呼び出し",
+            "メモ化した fib(50): 50回の固有の呼び出し",
+            "Python の @lru_cache / @cache デコレータで簡単に適用できる",
+            "メモ化 = トップダウンの動的計画法"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "再帰の基本構造"
+        },
+        {
+          "type": "code",
+          "python": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
+          "java": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "メモ化による最適化"
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "function fib(n, memo = new Map()) {\n  if (memo.has(n)) return memo.get(n);\n  if (n <= 1) return n;\n  const result = fib(n - 1, memo) + fib(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        }
+      ]
+    }
+  ]
+}

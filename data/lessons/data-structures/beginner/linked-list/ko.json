@@ -35,14 +35,6 @@
             "양방향 연결 리스트: next + prev 포인터",
             "원형 연결 리스트: 마지막 노드가 첫 노드를 가리킴"
           ]
-        },
-        {
-          "type": "code",
-          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
-          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
-          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
-          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
-          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;"
         }
       ]
     },
@@ -118,6 +110,25 @@
             "OS 프로세스 스케줄링 큐",
             "스택·큐의 내부 구현"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "예시 코드",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "연결 리스트란"
+        },
+        {
+          "type": "code",
+          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
+          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
+          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;"
         }
       ]
     }

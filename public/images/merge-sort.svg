@@ -4,7 +4,7 @@
     <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Merge Sort — Divide &amp; Conquer on [38, 27, 43, 3]</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">병합 정렬 — [38, 27, 43, 3]에 대한 분할 정복</text>
 
   <!-- Level 0: full array -->
   <rect x="200" y="24" width="200" height="26" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
@@ -50,9 +50,9 @@
   <text x="420" y="179" font-size="11" font-weight="700" fill="#065f46" text-anchor="middle">3  43</text>
 
   <!-- labels -->
-  <text x="20" y="38" font-size="8.5" fill="#a1a1aa">divide</text>
+  <text x="20" y="38" font-size="8.5" fill="#a1a1aa">분할</text>
   <text x="20" y="58" font-size="8.5" fill="#a1a1aa">↓</text>
-  <text x="20" y="134" font-size="8.5" fill="#10b981">merge</text>
+  <text x="20" y="134" font-size="8.5" fill="#10b981">병합</text>
   <text x="20" y="154" font-size="8.5" fill="#10b981">↑</text>
-  <text x="300" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Final merge → [3, 27, 38, 43]  ·  Time O(n log n)  ·  Space O(n)</text>
+  <text x="300" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">최종 병합 → [3, 27, 38, 43]  ·  시간 O(n log n)  ·  공간 O(n)</text>
 </svg>

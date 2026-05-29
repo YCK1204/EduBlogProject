@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/os-intro.svg",
+          "src": "/images/os-intro-en.svg",
           "alt": "OS abstraction layers",
           "width": 85
         },

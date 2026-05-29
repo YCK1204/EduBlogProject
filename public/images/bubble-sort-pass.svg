@@ -4,10 +4,10 @@
     <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#f59e0b"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Bubble Sort — Pass 1 (largest element bubbles to end)</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">버블 정렬 — 패스 1 (가장 큰 원소가 끝으로 떠오름)</text>
 
   <!-- Initial array -->
-  <text x="30" y="44" font-size="9" fill="#a1a1aa">Start:</text>
+  <text x="30" y="44" font-size="9" fill="#a1a1aa">시작:</text>
 
   <!-- Helper function for cells -->
   <!-- [5, 3, 8, 1, 4] -->
@@ -23,8 +23,8 @@
   <text x="238" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
 
   <!-- Step 1: compare 5,3 → swap -->
-  <text x="30" y="94" font-size="9" fill="#a1a1aa">Step 1:</text>
-  <text x="30" y="106" font-size="8.5" fill="#ef4444">swap</text>
+  <text x="30" y="94" font-size="9" fill="#a1a1aa">1단계:</text>
+  <text x="30" y="106" font-size="8.5" fill="#ef4444">교환</text>
   <!-- [3, 5, 8, 1, 4] -->
   <rect x="60" y="82" width="36" height="28" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
   <text x="78" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
@@ -38,8 +38,8 @@
   <text x="238" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
 
   <!-- Step 2: 5<8 no swap, 8>1 swap, 8>4 swap → 8 at end -->
-  <text x="30" y="144" font-size="9" fill="#a1a1aa">After</text>
-  <text x="30" y="156" font-size="9" fill="#a1a1aa">pass 1:</text>
+  <text x="30" y="144" font-size="9" fill="#a1a1aa">패스 1</text>
+  <text x="30" y="156" font-size="9" fill="#a1a1aa">이후:</text>
   <!-- [3, 5, 1, 4, 8] -->
   <rect x="60" y="132" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <text x="78" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
@@ -51,17 +51,17 @@
   <text x="198" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
   <rect x="220" y="132" width="36" height="28" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
   <text x="238" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">8</text>
-  <text x="238" y="174" font-size="8.5" fill="#10b981" text-anchor="middle">sorted ✓</text>
+  <text x="238" y="174" font-size="8.5" fill="#10b981" text-anchor="middle">정렬됨 ✓</text>
 
   <!-- Right side: comparison info -->
   <rect x="290" y="32" width="290" height="150" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="435" y="52" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">Bubble Sort — Key Facts</text>
-  <text x="305" y="72" font-size="9" fill="#52525b">Compare adjacent pairs, swap if out of order.</text>
-  <text x="305" y="89" font-size="9" fill="#52525b">After each pass, the largest unsorted element</text>
-  <text x="305" y="102" font-size="9" fill="#52525b">reaches its final position (bubbles to end).</text>
+  <text x="435" y="52" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">버블 정렬 — 핵심 정리</text>
+  <text x="305" y="72" font-size="9" fill="#52525b">인접한 쌍을 비교하고, 순서가 어긋나면 교환한다.</text>
+  <text x="305" y="89" font-size="9" fill="#52525b">매 패스 후, 정렬되지 않은 가장 큰 원소가</text>
+  <text x="305" y="102" font-size="9" fill="#52525b">최종 위치에 도달한다 (끝으로 떠오름).</text>
   <line x1="305" y1="112" x2="568" y2="112" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="305" y="128" font-size="9" fill="#52525b">Time:  O(n²) — nested loops</text>
-  <text x="305" y="144" font-size="9" fill="#52525b">Space: O(1) — in-place</text>
-  <text x="305" y="160" font-size="9" fill="#52525b">Stable: Yes — equal elements keep order</text>
-  <text x="305" y="176" font-size="9" fill="#52525b">Best case: O(n) with early-exit optimization</text>
+  <text x="305" y="128" font-size="9" fill="#52525b">시간:  O(n²) — 중첩 반복문</text>
+  <text x="305" y="144" font-size="9" fill="#52525b">공간: O(1) — 제자리 정렬</text>
+  <text x="305" y="160" font-size="9" fill="#52525b">안정성: 예 — 같은 값의 순서 유지</text>
+  <text x="305" y="176" font-size="9" fill="#52525b">최선의 경우: 조기 종료 최적화 시 O(n)</text>
 </svg>

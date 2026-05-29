@@ -1,0 +1,130 @@
+{
+  "slug": "async-event-loop",
+  "tag": "Async",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "functions-first-class",
+    "type-system-generics",
+    "clean-code"
+  ],
+  "title": "非同期処理とイベントループ",
+  "summary": "コールバックから Promise、そして async/await への進化と、JavaScript のイベントループがどのように動作するかを深く掘り下げます。非同期コードを正しく書き、デバッグする方法を学びます。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "同期処理と非同期処理",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/async-event-loop-ja.svg",
+          "alt": "イベントループによる非同期実行",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "同期実行では、各タスクが完了してから次のタスクが始まります。非同期実行はタスクを開始し、その完了を待たずに次へ進みます。ファイル読み込みやネットワークリクエストのような時間のかかる I/O 操作は、非同期処理によって大きな恩恵を受けます。"
+        },
+        {
+          "type": "text",
+          "content": "JavaScript はシングルスレッドです。ネットワークリクエストを同期的に実行すると、ブラウザ全体が固まってしまいます。イベントループと非同期 API がこの問題を解決します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "I/O バウンドの処理: 非同期が効率的な選択",
+            "CPU バウンドの処理: マルチスレッドやマルチプロセスが必要",
+            "ブロッキング: 現在のスレッドを停止させる",
+            "ノンブロッキング: リクエストを発行してすぐに戻る"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "コールバックとコールバック地獄",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "コールバックは、非同期操作が完了したときに呼び出されるよう渡される関数です。これは JavaScript 本来の非同期の仕組みでした。setTimeout、addEventListener、Node.js の fs.readFile はすべてコールバックを使います。"
+        },
+        {
+          "type": "text",
+          "content": "コールバックをネストすると「コールバック地獄」（破滅のピラミッド）が生まれます。ネストの階層が深くなるほどコードが右へずれていきます。エラー処理を各階層で行う必要があり、全体の流れが追いにくくなります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "コールバックパターン: fs.readFile(path, (err, data) => {})",
+            "エラーファーストコールバック（Node.js）: 第一引数がエラー",
+            "コールバック地獄: ネストしたコールバックは読みにくくエラーを招きやすい",
+            "イベントエミッターパターン: on('event', callback)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Promise と async/await",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Promise は非同期操作の将来の結果を表します。Pending → Fulfilled / Rejected という 3 つの状態を経て進みます。成功には .then()、エラーには .catch() を連鎖させることで、コールバック地獄を解消できます。"
+        },
+        {
+          "type": "text",
+          "content": "async/await は Promise の上に作られた糖衣構文で、非同期コードを同期コードのように書けます。await は async 関数の内部で Promise が確定するまで処理を一時停止します。try/catch によって、おなじみの同期的なスタイルでエラーを処理できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "Promise: 将来の値のコンテナ（then/catch/finally）",
+            "Promise.all: 複数の非同期操作を並列に実行し、すべての完了を待つ",
+            "async/await: Promise の糖衣構文 — より可読性が高い",
+            "await の付け忘れ: Promise が返るが待機されない（よくあるバグ）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "イベントループの仕組み",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "JavaScript のイベントループは、コールスタック、タスクキュー（マクロタスク）、マイクロタスクキューで構成されます。コールスタックが空になると、まずすべてのマイクロタスク（Promise の .then）が処理され、その後タスク（setTimeout、I/O）が 1 つ取り出されます。"
+        },
+        {
+          "type": "text",
+          "content": "この順序を理解すると、非同期の実行順序を予測できます。setTimeout(fn, 0) はすぐには実行されず、コールスタックが空になるまで待ちます。マイクロタスクが先に処理されるため、Promise.then は常に setTimeout より先に実行されます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "コールスタック: 現在実行中のコード",
+            "マイクロタスク: Promise.then、queueMicrotask — スタックが空になると全て処理される",
+            "タスクキュー: setTimeout、setInterval、I/O — マイクロタスクの後に 1 つずつ",
+            "実行順序: 同期処理 → マイクロタスク → タスク"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Promise と async/await"
+        },
+        {
+          "type": "code",
+          "javascript": "// Promise chaining\nfetch('/api/user')\n  .then(res => res.json())\n  .then(user => fetchPosts(user.id))\n  .then(posts => console.log(posts))\n  .catch(err => console.error(err));\n\n// async/await — same logic, more readable\nasync function loadUserPosts() {\n  try {\n    const res  = await fetch('/api/user');\n    const user = await res.json();\n    const posts = await fetchPosts(user.id);\n    console.log(posts);\n  } catch (err) {\n    console.error(err);\n  }\n}\n\n// parallel execution\nconst [user, settings] = await Promise.all([\n  fetchUser(id),\n  fetchSettings(id),\n]);",
+          "python": "import asyncio\nimport aiohttp\n\n# async/await (Python 3.5+)\nasync def fetch_user(session, user_id):\n    async with session.get(f'/api/users/{user_id}') as resp:\n        return await resp.json()\n\nasync def main():\n    async with aiohttp.ClientSession() as session:\n        # parallel execution\n        users = await asyncio.gather(\n            fetch_user(session, 1),\n            fetch_user(session, 2),\n        )\n        print(users)\n\nasyncio.run(main())",
+          "java": "import java.util.concurrent.CompletableFuture;\n\n// CompletableFuture (Java 8+)\nCompletableFuture<User> futureUser = CompletableFuture\n    .supplyAsync(() -> fetchUser(userId))\n    .thenApply(user -> enrichUser(user))\n    .exceptionally(ex -> defaultUser());\n\n// parallel execution\nCompletableFuture<Void> all = CompletableFuture.allOf(\n    fetchUserAsync(id),\n    fetchSettingsAsync(id)\n);\nall.join();",
+          "csharp": "// async/await (C# 5+)\nasync Task<User> LoadUserPostsAsync(int userId) {\n    try {\n        var user  = await FetchUserAsync(userId);\n        var posts = await FetchPostsAsync(user.Id);\n        return user with { Posts = posts };\n    } catch (HttpRequestException ex) {\n        Console.WriteLine(ex.Message);\n        throw;\n    }\n}\n\n// parallel execution\nvar (user, settings) = await (\n    FetchUserAsync(id),\n    FetchSettingsAsync(id)\n).WhenAll();"
+        }
+      ]
+    }
+  ]
+}

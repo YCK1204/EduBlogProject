@@ -1,0 +1,112 @@
+{
+  "slug": "http-https",
+  "tag": "Network",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "tcp-ip",
+    "compiler-interpreter",
+    "os-intro"
+  ],
+  "title": "HTTPとHTTPS",
+  "summary": "HTTPは、Webを支えるリクエスト・レスポンス型のプロトコルです。ステータスコード、ヘッダ、メソッド、そしてTLSハンドシェイクがどのように安全なHTTPS通信を実現するかを学びます。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "HTTPのリクエスト・レスポンスモデル",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/http-https-ja.svg",
+          "alt": "HTTPとHTTPSのリクエスト・レスポンス",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "HTTP（HyperText Transfer Protocol）は、ステートレスなクライアント・サーバ型のプロトコルです。クライアントがリクエストを送り、サーバがレスポンスを返します。"
+        },
+        {
+          "type": "text",
+          "content": "HTTPメソッドは意図を表します。GET（読み取り）、POST（作成）、PUT/PATCH（更新）、DELETE（削除）が REST API の基礎を形作ります。URL とメソッドの組み合わせが、どのリソースに対して操作するかを表します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "ステートレス: 各リクエストは独立しており、以前の状態は保存されない",
+            "GET: データを取得する（キャッシュ可能、ボディなし）",
+            "POST: データを作成する（ボディにペイロードを含む）",
+            "冪等: GET/PUT/DELETE は繰り返しても同じ結果を返す"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "ステータスコードとヘッダ",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTPステータスコードは、リクエストの結果を数値で表します。範囲: 2xx（成功）、3xx（リダイレクト）、4xx（クライアントエラー）、5xx（サーバエラー）です。"
+        },
+        {
+          "type": "text",
+          "content": "HTTPヘッダは、リクエストとレスポンスのメタデータを運びます。Content-Type（データ形式）、Authorization（認証トークン）、Cache-Control（キャッシュポリシー）、Accept-Encoding（圧縮）などです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "200 OK、201 Created、204 No Content",
+            "301 Moved Permanently、302 Found（一時的なリダイレクト）",
+            "400 Bad Request、401 Unauthorized、403 Forbidden、404 Not Found",
+            "500 Internal Server Error、502 Bad Gateway、503 Service Unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "HTTPSとTLSハンドシェイク",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTPSは、HTTPにTLS（Transport Layer Security）の暗号化を追加します。3つの保証を提供します。機密性（盗聴されない）、完全性（改ざんされない）、認証（サーバを検証する）です。"
+        },
+        {
+          "type": "text",
+          "content": "TLSハンドシェイクは接続時に一度だけ実行されます。クライアントとサーバは暗号スイートをネゴシエートし、サーバの証明書を検証し、セッションキーを安全に交換します。その後の通信は、高速な共通鍵暗号を使います。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "TLS 1.3: 1-RTT のハンドシェイク（以前の 2-RTT より）— 高速",
+            "証明書: CA（認証局）がサーバの公開鍵に署名する",
+            "鍵交換: ECDH → セッションキーの生成",
+            "HSTS: ブラウザにHTTPSのみを使うよう指示する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "HTTPバージョンの比較",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "HTTP/1.1 は1つの接続あたり1つのリクエストを処理するため、複数のリソースには複数の並列接続が必要です。HTTP/2 はマルチプレキシングを使って、1つの接続で多数のストリームを処理します。"
+        },
+        {
+          "type": "text",
+          "content": "HTTP/3 は TCP を QUIC（UDPベース）に置き換えます。TCP のヘッドオブラインブロッキングを解消し、接続の確立を高速化します。主要なサイトやブラウザは現在 HTTP/3 をサポートしています。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "HTTP/1.1: 接続の再利用（Keep-Alive）、HOL ブロッキング",
+            "HTTP/2: マルチプレキシング、ヘッダ圧縮（HPACK）、サーバプッシュ",
+            "HTTP/3: QUIC（UDPベース）、より高速なハンドシェイク",
+            "サーバで HTTP/2 を有効にすることが、性能改善の第一歩"
+          ]
+        }
+      ]
+    }
+  ]
+}

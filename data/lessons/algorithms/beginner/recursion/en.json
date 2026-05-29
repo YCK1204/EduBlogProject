@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/recursion-call-stack.svg",
+          "src": "/images/recursion-call-stack-en.svg",
           "alt": "Recursion call stack factorial",
           "width": 85
         },
@@ -36,13 +36,6 @@
             "Factorial: n! = n × (n-1)!, base case: 0! = 1",
             "Fibonacci: fib(n) = fib(n-1) + fib(n-2), base: fib(0)=0, fib(1)=1"
           ]
-        },
-        {
-          "type": "code",
-          "python": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
-          "javascript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
-          "java": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
-          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
         }
       ]
     },
@@ -112,6 +105,29 @@
             "Python @lru_cache / @cache decorator for easy application",
             "Memoization = top-down DP"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Example Code",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Basic Structure of Recursion"
+        },
+        {
+          "type": "code",
+          "python": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
+          "java": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "Optimizing with Memoization"
         },
         {
           "type": "code",

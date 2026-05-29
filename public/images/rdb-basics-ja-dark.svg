@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">リレーショナルデータベース — テーブルとリレーションシップ</text>
+
+  <!-- Users table -->
+  <text x="120" y="34" font-size="9" font-weight="700" fill="#60a5fa" text-anchor="middle">users</text>
+  <rect x="40" y="38" width="160" height="80" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  
+  <!-- Headers -->
+  <rect x="42" y="40" width="34" height="16" rx="1" fill="#3b82f6"/>
+  <text x="59" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">id (PK)</text>
+  <rect x="78" y="40" width="60" height="16" rx="1" fill="#3b82f6"/>
+  <text x="108" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">name</text>
+  <rect x="140" y="40" width="56" height="16" rx="1" fill="#3b82f6"/>
+  <text x="168" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">email</text>
+
+  <!-- Data rows -->
+  <text x="59" y="67" font-size="8" fill="#93c5fd" text-anchor="middle">1</text>
+  <text x="108" y="67" font-size="8" fill="#fafafa" text-anchor="middle">Alice</text>
+  <text x="168" y="67" font-size="8" fill="#fafafa" text-anchor="middle">a@ex.com</text>
+
+  <text x="59" y="79" font-size="8" fill="#93c5fd" text-anchor="middle">2</text>
+  <text x="108" y="79" font-size="8" fill="#fafafa" text-anchor="middle">Bob</text>
+  <text x="168" y="79" font-size="8" fill="#fafafa" text-anchor="middle">b@ex.com</text>
+
+  <text x="59" y="91" font-size="8" fill="#93c5fd" text-anchor="middle">3</text>
+  <text x="108" y="91" font-size="8" fill="#fafafa" text-anchor="middle">Carol</text>
+  <text x="168" y="91" font-size="8" fill="#fafafa" text-anchor="middle">c@ex.com</text>
+
+  <text x="59" y="103" font-size="8" fill="#93c5fd" text-anchor="middle">4</text>
+  <text x="108" y="103" font-size="8" fill="#fafafa" text-anchor="middle">Dave</text>
+  <text x="168" y="103" font-size="8" fill="#fafafa" text-anchor="middle">d@ex.com</text>
+
+  <!-- Orders table -->
+  <text x="440" y="34" font-size="9" font-weight="700" fill="#34d399" text-anchor="middle">orders</text>
+  <rect x="360" y="38" width="160" height="80" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  
+  <!-- Headers -->
+  <rect x="362" y="40" width="34" height="16" rx="1" fill="#10b981"/>
+  <text x="379" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">id (PK)</text>
+  <rect x="398" y="40" width="50" height="16" rx="1" fill="#10b981"/>
+  <text x="423" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">user_id (FK)</text>
+  <rect x="450" y="40" width="66" height="16" rx="1" fill="#10b981"/>
+  <text x="483" y="51" font-size="7.5" font-weight="700" fill="white" text-anchor="middle">total</text>
+
+  <!-- Data rows -->
+  <text x="379" y="67" font-size="8" fill="#6ee7b7" text-anchor="middle">101</text>
+  <text x="423" y="67" font-size="8" fill="#fbbf24" text-anchor="middle">1</text>
+  <text x="483" y="67" font-size="8" fill="#fafafa" text-anchor="middle">$25.99</text>
+
+  <text x="379" y="79" font-size="8" fill="#6ee7b7" text-anchor="middle">102</text>
+  <text x="423" y="79" font-size="8" fill="#fbbf24" text-anchor="middle">1</text>
+  <text x="483" y="79" font-size="8" fill="#fafafa" text-anchor="middle">$12.50</text>
+
+  <text x="379" y="91" font-size="8" fill="#6ee7b7" text-anchor="middle">103</text>
+  <text x="423" y="91" font-size="8" fill="#fbbf24" text-anchor="middle">3</text>
+  <text x="483" y="91" font-size="8" fill="#fafafa" text-anchor="middle">$87.20</text>
+
+  <text x="379" y="103" font-size="8" fill="#6ee7b7" text-anchor="middle">104</text>
+  <text x="423" y="103" font-size="8" fill="#fbbf24" text-anchor="middle">2</text>
+  <text x="483" y="103" font-size="8" fill="#fafafa" text-anchor="middle">$45.75</text>
+
+  <!-- Relationship line -->
+  <path d="M 200 78 Q 280 65 360 79" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <text x="280" y="62" font-size="8" fill="#fbbf24" text-anchor="middle">外部キー</text>
+
+  <!-- SQL example -->
+  <rect x="40" y="132" width="520" height="52" rx="5" fill="#27272a"/>
+  <text x="300" y="148" font-size="8.5" fill="#34d399" text-anchor="middle" font-family="monospace">SELECT u.name, SUM(o.total) as total_spent</text>
+  <text x="300" y="162" font-size="8.5" fill="#60a5fa" text-anchor="middle" font-family="monospace">FROM users u JOIN orders o ON u.id = o.user_id</text>
+  <text x="300" y="176" font-size="8.5" fill="#fbbf24" text-anchor="middle" font-family="monospace">GROUP BY u.id, u.name;</text>
+
+  <text x="300" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">ACID特性により、関連するテーブル間でのデータ整合性が保証される</text>
+</svg>

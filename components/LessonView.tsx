@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import type { Lesson, Block, CodeBlock as CodeBlockType } from "@/lib/lessonTypes";
 import type { RelatedEntry } from "@/lib/lessonLoader";
 import CodeBlock from "@/components/CodeBlock";
 import EditableBlock from "@/components/EditableBlock";
+import ThemedImage from "@/components/ThemedImage";
 import Toast, { useToast } from "@/components/Toast";
 import { useLang } from "@/components/LanguageProvider";
 import { useProgress } from "@/lib/useProgress";
@@ -34,11 +34,12 @@ const LEVEL_COLORS = {
 interface Props {
   koLesson: Lesson;
   enLesson: Lesson | null;
+  jaLesson: Lesson | null;
   category: string;
   relatedEntries: RelatedEntry[];
 }
 
-function renderBlock(block: Block, idx: number, lang: "ko" | "en"): React.ReactNode {
+function renderBlock(block: Block, idx: number, lang: "ko" | "en" | "ja"): React.ReactNode {
   switch (block.type) {
     case "text":
       return <p key={idx} className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{block.content}</p>;
@@ -99,8 +100,7 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en"): React.ReactN
       
       return (
         <div key={idx} style={{ width: `${block.width ?? 100}%`, marginLeft: "auto", marginRight: "auto" }} className="rounded-xl overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={alt} className="w-full h-auto" />
+          <ThemedImage src={src} alt={alt} className="w-full h-auto" />
         </div>
       );
     }
@@ -115,12 +115,19 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en"): React.ReactN
   }
 }
 
-export default function LessonView({ koLesson, enLesson, category, relatedEntries }: Props) {
+export default function LessonView({ koLesson, enLesson, jaLesson, category, relatedEntries }: Props) {
   const { lang, t } = useLang();
   const { toast, showToast, hideToast } = useToast();
   const [editableLesson, setEditableLesson] = useState<Lesson>(koLesson);
   const [editableEnLesson, setEditableEnLesson] = useState<Lesson | null>(enLesson);
-  const lesson = lang === "en" && editableEnLesson ? editableEnLesson : editableLesson;
+  const [editableJaLesson, setEditableJaLesson] = useState<Lesson | null>(jaLesson);
+  // 표시 언어 → 폴백 ja → en → ko
+  const lesson =
+    lang === "ja"
+      ? editableJaLesson ?? editableEnLesson ?? editableLesson
+      : lang === "en"
+        ? editableEnLesson ?? editableLesson
+        : editableLesson;
   const [activeStep, setActiveStep] = useState(1);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -147,7 +154,19 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
         }
       }
     }
-  }, [koLesson.slug, enLesson]);
+
+    if (jaLesson) {
+      const saveKeyJa = `lesson-${koLesson.slug}-ja`;
+      const savedJaData = localStorage.getItem(saveKeyJa);
+      if (savedJaData) {
+        try {
+          setEditableJaLesson(JSON.parse(savedJaData));
+        } catch (error) {
+          console.error("저장된 일본어 데이터를 불러오는 중 오류:", error);
+        }
+      }
+    }
+  }, [koLesson.slug, enLesson, jaLesson]);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
   const sidebarItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const { markComplete, isComplete } = useProgress();
@@ -194,7 +213,9 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
 
   // Block editing functions
   const updateLessonData = (updater: (lesson: Lesson) => Lesson) => {
-    if (lang === "en" && editableEnLesson) {
+    if (lang === "ja" && editableJaLesson) {
+      setEditableJaLesson(updater(editableJaLesson));
+    } else if (lang === "en" && editableEnLesson) {
       setEditableEnLesson(updater(editableEnLesson));
     } else {
       setEditableLesson(updater(editableLesson));
@@ -282,7 +303,12 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
       // Save to localStorage for demo purposes
       // In a real app, this would be an API call
       const saveKey = `lesson-${koLesson.slug}-${lang}`;
-      const dataToSave = lang === "en" && editableEnLesson ? editableEnLesson : editableLesson;
+      const dataToSave =
+        lang === "ja" && editableJaLesson
+          ? editableJaLesson
+          : lang === "en" && editableEnLesson
+            ? editableEnLesson
+            : editableLesson;
       localStorage.setItem(saveKey, JSON.stringify(dataToSave));
       
       // Show success toast
@@ -388,7 +414,7 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
                       href={`/category/${category}/${rel.levelFolder}/${rel.slug}`}
                       className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-200"
                     >
-                      {lang === "en" ? rel.enTitle : rel.koTitle}
+                      {lang === "ja" ? rel.jaTitle : lang === "en" ? rel.enTitle : rel.koTitle}
                     </Link>
                   ))}
                 </div>
@@ -439,7 +465,9 @@ export default function LessonView({ koLesson, enLesson, category, relatedEntrie
               key={step.number}
               ref={(el) => { stepRefs.current[i] = el; }}
               id={`step-${step.number}`}
-              className="rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden"
+              className={`rounded-2xl border border-zinc-200 dark:border-zinc-800 ${
+                isEditMode ? "overflow-visible" : "overflow-hidden"
+              }`}
             >
               <div className={`p-8 space-y-4 ${isEditMode ? 'pl-16' : ''}`}>
                 <h2 className="text-xl font-bold text-zinc-900 dark:text-white">

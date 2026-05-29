@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="190" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Garbage Collection — Mark &amp; Sweep Algorithm</text>
+
+  <!-- Step 1: Mark phase -->
+  <text x="120" y="34" font-size="9" font-weight="700" fill="#3b82f6" text-anchor="middle">1. Mark Phase — trace from roots</text>
+
+  <!-- Root references -->
+  <rect x="20" y="42" width="60" height="20" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="50" y="56" font-size="8" font-weight="700" text-anchor="middle">Stack/Global</text>
+
+  <!-- Objects in heap -->
+  <circle cx="120" cy="75" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="120" y="80" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">A</text>
+
+  <circle cx="180" cy="105" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="180" y="110" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">B</text>
+
+  <circle cx="220" cy="75" r="15" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1"/>
+  <text x="220" y="80" font-size="8" fill="#a1a1aa" text-anchor="middle">C</text>
+
+  <circle cx="160" cy="135" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="160" y="140" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">D</text>
+
+  <circle cx="80" cy="105" r="15" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1"/>
+  <text x="80" y="110" font-size="8" fill="#a1a1aa" text-anchor="middle">E</text>
+
+  <!-- References -->
+  <line x1="80" y1="52" x2="108" y2="68" stroke="#3b82f6" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="135" y1="75" x2="165" y2="105" stroke="#71717a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="175" y1="118" x2="165" y2="128" stroke="#71717a" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <text x="120" y="158" font-size="8" fill="#10b981" text-anchor="middle">Reachable ✓</text>
+  <text x="220" y="98" font-size="8" fill="#ef4444" text-anchor="middle">Unreachable</text>
+
+  <!-- Step 2: Sweep phase -->
+  <text x="450" y="34" font-size="9" font-weight="700" fill="#ef4444" text-anchor="middle">2. Sweep Phase — free unmarked</text>
+
+  <!-- After sweep -->
+  <circle cx="420" cy="75" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="420" y="80" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">A</text>
+
+  <circle cx="480" cy="105" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="480" y="110" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">B</text>
+
+  <circle cx="460" cy="135" r="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="460" y="140" font-size="8" font-weight="700" fill="#065f46" text-anchor="middle">D</text>
+
+  <!-- Freed memory -->
+  <rect x="500" y="66" width="24" height="24" rx="3" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="512" y="81" font-size="10" fill="#ef4444" text-anchor="middle">✗</text>
+
+  <rect x="360" y="96" width="24" height="24" rx="3" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="372" y="111" font-size="10" fill="#ef4444" text-anchor="middle">✗</text>
+
+  <line x1="435" y1="75" x2="465" y2="105" stroke="#71717a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="475" y1="118" x2="465" y2="128" stroke="#71717a" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <text x="450" y="158" font-size="8" fill="#10b981" text-anchor="middle">Memory compacted</text>
+
+  <!-- GC types -->
+  <rect x="20" y="168" width="560" height="18" rx="3" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+  <text x="30" y="180" font-size="8" fill="#52525b">GC Types:</text>
+  <text x="100" y="180" font-size="8" fill="#3b82f6">Mark &amp; Sweep</text>
+  <text x="200" y="180" font-size="8" fill="#10b981">Generational</text>
+  <text x="300" y="180" font-size="8" fill="#f59e0b">Reference Counting</text>
+  <text x="450" y="180" font-size="8" fill="#a1a1aa">Tri-color marking</text>
+</svg>

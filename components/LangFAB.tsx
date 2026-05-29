@@ -7,7 +7,10 @@ import type { Lang } from "@/lib/i18n";
 const OPTIONS: { value: Lang; label: string; flag: string }[] = [
   { value: "ko", label: "한국어", flag: "🇰🇷" },
   { value: "en", label: "English", flag: "🇺🇸" },
+  { value: "ja", label: "日本語", flag: "🇯🇵" },
 ];
+
+const FAB_LABEL: Record<Lang, string> = { ko: "한", en: "EN", ja: "日" };
 
 export default function LangFAB() {
   const { lang, setLang } = useLang();
@@ -56,7 +59,7 @@ export default function LangFAB() {
             : "bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:shadow-xl dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700 dark:hover:border-zinc-500"
           }`}
       >
-        {lang === "ko" ? "한" : "EN"}
+        {FAB_LABEL[lang]}
       </button>
     </div>
   );

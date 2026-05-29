@@ -39,7 +39,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/heap-array.svg",
+          "src": "/images/heap-array-en.svg",
           "alt": "Max-heap array representation",
           "width": 85
         },

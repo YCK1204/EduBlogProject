@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/variables-types.svg",
+          "src": "/images/variables-types-en.svg",
           "alt": "Static vs dynamic typing comparison",
           "width": 88
         },

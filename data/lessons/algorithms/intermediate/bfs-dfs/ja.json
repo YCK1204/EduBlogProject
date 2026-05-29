@@ -1,0 +1,140 @@
+{
+  "slug": "bfs-dfs",
+  "tag": "Graph Search",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "recursion",
+    "dynamic-programming",
+    "dijkstra"
+  ],
+  "title": "幅優先探索(BFS)と深さ優先探索(DFS)",
+  "summary": "幅優先探索(BFS)と深さ優先探索(DFS)は、グラフや木を巡回するための2つの中心的なアルゴリズムです。それぞれの実装を比較し、どの問題にどちらが最も適しているかを学びます。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "グラフ巡回とは",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "グラフ巡回は、開始頂点から到達できるすべての頂点を訪問します。重要なのは「どの順序で訪問するか」という点で、この違いがBFSとDFSを定義します。"
+        },
+        {
+          "type": "text",
+          "content": "訪問済み頂点を記録しないと、閉路によって無限ループが発生します。訪問済み集合(または配列)を使うことで、各頂点が一度だけ処理されることを保証できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "目的: 連結性の判定、経路探索、閉路検出",
+            "訪問済み集合: 訪問状態をO(1)で参照",
+            "時間計算量: 隣接リストでO(V+E)、隣接行列でO(V²)",
+            "木には閉路がない → BFS/DFSでは訪問済みチェックを省略できる"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "BFS — 幅優先探索",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/bfs-dfs-ja.svg",
+          "alt": "BFSとDFSの巡回順序",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "BFSはキューを使い、開始点からの距離の順に頂点を訪問します。距離dのすべての頂点が、距離d+1の頂点より先に訪問されます。"
+        },
+        {
+          "type": "text",
+          "content": "BFSの最も重要な性質は最短経路の保証です。重みなしグラフでは、BFSが頂点に最初に到達したとき、それが最短経路となります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "データ構造: キュー(FIFO)",
+            "訪問順序: 距離1 → 距離2 → 距離3 …",
+            "最短経路の保証: 重みなしグラフに対して",
+            "レベルごとの処理: 各層を処理してから次の層へ進む"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "DFS — 深さ優先探索",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DFSはスタック(または再帰)を使い、一方向に可能な限り深く進んでから、他の分岐を探索するためにバックトラックします。"
+        },
+        {
+          "type": "text",
+          "content": "再帰的なDFSは非常に直感的で、呼び出しスタックが現在の経路を自然に記録します。DFSは閉路検出、トポロジカルソート、強連結成分(SCC)に使われます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "データ構造: スタック(または再帰の呼び出しスタック)",
+            "訪問順序: 一方向に深く進み、その後バックトラック",
+            "経路追跡: 現在訪問中の頂点の集合を保持する",
+            "応用: 閉路検出、トポロジカルソート、SCC、バックトラッキング"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "BFSとDFS — どちらをいつ使うか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "BFSは次の場合に使います: 最短経路、最小手数、レベルごとの処理。DFSは次の場合に使います: 経路の存在判定、全探索、バックトラッキング。"
+        },
+        {
+          "type": "text",
+          "content": "メモリ使用量も異なります。BFSは同じ距離にあるすべての頂点をキューに入れます(最大O(V))。DFSはO(h)のスタック領域を使い、hは木の高さです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "最短経路(重みなし): BFS",
+            "経路の存在判定、全探索、バックトラッキング: DFS",
+            "BFSのメモリ: O(V) — 横に広いグラフでは大きくなる",
+            "DFSのメモリ: O(h) — 深い木ではスタックオーバーフローに注意"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "BFS — 幅優先探索"
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set([start])\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        print(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)",
+          "javascript": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node);\n    for (const neighbor of graph[node]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n}",
+          "java": "void bfs(Map<Integer, List<Integer>> graph, int start) {\n    Set<Integer> visited = new HashSet<>();\n    Queue<Integer> queue = new LinkedList<>();\n    visited.add(start);\n    queue.offer(start);\n    while (!queue.isEmpty()) {\n        int node = queue.poll();\n        System.out.println(node);\n        for (int neighbor : graph.getOrDefault(node, List.of())) {\n            if (!visited.contains(neighbor)) {\n                visited.add(neighbor);\n                queue.offer(neighbor);\n            }\n        }\n    }\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "DFS — 深さ優先探索"
+        },
+        {
+          "type": "code",
+          "python": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)",
+          "javascript": "function dfs(graph, node, visited = new Set()) {\n  visited.add(node);\n  console.log(node);\n  for (const neighbor of graph[node]) {\n    if (!visited.has(neighbor)) {\n      dfs(graph, neighbor, visited);\n    }\n  }\n}",
+          "java": "void dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {\n    visited.add(node);\n    System.out.println(node);\n    for (int neighbor : graph.getOrDefault(node, List.of())) {\n        if (!visited.contains(neighbor)) {\n            dfs(graph, neighbor, visited);\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}

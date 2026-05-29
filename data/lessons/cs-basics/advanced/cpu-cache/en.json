@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/cpu-cache.svg",
+          "src": "/images/cpu-cache-en.svg",
           "alt": "CPU cache hierarchy levels",
           "width": 85
         },

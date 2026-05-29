@@ -39,7 +39,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/graph-representation.svg",
+          "src": "/images/graph-representation-en.svg",
           "alt": "Adjacency matrix vs adjacency list",
           "width": 88
         },

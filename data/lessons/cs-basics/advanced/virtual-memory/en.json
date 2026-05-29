@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/virtual-memory.svg",
+          "src": "/images/virtual-memory-en.svg",
           "alt": "Virtual memory page table translation",
           "width": 88
         },

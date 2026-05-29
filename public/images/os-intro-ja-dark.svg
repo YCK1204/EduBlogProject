@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="190" fill="#18181b" rx="10"/>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">オペレーティングシステム — 抽象化レイヤー</text>
+
+  <!-- Hardware layer (bottom) -->
+  <rect x="40" y="150" width="520" height="28" rx="4" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="300" y="169" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">ハードウェア（CPU、メモリ、ディスク、ネットワーク）</text>
+
+  <!-- OS Kernel layer -->
+  <rect x="40" y="114" width="520" height="32" rx="4" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="300" y="135" font-size="10" font-weight="700" fill="#fafafa" text-anchor="middle">オペレーティングシステム カーネル</text>
+
+  <!-- System calls interface -->
+  <rect x="60" y="90" width="160" height="20" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="140" y="104" font-size="8.5" fill="#93c5fd" text-anchor="middle">ファイルシステム API</text>
+
+  <rect x="240" y="90" width="160" height="20" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="320" y="104" font-size="8.5" fill="#93c5fd" text-anchor="middle">プロセス管理</text>
+
+  <rect x="420" y="90" width="120" height="20" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="480" y="104" font-size="8.5" fill="#93c5fd" text-anchor="middle">メモリマネージャ</text>
+
+  <!-- Applications layer (top) -->
+  <rect x="60" y="42" width="110" height="40" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="115" y="60" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">アプリケーション</text>
+  <text x="115" y="74" font-size="8" fill="#34d399" text-anchor="middle">ブラウザ、エディタ</text>
+
+  <rect x="190" y="42" width="110" height="40" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="245" y="60" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">システムツール</text>
+  <text x="245" y="74" font-size="8" fill="#34d399" text-anchor="middle">ターミナル, ls, ps</text>
+
+  <rect x="320" y="42" width="110" height="40" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="375" y="60" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">サービス</text>
+  <text x="375" y="74" font-size="8" fill="#34d399" text-anchor="middle">データベース、Web</text>
+
+  <rect x="450" y="42" width="110" height="40" rx="4" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="505" y="60" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">ユーザープログラム</text>
+  <text x="505" y="74" font-size="8" fill="#34d399" text-anchor="middle">ゲーム、スクリプト</text>
+
+  <!-- Labels -->
+  <text x="16" y="63" font-size="8.5" fill="#34d399" text-anchor="middle" transform="rotate(-90,16,63)">ユーザー空間</text>
+  <text x="16" y="103" font-size="8.5" fill="#60a5fa" text-anchor="middle" transform="rotate(-90,16,103)">システムコール</text>
+  <text x="16" y="130" font-size="8.5" fill="#fbbf24" text-anchor="middle" transform="rotate(-90,16,130)">カーネル空間</text>
+  <text x="16" y="164" font-size="8.5" fill="#a1a1aa" text-anchor="middle" transform="rotate(-90,16,164)">ハードウェア</text>
+
+  <text x="300" y="26" font-size="8.5" fill="#a1a1aa" text-anchor="middle">OSが抽象化を提供 — プログラムはハードウェアの詳細を知る必要がない</text>
+</svg>

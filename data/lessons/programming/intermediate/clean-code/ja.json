@@ -1,0 +1,112 @@
+{
+  "slug": "clean-code",
+  "tag": "Clean Code",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "functions-first-class",
+    "oop-intro",
+    "design-patterns-creational"
+  ],
+  "title": "クリーンコードの原則",
+  "summary": "コード品質を高めるための実践的な原則: 意味のある命名、単一責任の関数、コメントの正しい使い方、そして DRY・YAGNI・SOLID の要点を解説します。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "意味のある名前",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/clean-code-ja.svg",
+          "alt": "リファクタリング前後のクリーンコード",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "良い名前はコメントなしで意図を伝えます。変数は何を保持しているかを、関数は何をするかを表すべきです。d、temp、data は避け、elapsedTimeInDays、userAge、fetchUserProfile を選びましょう。"
+        },
+        {
+          "type": "text",
+          "content": "真偽値の変数には is/has/should/can の接頭辞を使います。関数は動詞で始めます（get、set、create、fetch、validate）。クラスは名詞で始めます（UserRepository、PaymentService）。一貫した規約はコードベース全体の可読性を高めます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "明確さ: d → elapsedTimeInDays",
+            "発音可能: genymdhms → generationTimestamp",
+            "検索可能: 7 → MAX_RETRY_COUNT",
+            "文脈: firstName → customer.firstName（文脈が欠けている場合）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "関数は1つのことをする",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "単一責任の原則: 関数は1つのことを、それをうまくやるべきです。100 行の関数は複数の責任を持っているサインです。小さな関数は命名・テスト・再利用がしやすくなります。"
+        },
+        {
+          "type": "text",
+          "content": "関数内では抽象度のレベルを一貫させましょう。ビジネスロジックと生の SQL クエリを同じ関数に混在させると読みにくくなります。すべての関数は単一の抽象度で動作すべきです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "関数の長さ: 20 行以下を推奨（Martin: 4〜5 行）",
+            "引数の数: 3 個以下を推奨（オブジェクトにまとめる）",
+            "フラグ引数: 真偽値の引数は2つの関数に分割するサイン",
+            "副作用: 関数名が約束すること以外は何もしない"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "コメントとコード",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "良いコードはそれ自体が説明になります。コメントが必要なら、それはたいていコードが十分に明確でないサインです。まずコメントなしでも理解できるようコードを改善してみましょう。"
+        },
+        {
+          "type": "text",
+          "content": "それでも「なぜ」を説明するコメントには価値があります。ビジネス上の制約を記録する、特定のバグへの回避策を残す、自明でないアルゴリズムを明らかにする、といった場合です。なぜを説明するコメントは、何をするかを説明するコメントに勝ります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "悪いコメント: // increment i → i++（コードを繰り返すだけ）",
+            "良いコメント: // RFC 2822 format required（外部の制約を説明する）",
+            "デッドコード: コメントアウトせず削除する（バージョン管理に履歴がある）",
+            "TODO コメント: 日付と担当者を明記し、放置しない"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "DRY・YAGNI・SOLID の要点",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DRY（Don't Repeat Yourself）: 知識の重複をなくします。同じロジックが2箇所にあると、1つの変更で両方を更新する必要があり、忘れやすくなります。ただし、見た目が似ているだけのコードに無理に抽象化を押し付けてはいけません。"
+        },
+        {
+          "type": "text",
+          "content": "YAGNI（You Aren't Gonna Need It）: まだ必要でない機能を作らないこと。「念のため」に追加したコードはたいてい使われず、複雑さを増すだけです。SOLID のうち最も重要なのは OCP と DIP です。拡張には開いていて修正には閉じている、そして実装ではなく抽象に依存する、という原則です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "DRY: 知識の重複をなくす（単なるコードの重複ではない）",
+            "YAGNI: 必要なときに作る — 投機的な開発はしない",
+            "OCP: 既存のコードを修正せずに新しい振る舞いを追加する",
+            "DIP: 具体的な実装ではなくインターフェースに依存する"
+          ]
+        }
+      ]
+    }
+  ]
+}

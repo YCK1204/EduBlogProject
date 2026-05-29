@@ -53,6 +53,7 @@ export default async function LessonPage({ params }: Props) {
   if (!koLesson) notFound();
 
   const enLesson = loadLesson(name, level, slug, "en");
+  const jaLesson = loadLesson(name, level, slug, "ja");
   const relatedEntries = buildRelatedEntries(name, koLesson.relatedSlugs);
 
   const categoryLabel = SLUG_TO_LABEL[name] ?? name;
@@ -72,6 +73,7 @@ export default async function LessonPage({ params }: Props) {
       <LessonView
         koLesson={koLesson}
         enLesson={enLesson}
+        jaLesson={jaLesson}
         category={name}
         relatedEntries={relatedEntries}
       />

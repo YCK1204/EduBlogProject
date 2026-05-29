@@ -1,0 +1,443 @@
+{
+  "slug": "array",
+  "tag": "Array",
+  "estimatedTime": "60 min",
+  "relatedSlugs": [
+    "linked-list",
+    "stack-queue",
+    "hash-table"
+  ],
+  "title": "配列と動的配列",
+  "summary": "配列はコンピュータサイエンスにおいて最も基本的なデータ構造です。データがメモリにどのように格納されるかから始めて、動的配列が静的配列の限界をどのように克服するか、そしてなぜ追加（append）が償却解析によって実質的にO(1)になるのかを探ります。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "なぜ配列が必要なのか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "配列なしで100人の生徒の成績を管理することを想像してみてください。score1 = 85, score2 = 92, ... score100 = 88 と書くことになります。100個の別々の変数を宣言する必要があり、ループも使えず、平均を計算するには100個の変数を手作業で足し合わせることになります。これが配列が登場する前の世界です。"
+        },
+        {
+          "type": "text",
+          "content": "配列は、番号付きのスロットの下にデータをまとめることでこれを解決します: scores[0], scores[1], ..., scores[99]。これで1つのループが100個の成績を処理します。中心的な考え方は「同じ種類のデータを、番号付きの連続したブロックに格納する」ことです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "配列なし: n個の別々の変数 → ループなし、保守性なし",
+            "配列あり: n個の項目をインデックスで1つのまとまりとして管理",
+            "配列 = 同じ型のデータを、番号付きの位置で連続して格納したもの",
+            "現実世界のたとえ: マンションの部屋番号 — 1つの建物の中の部屋それぞれに一意の番号が付いている"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "メモリ配置 — 配列はどこに存在するのか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "配列を真に理解するには、RAMがどのように機能するかを知る必要があります。RAMを、番号の付いた数十億個のロッカーが一列に並んだ巨大なロッカールームだと考えてください。各ロッカーはちょうど1バイトのデータを保持し、一意のアドレスを持っています。"
+        },
+        {
+          "type": "text",
+          "content": "配列を宣言すると、OSは連続したロッカーのブロックを予約します。5要素のint配列を宣言すると、4バイト × 5 = 20個の連続したロッカーが予約されます。この連続性が配列の重要な性質です。"
+        },
+        {
+          "type": "image",
+          "src": "/images/array-memory-layout-ja.svg",
+          "alt": "5要素のint配列のメモリ配置 — アドレス1000から1019、連続した20バイト",
+          "srcEn": "/images/array-memory-layout-ja.svg",
+          "altEn": "Array memory layout English version"
+        },
+        {
+          "type": "text",
+          "content": "最初の要素のアドレスはベースアドレス（Base Address）と呼ばれます。任意の要素のアドレスは: Base + index × element_size です。arr[3] の場合: 1000 + 3 × 4 = 1012。この単純な計算はO(1)で実行されるため、配列のサイズに関係なくランダムアクセスが瞬時に行えます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "RAM = 番号付きのロッカー、それぞれが1バイトを保持",
+            "配列の宣言 = OSにN個の連続したロッカーを要求すること",
+            "ベースアドレス: 最初の要素のアドレス",
+            "arr[i] のアドレス = ベースアドレス + i × sizeof(要素の型)",
+            "この単純な計算により、任意の位置へのO(1)アクセスが可能になります"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "なぜインデックスは0から始まるのか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ほとんどの言語では、配列のインデックスは1ではなく0から始まります。最初は直感に反するように感じますが、アドレスの式を見れば理由が明確になります。"
+        },
+        {
+          "type": "text",
+          "content": "arr[i] = Base + i × size において、最初の要素のBaseからのオフセットは0でなければなりません: arr[0] = Base + 0 × size = Base。もしインデックスが1から始まるなら、式は Base + (i-1) × size となり、毎回余分な引き算が発生します。0始まりのインデックスは計算を可能な限り単純に保ちます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "インデックス = オフセット（基点からの距離）なので、最初の要素のオフセットは0",
+            "0始まり: arr[0] = Base + 0、引き算が不要",
+            "1始まりだと必要になる: Base + (i-1) × size — より複雑",
+            "C、C++、Java、Python、JavaScriptはすべて0始まりのインデックスを使用します",
+            "Pythonは負のインデックスをサポートします: arr[-1] は最後の要素です"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "基本操作 — アクセス、検索、挿入、削除",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "配列は4つの基本操作をサポートします: アクセス、検索、挿入、削除。それぞれ異なる時間計算量を持ち、これらを理解することが配列を正しく使うために不可欠です。"
+        },
+        {
+          "type": "text",
+          "content": "アクセス: arr[i] はアドレスの式を介して任意の要素に直接到達します — 配列のサイズに関係なくO(1)です。これが配列の最大の強みです。"
+        },
+        {
+          "type": "text",
+          "content": "検索: ソートされていない配列で値を見つけるには、各要素を確認する必要があり（線形探索）、最悪ケースでO(n)です。ソートされた配列なら二分探索が可能で、O(log n)です。"
+        },
+        {
+          "type": "text",
+          "content": "挿入: 末尾への追加はO(1)です。途中への挿入には、後続のすべての要素を1つ右にずらす必要があり、最悪ケースでO(n)です（位置0への挿入はすべての要素をずらします）。"
+        },
+        {
+          "type": "image",
+          "src": "/images/array-insert-ja.svg",
+          "alt": "配列の途中への挿入: [10,20,30,40] のインデックス1に15を挿入 — 矢印が20/30/40それぞれが1スロット右にずれることを示し、結果は [10,15,20,30,40] になる"
+        },
+        {
+          "type": "text",
+          "content": "削除: 末尾からの削除はO(1)です。途中からの削除には、隙間を埋めるために後続の要素を左にずらす必要があり、最悪ケースでO(n)です。"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "静的配列の限界",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "これまで説明してきた配列は静的配列です — そのサイズは宣言時に固定され、変更できません。これが主な限界です。"
+        },
+        {
+          "type": "text",
+          "content": "いくつの項目を格納するか分からない場合、ジレンマに直面します。小さすぎる場合: データが容量を超えるとあふれます。大きすぎる場合: 使われないスロットのためにメモリが無駄になります。1000スロットの配列に3項目では、997スロットが無駄になります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "限界1 — 固定サイズ: 拡張できない。いっぱいになると新しい配列と手作業のコピーが必要",
+            "限界2 — メモリの無駄: 余分な領域を予約するとメモリが無駄になる",
+            "限界3 — 途中の挿入/削除のコストが高い: O(n)の要素のずらし",
+            "限界4 — 事前にサイズを知る必要がある: 実行時に数が不明な場合、設計が難しい"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "動的配列 — 容量とサイズ",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "動的配列は、論理的なサイズ（実際に格納されている要素の数）と物理的な容量（予約されている領域の量）を分離することで、静的配列の限界を解決します。"
+        },
+        {
+          "type": "text",
+          "content": "レストランのたとえ: あるレストランには20席ありますが、客は8人だけです。size = 8、capacity = 20。新しい客は空席に座ります。すべての席が埋まると、テーブルを追加します — ちょうど動的配列が容量を超えると自動的により多くの領域を割り当てるのと同じです。"
+        },
+        {
+          "type": "image",
+          "src": "/images/array-capacity-size-ja.svg",
+          "alt": "動的配列の容量とサイズ — 8スロットの内部配列のうち3つが埋まっている（size=3, capacity=8）。埋まったスロットは塗りつぶされた青いボックス、空のスロットは破線の灰色ボックスで示される。下の矢印がサイズの範囲と容量の範囲を示す"
+        },
+        {
+          "type": "points",
+          "items": [
+            "size: 実際に格納されている要素の数（論理的なサイズ）",
+            "capacity: 内部で予約されている総メモリ（物理的なサイズ）",
+            "常に: size ≤ capacity",
+            "Python list、Java ArrayList、C++ vector、C# List<T>、JavaScript Array はすべて動的配列です",
+            "ほとんどの言語で、動的配列がデフォルトの配列型として振る舞います"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "リサイズ — 配列が自動的に拡張する仕組み",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "リサイズは動的配列の中心的な仕組みです。sizeがcapacityに達すると、3つのステップが自動的に実行されます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "ステップ1 — 新しい配列の割り当て: 現在の容量の2倍（または1.5倍）の新しい配列をメモリに作成する",
+            "ステップ2 — データのコピー: 古い配列から新しい配列へすべての要素をコピーする — これはO(n)のコストがかかる",
+            "ステップ3 — 参照の切り替え: 動的配列を新しい内部配列に向ける、古いメモリを解放する"
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/images/array-resizing-ja.svg",
+          "alt": "3ステップのリサイズの図 — ステップ1: [A,B,C,D] capacity=4 がいっぱいで、Eが要求される（矢印）。ステップ2: 下に新しい capacity=8 の配列が作成され、A/B/C/Dが矢印とともにコピーされる。ステップ3: 結果は [A,B,C,D,E,_,_,_] size=5 capacity=8"
+        },
+        {
+          "type": "text",
+          "content": "なぜ2倍にするのか? より小さな拡張（例: 1.1倍）はリサイズが頻繁になりすぎます。より大きな拡張（例: 3倍）はメモリを無駄にします。2倍（または1.5倍）は、リサイズの頻度とメモリのオーバーヘッドのバランスを取ります。この倍率は成長係数（growth factor）と呼ばれます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "成長係数: 新しい容量 = 古い容量 × 成長係数",
+            "Python list: 約1.125〜2倍（複雑な式、小さいときほど大きく成長する）",
+            "Java ArrayList: 1.5倍（oldCapacity + oldCapacity >> 1）",
+            "C++ std::vector: 2倍（GCC/Clang、実装によって異なる場合がある）",
+            "C# List<T>: 2倍",
+            "成長係数が大きいほど → メモリの無駄が増え、リサイズが減る"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "償却解析 — なぜ追加（append）はO(1)なのか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "リサイズはO(n)のコストがかかり、通常の追加はO(1)のコストです。では、追加の時間計算量はどれくらいでしょうか? 答えは「償却O(1)」です。償却解析がこれを証明します。"
+        },
+        {
+          "type": "text",
+          "content": "償却解析は、コストの高い操作のコストを多数の安価な操作に分散させます。銀行口座のたとえ: 安価なO(1)の追加のたびに、将来のリサイズのコストに向けて小さなクレジットを預けます。リサイズが発生すると、それらのクレジットが支払いを賄います。"
+        },
+        {
+          "type": "text",
+          "content": "計算: 容量を2倍にしながらn回追加する場合（1→2→4→...→n）、コピーの総数 = 1+2+4+...+n/2 = n-1。n回の追加の総コスト = O(n)。1回の追加あたりの平均コスト = O(n)/n = O(1)。"
+        },
+        {
+          "type": "image",
+          "src": "/images/array-amortized-ja.svg",
+          "alt": "償却解析の棒グラフ — x軸: 追加の番号（1〜16）、y軸: 実際のコスト。ほとんどの操作はコスト1（短い棒）だが、追加 1, 2, 4, 8, 16 ではリサイズのコストで急増する（高い棒）。y=2の破線の水平線が償却平均を示す"
+        },
+        {
+          "type": "points",
+          "items": [
+            "償却O(1): 最悪ケースはO(n)だが、n回の操作にわたる平均はO(1)",
+            "リサイズはサイズが 1, 2, 4, 8, 16... のときだけ発生する — 合計でlog₂n回",
+            "コピーの総数 = 1+2+4+...+n/2 = n-1、1回の追加あたり平均 ≈ 1",
+            "append: 償却O(1) / 最悪ケースO(n)（リサイズが起きるとき）",
+            "面接のヒント: 「ほぼ常にO(1)、ときどきO(n)の急増があるが平均すると均される」"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "言語別の動的配列の使い方",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "各言語は動的配列の名前と使い方が少しずつ異なります。ここでは、最もよく使われるメソッドを実用的にまとめます。"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "時間計算量のまとめ — 配列をいつ使うか",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ここに、すべての配列操作の完全な時間計算量のリファレンスを示します。最良、平均、最悪のケースを理解することが重要です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "アクセス arr[i]: O(1) — 常に定数、配列の最大の強み",
+            "検索（ソートなし）: O(n) — 線形走査",
+            "検索（ソート済み + 二分探索）: O(log n)",
+            "追加（末尾へのpush）: 償却O(1) / 最悪ケースO(n)（リサイズ）",
+            "途中または先頭への挿入: O(n) — 要素のずらし",
+            "最後の要素の削除: O(1)",
+            "途中または先頭の削除: O(n) — 要素のずらし",
+            "空間計算量: O(n) — 動的配列は容量のため最大2nスロットを使用する場合がある"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "配列と連結リストの比較: 配列はO(1)アクセスに優れますが、途中の挿入/削除にO(n)の代償を払います。連結リストはこれが逆になります — 途中の挿入/削除はO(1)ですが、アクセスはO(n)です。主要な操作に基づいて選択してください。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "配列を選ぶ場合: 頻繁なインデックスベースのアクセス、追加のみ、またはソート済みデータの二分探索",
+            "連結リストを選ぶ場合: 頻繁な途中の挿入/削除、または急速に変化するサイズ",
+            "実用的なルール: 動的配列（list/ArrayList/vector）が最初のデフォルトの選択",
+            "配列はキャッシュ効率でも有利 — 連続したメモリは、連結リストのポインタを辿る方式に比べてCPUキャッシュに優しい"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "実践的なパターン — 2ポインタと累積和",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "2つの必須の配列ベースのパターンが、数えきれないほどのコーディング問題に登場します。これらを習得すれば、多くの問題を効率的に解けます。"
+        },
+        {
+          "type": "text",
+          "content": "パターン1 — 2ポインタ: 2つのインデックスポインタを異なる位置に置き、条件に基づいて互いに向かって動かします。「ソート済み配列の中で合計が目標値になる2つの数を見つける」といった問題で、O(n²)の総当たりをO(n)に削減します。"
+        },
+        {
+          "type": "text",
+          "content": "パターン2 — 累積和: 累積した合計を事前計算しておくことで、任意の範囲の合計クエリにO(1)で答えられます。O(n²)を、qをクエリの数として O(n + q) に変換します。"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "参考資料と練習問題",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "配列を習得する最良の方法は、問題を解くことです。ここでは、学習段階別に整理したおすすめのリソースを紹介します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "[ 可視化 ] VisuAlgo (visualgo.net) — 配列、ソート、検索の段階的なアニメーション。挿入/削除のずらしの動きを見るのに最適",
+            "[ 理論 ] GeeksforGeeks — Array Data Structure (geeksforgeeks.org/array-data-structure) — コード例を含む包括的な解説",
+            "[ 練習 — 初級 ] LeetCode (leetcode.com) — Arrayタグ、Easyレベル。まずは: Two Sum (#1), Best Time to Buy and Sell Stock (#121), Maximum Subarray (#53) から",
+            "[ 練習 — 中級 ] LeetCode Medium: Container With Most Water (#11), 3Sum (#15), Product of Array Except Self (#238)",
+            "[ 練習 — 韓国語 ] Baekjoon Online Judge (acmicpc.net) — 'Array' タグ。まずは: 10818 (最小/最大), 2562 (最大値), 1330 (2つの数の比較) から",
+            "[ 書籍 ] 『Introduction to Algorithms』(CLRS) — 深い理論的基礎のためのソートと配列に関する章"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "おすすめの学習順序: 配列 → 連結リスト → スタックとキュー → ハッシュテーブル。配列を先に理解しておくと、連結リストとの対比がすぐに明確になります: 「配列 = 連続したメモリ + 高速なアクセス、連結リスト = 散らばったメモリ + 柔軟な挿入/削除」。このトレードオフを覚えておいてください — あらゆるデータ構造の面接で登場します。"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "なぜ配列が必要なのか"
+        },
+        {
+          "type": "code",
+          "python": "# Without arrays (bad)\nscore1 = 85\nscore2 = 92\nscore3 = 78\naverage = (score1 + score2 + score3) / 3\n\n# With arrays (good)\nscores = [85, 92, 78, 91, 88]\naverage = sum(scores) / len(scores)\nprint(f'Average: {average}')  # 86.8",
+          "javascript": "// Without arrays (bad)\nlet score1 = 85, score2 = 92, score3 = 78;\n\n// With arrays (good)\nconst scores = [85, 92, 78, 91, 88];\nconst average = scores.reduce((sum, s) => sum + s, 0) / scores.length;\nconsole.log(`Average: ${average}`);  // 86.8",
+          "java": "int[] scores = {85, 92, 78, 91, 88};\nint sum = 0;\nfor (int score : scores) sum += score;\ndouble average = (double) sum / scores.length;\nSystem.out.println(\"Average: \" + average);  // 86.8",
+          "cpp": "#include <iostream>\n#include <numeric>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = std::accumulate(scores, scores + n, 0);\ndouble average = (double)sum / n;\nstd::cout << \"Average: \" << average;",
+          "csharp": "int[] scores = {85, 92, 78, 91, 88};\ndouble average = scores.Average();\nConsole.WriteLine($\"Average: {average}\");  // 86.8",
+          "c": "#include <stdio.h>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = 0;\nfor (int i = 0; i < n; i++) sum += scores[i];\ndouble average = (double)sum / n;\nprintf(\"Average: %.1f\\n\", average);"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "なぜインデックスは0から始まるのか"
+        },
+        {
+          "type": "code",
+          "python": "arr = [10, 20, 30, 40, 50]\n\nprint(arr[0])   # 10 (first)\nprint(arr[4])   # 50 (last, max index = len-1 = 4)\nprint(arr[-1])  # 50 (Python: negative index from end)\nprint(arr[-2])  # 40\n\n# Valid range: 0 ~ len(arr)-1\n# arr[5] raises IndexError!",
+          "javascript": "const arr = [10, 20, 30, 40, 50];\n\nconsole.log(arr[0]);              // 10\nconsole.log(arr[4]);              // 50\nconsole.log(arr[arr.length - 1]); // 50 (last element)\n\n// Out-of-bounds returns undefined (no error)\nconsole.log(arr[5]);  // undefined",
+          "java": "int[] arr = {10, 20, 30, 40, 50};\n\nSystem.out.println(arr[0]);  // 10\nSystem.out.println(arr[4]);  // 50\n\n// Out-of-bounds throws ArrayIndexOutOfBoundsException\n// System.out.println(arr[5]);  // exception!",
+          "cpp": "int arr[] = {10, 20, 30, 40, 50};\n\nstd::cout << arr[0] << std::endl;  // 10\nstd::cout << arr[4] << std::endl;  // 50\n\n// C/C++: NO bounds checking — undefined behavior!\n// arr[5] may return garbage or crash",
+          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\nConsole.WriteLine(arr[0]);   // 10\nConsole.WriteLine(arr[4]);   // 50\nConsole.WriteLine(arr[^1]);  // 50 (C# 8.0+: index from end)\n\n// Out-of-bounds: IndexOutOfRangeException",
+          "c": "#include <stdio.h>\n\nint arr[] = {10, 20, 30, 40, 50};\nint n = 5;\n\nprintf(\"%d\\n\", arr[0]);    // 10\nprintf(\"%d\\n\", arr[n-1]); // 50 (last)\n\n// C has NO bounds checking — always verify manually!"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "基本操作 — アクセス、検索、挿入、削除"
+        },
+        {
+          "type": "code",
+          "python": "arr = [10, 20, 30, 40, 50]\n\n# 1. Access O(1)\nprint(arr[2])  # 30\n\n# 2. Linear Search O(n)\ndef linear_search(arr, target):\n    for i, val in enumerate(arr):\n        if val == target:\n            return i\n    return -1\nprint(linear_search(arr, 30))  # 2\n\n# 3. Mid-insert O(n) — internal shifting\narr.insert(2, 99)\nprint(arr)  # [10, 20, 99, 30, 40, 50]\n\n# 4. Delete O(n)\narr.pop(2)  # remove index 2\nprint(arr)  # [10, 20, 30, 40, 50]",
+          "javascript": "const arr = [10, 20, 30, 40, 50];\n\n// 1. Access O(1)\nconsole.log(arr[2]);  // 30\n\n// 2. Search O(n)\nconsole.log(arr.indexOf(30));  // 2\nconsole.log(arr.indexOf(99));  // -1\n\n// 3. Insert O(n)\narr.splice(2, 0, 99);\nconsole.log(arr);  // [10, 20, 99, 30, 40, 50]\n\n// 4. Delete O(n)\narr.splice(2, 1);\nconsole.log(arr);  // [10, 20, 30, 40, 50]",
+          "java": "int[] arr = {10, 20, 30, 40, 50};\n\n// 1. Access O(1)\nSystem.out.println(arr[2]);  // 30\n\n// 2. Search O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < arr.length; i++)\n    if (arr[i] == target) { idx = i; break; }\nSystem.out.println(idx);  // 2\n\n// Static arrays require manual element shifting for insert/delete\n// Use ArrayList in practice (covered next)",
+          "cpp": "#include <algorithm>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. Access O(1)\nstd::cout << arr[2];  // 30\n\n// 2. Search O(n)\nauto it = std::find(arr, arr + size, 30);\nif (it != arr + size) std::cout << (it - arr);  // 2\n\n// 3. Insert at index 2 — manual shift O(n)\nfor (int i = size; i > 2; i--) arr[i] = arr[i-1];\narr[2] = 99; size++;",
+          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\n// 1. Access O(1)\nConsole.WriteLine(arr[2]);  // 30\n\n// 2. Search O(n)\nint idx = Array.IndexOf(arr, 30);\nConsole.WriteLine(idx);  // 2\n\n// Static array: no built-in insert/delete → use List<T>",
+          "c": "#include <stdio.h>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. Access O(1)\nprintf(\"%d\\n\", arr[2]);  // 30\n\n// 2. Search O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < size; i++)\n    if (arr[i] == target) { idx = i; break; }\nprintf(\"index: %d\\n\", idx);  // 2\n\n// 3. Insert at index 2 — shift right\nfor (int i = size; i > 2; i--) arr[i] = arr[i-1];\narr[2] = 99; size++;"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "静的配列の限界"
+        },
+        {
+          "type": "code",
+          "python": "# Simulating static array overflow\nMAX_SIZE = 5\narr = [0] * MAX_SIZE\nsize = 0\n\ndef add(value):\n    global size\n    if size >= MAX_SIZE:\n        print('Array full! Cannot add more.')\n        return\n    arr[size] = value\n    size += 1\n\nadd(10); add(20); add(30); add(40); add(50)\nadd(60)  # Prints: 'Array full! Cannot add more.'",
+          "javascript": "const MAX_SIZE = 5;\nconst arr = new Array(MAX_SIZE);\nlet size = 0;\n\nfunction add(value) {\n    if (size >= MAX_SIZE) {\n        console.log('Array full!');\n        return;\n    }\n    arr[size++] = value;\n}\n\nadd(10); add(20); add(30); add(40); add(50);\nadd(60);  // 'Array full!'",
+          "java": "int[] arr = new int[5];\nint size = 0;\n\nfor (int i = 1; i <= 6; i++) {\n    if (size >= arr.length) {\n        // Must manually resize\n        int[] newArr = new int[arr.length * 2];\n        System.arraycopy(arr, 0, newArr, 0, arr.length);\n        arr = newArr;\n        System.out.println(\"Manual resize to: \" + arr.length);\n    }\n    arr[size++] = i * 10;\n}",
+          "cpp": "#include <cstring>\n#include <iostream>\n\nint* arr = new int[5];\nint capacity = 5, size = 0;\n\nvoid add(int val) {\n    if (size == capacity) {\n        int* newArr = new int[capacity * 2];\n        memcpy(newArr, arr, size * sizeof(int));\n        delete[] arr;\n        arr = newArr;\n        capacity *= 2;\n        std::cout << \"Resize to: \" << capacity << std::endl;\n    }\n    arr[size++] = val;\n}",
+          "csharp": "int[] arr = new int[5];\n\n// Need more space? Array.Resize internally creates new array + copies\nArray.Resize(ref arr, 10);\nConsole.WriteLine(arr.Length);  // 10\n// This inconvenience is exactly what List<T> solves",
+          "c": "#include <stdlib.h>\n#include <stdio.h>\n\nint* arr;\nint capacity = 5, size = 0;\n\nvoid init()    { arr = malloc(capacity * sizeof(int)); }\nvoid cleanup() { free(arr); }\n\nvoid add(int val) {\n    if (size >= capacity) {\n        capacity *= 2;\n        arr = realloc(arr, capacity * sizeof(int));\n        printf(\"Resize: capacity=%d\\n\", capacity);\n    }\n    arr[size++] = val;\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "動的配列 — 容量とサイズ"
+        },
+        {
+          "type": "code",
+          "python": "import sys\n\narr = []  # Python list = dynamic array\n\nfor i in range(9):\n    arr.append(i)\n    print(f'size={len(arr)}, allocated_bytes={sys.getsizeof(arr)}')\n\n# A jump in bytes marks a resize event!\n# 0→56, 1→88, 5→120, 9→184 (CPython)",
+          "javascript": "const arr = [];\nconsole.log(arr.length);  // 0\n\narr.push(10); arr.push(20); arr.push(30);\nconsole.log(arr.length);  // 3\n// capacity managed internally by the JS engine",
+          "java": "import java.util.ArrayList;\n\nArrayList<Integer> list = new ArrayList<>();  // default capacity: 10\n\nfor (int i = 0; i < 12; i++) list.add(i);\nSystem.out.println(\"size: \" + list.size());  // 12\n// capacity 10 → 15 after the 11th element (1.5x growth)",
+          "cpp": "#include <vector>\n#include <iostream>\n\nstd::vector<int> v;\nfor (int i = 0; i < 10; i++) {\n    v.push_back(i);\n    std::cout << \"size=\" << v.size()\n              << \", capacity=\" << v.capacity() << \"\\n\";\n}\n// size=1, capacity=1\n// size=3, capacity=4  ← resize!",
+          "csharp": "var list = new List<int>();  // default capacity: 4\n\nfor (int i = 0; i < 10; i++) {\n    list.Add(i);\n    Console.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n}\n// Count=5, Capacity=8  ← resize!\n// Count=9, Capacity=16 ← resize!",
+          "c": "#include <stdlib.h>\n#include <stdio.h>\n\ntypedef struct { int* data; int size; int capacity; } Vec;\n\nVec* vec_new() {\n    Vec* v = malloc(sizeof(Vec));\n    v->data = malloc(4 * sizeof(int));\n    v->size = 0; v->capacity = 4;\n    return v;\n}\n\nvoid vec_push(Vec* v, int val) {\n    if (v->size == v->capacity) {\n        v->capacity *= 2;\n        v->data = realloc(v->data, v->capacity * sizeof(int));\n        printf(\"Resize: capacity=%d\\n\", v->capacity);\n    }\n    v->data[v->size++] = val;\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "言語別の動的配列の使い方"
+        },
+        {
+          "type": "code",
+          "python": "arr = []  # or list()\n\n# Add\narr.append(10)        # append to end O(1) amortized\narr.insert(1, 99)     # insert at index O(n)\narr.extend([20, 30])  # append multiple\n\n# Remove\narr.pop()             # remove last O(1)\narr.pop(0)            # remove at index O(n)\narr.remove(99)        # remove first match O(n)\n\n# Search\nprint(99 in arr)      # O(n)\nprint(arr.index(10))  # O(n)\n\n# Slicing\nprint(arr[1:3])       # subarray O(k)\nprint(arr[::-1])      # reversed copy O(n)\n\nprint(len(arr))       # size",
+          "javascript": "const arr = [];\n\narr.push(10, 20);         // append O(1) amortized\narr.unshift(5);           // prepend O(n)\narr.splice(1, 0, 99);     // insert at index O(n)\n\narr.pop();                // remove last O(1)\narr.shift();              // remove first O(n)\narr.splice(1, 1);         // remove at index O(n)\n\nconsole.log(arr.includes(10));       // O(n)\nconsole.log(arr.indexOf(10));        // O(n)\nconsole.log(arr.find(x => x > 5));   // O(n)\n\nconst copy = arr.slice(1, 3);        // subarray\nconsole.log(arr.length);             // size",
+          "java": "import java.util.*;\n\nList<Integer> list = new ArrayList<>();\n\nlist.add(10);                 // append\nlist.add(1, 99);              // insert at index\nlist.addAll(Arrays.asList(20, 30));\n\nlist.remove(0);                    // remove by index\nlist.remove(Integer.valueOf(99));   // remove by value\nlist.clear();\n\nSystem.out.println(list.contains(10));  // O(n)\nSystem.out.println(list.indexOf(10));   // O(n)\n\nCollections.sort(list);\nSystem.out.println(list.size());  // size",
+          "cpp": "#include <vector>\n#include <algorithm>\n\nstd::vector<int> v;\n\nv.push_back(10);               // append O(1) amortized\nv.emplace_back(20);            // more efficient than push_back\nv.insert(v.begin()+1, 99);    // insert O(n)\nv.reserve(100);                // pre-allocate to avoid resizes\n\nv.pop_back();                  // remove last O(1)\nv.erase(v.begin()+1);         // remove at index O(n)\nv.clear();\n\nstd::cout << v.size() << \" \" << v.capacity();",
+          "csharp": "var list = new List<int>();\n\nlist.Add(10);\nlist.Insert(1, 99);\nlist.AddRange(new[] {20, 30});\n\nlist.RemoveAt(0);\nlist.Remove(99);\nlist.Clear();\n\nConsole.WriteLine(list.Contains(10));\nConsole.WriteLine(list.IndexOf(10));\nConsole.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n\nlist.Sort();\nlist.Sort((a, b) => b.CompareTo(a));  // descending",
+          "c": "#include <stdlib.h>\n\ntypedef struct { int* data; int size; int capacity; } Vec;\n\nVec* vec_new() {\n    Vec* v = malloc(sizeof(Vec));\n    v->data = malloc(4 * sizeof(int));\n    v->size = 0; v->capacity = 4;\n    return v;\n}\nvoid vec_push(Vec* v, int val) {\n    if (v->size == v->capacity) {\n        v->capacity *= 2;\n        v->data = realloc(v->data, v->capacity * sizeof(int));\n    }\n    v->data[v->size++] = val;\n}\nint  vec_get(Vec* v, int i) { return v->data[i]; }\nvoid vec_free(Vec* v) { free(v->data); free(v); }"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "実践的なパターン — 2ポインタと累積和"
+        },
+        {
+          "type": "code",
+          "python": "# Two Pointers — find pair summing to target in sorted array\ndef two_sum_sorted(arr, target):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        s = arr[left] + arr[right]\n        if s == target:   return (left, right)\n        elif s < target:  left += 1\n        else:             right -= 1\n    return None\n\nprint(two_sum_sorted([1, 3, 5, 7, 9, 11], 10))  # (1, 3) → 3+7\n\n# Prefix Sum — range sum in O(1)\ndef build_prefix(arr):\n    p = [0] * (len(arr) + 1)\n    for i, v in enumerate(arr):\n        p[i + 1] = p[i] + v\n    return p\n\ndef range_sum(p, l, r):  # sum of arr[l..r]\n    return p[r + 1] - p[l]\n\narr = [3, 1, 4, 1, 5, 9, 2, 6]\np = build_prefix(arr)\nprint(range_sum(p, 2, 5))  # 4+1+5+9 = 19",
+          "javascript": "// Two Pointers\nfunction twoSumSorted(arr, target) {\n    let l = 0, r = arr.length - 1;\n    while (l < r) {\n        const s = arr[l] + arr[r];\n        if (s === target) return [l, r];\n        else if (s < target) l++;\n        else r--;\n    }\n    return null;\n}\nconsole.log(twoSumSorted([1,3,5,7,9,11], 10));  // [1, 3]\n\n// Prefix Sum\nfunction buildPrefix(arr) {\n    const p = new Array(arr.length + 1).fill(0);\n    for (let i = 0; i < arr.length; i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\nconst p = buildPrefix([3,1,4,1,5,9,2,6]);\nconsole.log(p[6] - p[2]);  // range [2,5] = 19",
+          "java": "// Two Pointers\nint[] twoSumSorted(int[] arr, int target) {\n    int l = 0, r = arr.length - 1;\n    while (l < r) {\n        int s = arr[l] + arr[r];\n        if (s == target) return new int[]{l, r};\n        else if (s < target) l++;\n        else r--;\n    }\n    return new int[]{-1, -1};\n}\n\n// Prefix Sum\nint[] buildPrefix(int[] arr) {\n    int[] p = new int[arr.length + 1];\n    for (int i = 0; i < arr.length; i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\nint rangeSum(int[] p, int l, int r) { return p[r+1] - p[l]; }",
+          "cpp": "#include <vector>\nusing namespace std;\n\npair<int,int> twoSumSorted(vector<int>& a, int t) {\n    int l = 0, r = a.size()-1;\n    while (l < r) {\n        int s = a[l]+a[r];\n        if (s==t) return {l,r};\n        else if (s<t) l++; else r--;\n    }\n    return {-1,-1};\n}\n\nvector<int> buildPrefix(vector<int>& a) {\n    vector<int> p(a.size()+1,0);\n    for(int i=0;i<(int)a.size();i++) p[i+1]=p[i]+a[i];\n    return p;\n}\nint rangeSum(vector<int>& p,int l,int r){return p[r+1]-p[l];}",
+          "csharp": "// Two Pointers\nint[] TwoSumSorted(int[] arr, int target) {\n    int l = 0, r = arr.Length - 1;\n    while (l < r) {\n        int s = arr[l] + arr[r];\n        if (s == target) return new[]{l,r};\n        else if (s < target) l++; else r--;\n    }\n    return new[]{-1,-1};\n}\n\n// Prefix Sum\nint[] BuildPrefix(int[] arr) {\n    int[] p = new int[arr.Length+1];\n    for(int i=0;i<arr.Length;i++) p[i+1]=p[i]+arr[i];\n    return p;\n}\nint RangeSum(int[] p,int l,int r)=>p[r+1]-p[l];",
+          "c": "// Two Pointers\nvoid twoSum(int* a,int n,int t,int* lo,int* hi){\n    *lo=0; *hi=n-1;\n    while(*lo<*hi){\n        int s=a[*lo]+a[*hi];\n        if(s==t) return;\n        else if(s<t)(*lo)++; else(*hi)--;\n    }\n    *lo=*hi=-1;\n}\n\n// Prefix Sum\nvoid buildPrefix(int* a,int n,int* p){\n    p[0]=0;\n    for(int i=0;i<n;i++) p[i+1]=p[i]+a[i];\n}\nint rangeSum(int* p,int l,int r){return p[r+1]-p[l];}"
+        }
+      ]
+    }
+  ]
+}

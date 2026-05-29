@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/two-pointer.svg",
+          "src": "/images/two-pointer-en.svg",
           "alt": "Two-pointer and sliding window patterns",
           "width": 88
         },

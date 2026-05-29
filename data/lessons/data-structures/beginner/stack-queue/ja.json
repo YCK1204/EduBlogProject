@@ -1,0 +1,142 @@
+{
+  "slug": "stack-queue",
+  "tag": "Stack · Queue",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "array",
+    "linked-list",
+    "bst"
+  ],
+  "title": "スタックとキュー",
+  "summary": "スタックとキューは、挿入と削除の順序が定められた線形データ構造です。スタックはLIFO（後入れ先出し）で動作し、キューはFIFO（先入れ先出し）で動作します。多くのアルゴリズムやシステムの基盤を形成します。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "スタック — LIFO",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/stack-queue-ja.svg",
+          "alt": "スタックのLIFOとキューのFIFO",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "スタックは後入れ先出し（Last In, First Out）構造です。最後にpushした要素が最初にpopされます。積み重ねた皿をイメージしてください。"
+        },
+        {
+          "type": "text",
+          "content": "2つの中心的な操作はpush（挿入）とpop（削除）です。どちらもスタックの上に対して作用するため、O(1)で実行されます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "push: 上に要素を追加 O(1)",
+            "pop: 上から要素を削除 O(1)",
+            "peek: 削除せずに上の要素を見る O(1)",
+            "用途: 関数呼び出しスタック、括弧の検証、ブラウザの戻るボタン"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "キュー — FIFO",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "キューは先入れ先出し（First In, First Out）構造です。最初にenqueueした要素が最初にdequeueされます。順番を待つ人の列をイメージしてください。"
+        },
+        {
+          "type": "text",
+          "content": "中心的な操作はenqueue（末尾への挿入）とdequeue（先頭からの削除）です。素朴な配列ベースのdequeueはすべての要素をずらすためO(n)です。これを避けるには循環バッファや連結リストを使います。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "enqueue: 末尾に挿入 O(1)",
+            "dequeue: 先頭から削除 O(1)（連結リスト実装）",
+            "用途: BFS巡回、プリンタのスプール、プロセススケジューリング",
+            "派生: Deque（両端キュー）、優先度付きキュー"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "実装の比較",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "スタックとキューは配列または連結リストで実装でき、それぞれにトレードオフがあります。"
+        },
+        {
+          "type": "text",
+          "content": "配列ベースの実装はキャッシュ効率が良くシンプルですが、サイズが固定です。連結リストベースの実装は動的なサイズに対応できますが、ポインタのオーバーヘッドとキャッシュミスが加わります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "配列ベース: シンプル、キャッシュ効率が良い、サイズ固定",
+            "連結リストベース: 動的なサイズ、ポインタのオーバーヘッド",
+            "Python: list（スタック）、collections.deque（キュー）",
+            "Java: Deque インターフェース（ArrayDeque 推奨）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "コールスタックと再帰",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "プログラミング言語は関数呼び出しをスタックで実装します。各呼び出しはスタックフレームをpushし、関数から戻るとそれをpopします。"
+        },
+        {
+          "type": "text",
+          "content": "再帰が深くなりすぎると、スタックがオーバーフローします。再帰を明示的なスタックを使った反復に変換すると、この問題を回避できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "各呼び出しはスタックフレーム（ローカル変数、戻りアドレス）を生成する",
+            "再帰の深さ制限: Python のデフォルトは1000",
+            "末尾呼び出し最適化（TCO）: 一部の言語ではスタックフレームを再利用する",
+            "DFS: 再帰と明示的なスタックは相互に置き換え可能"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "スタック — LIFO"
+        },
+        {
+          "type": "code",
+          "python": "stack = []\nstack.append(1)  # push\nstack.append(2)\nstack.append(3)\nprint(stack.pop())  # 3 (LIFO)\nprint(stack[-1])    # peek: 2",
+          "javascript": "const stack = [];\nstack.push(1);\nstack.push(2);\nstack.push(3);\nconsole.log(stack.pop());  // 3 (LIFO)\nconsole.log(stack[stack.length - 1]);  // peek: 2",
+          "java": "import java.util.Deque;\nimport java.util.ArrayDeque;\nDeque<Integer> stack = new ArrayDeque<>();\nstack.push(1);\nstack.push(2);\nstack.push(3);\nSystem.out.println(stack.pop());   // 3\nSystem.out.println(stack.peek());  // 2",
+          "c": "#define MAX 100\nint stack[MAX];\nint top = -1;\n\nvoid push(int val) { stack[++top] = val; }\nint pop() { return stack[top--]; }\nint peek() { return stack[top]; }",
+          "cpp": "#include <stack>\nstd::stack<int> s;\ns.push(1);\ns.push(2);\ns.push(3);\nstd::cout << s.top();  // peek: 3\ns.pop();               // remove 3"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "キュー — FIFO"
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
+          "javascript": "const queue = [];\nqueue.push(1);\nqueue.push(2);\nqueue.push(3);\nconsole.log(queue.shift());  // 1 (FIFO) — O(n)!\n// Efficient queue requires a custom implementation",
+          "java": "import java.util.Queue;\nimport java.util.LinkedList;\nQueue<Integer> queue = new LinkedList<>();\nqueue.offer(1);\nqueue.offer(2);\nqueue.offer(3);\nSystem.out.println(queue.poll());  // 1 (FIFO)"
+        }
+      ]
+    }
+  ]
+}

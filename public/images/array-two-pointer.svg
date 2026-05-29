@@ -2,7 +2,7 @@
   <rect width="600" height="200" fill="#fafafa" rx="10"/>
 
   <!-- Pattern 1: Two Pointer -->
-  <text x="20" y="16" font-size="10" font-weight="700" fill="#52525b">Pattern 1 — Two Pointer: find pair summing to 9</text>
+  <text x="20" y="16" font-size="10" font-weight="700" fill="#52525b">패턴 1 — 투 포인터: 합이 9인 쌍 찾기</text>
 
   <rect x="20"  y="24" width="52" height="40" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
   <text x="46"  y="46" font-size="14" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
@@ -34,12 +34,12 @@
   <rect x="370" y="24" width="210" height="54" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
   <text x="475" y="44" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">arr[L] + arr[R] = 1+8 = 9 ✓</text>
   <text x="475" y="60" font-size="9" fill="#047857" text-anchor="middle">sum &gt; target → R-- / sum &lt; target → L++</text>
-  <text x="475" y="74" font-size="9" fill="#047857" text-anchor="middle">Time O(n)  Space O(1)</text>
+  <text x="475" y="74" font-size="9" fill="#047857" text-anchor="middle">시간 O(n)  공간 O(1)</text>
 
   <line x1="20" y1="92" x2="580" y2="92" stroke="#e4e4e7" stroke-width="1.5"/>
 
   <!-- Pattern 2: Prefix Sum -->
-  <text x="20" y="108" font-size="10" font-weight="700" fill="#52525b">Pattern 2 — Prefix Sum: range [1,3] sum in O(1)</text>
+  <text x="20" y="108" font-size="10" font-weight="700" fill="#52525b">패턴 2 — 누적 합: 구간 [1,3] 합을 O(1)로</text>
 
   <text x="20" y="126" font-size="9" fill="#52525b" font-weight="600">arr:</text>
 
@@ -64,9 +64,9 @@
   <text x="271" y="144" font-size="8" fill="#a1a1aa" text-anchor="middle">[4]</text>
 
   <path d="M98,152 L98,158 L221,158 L221,152" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
-  <text x="159" y="170" font-size="8.5" fill="#1d4ed8" text-anchor="middle">range [1,3]</text>
+  <text x="159" y="170" font-size="8.5" fill="#1d4ed8" text-anchor="middle">구간 [1,3]</text>
 
-  <text x="20" y="188" font-size="9" fill="#52525b" font-weight="600">prefix:</text>
+  <text x="20" y="188" font-size="9" fill="#52525b" font-weight="600">누적:</text>
 
   <rect x="48"  y="176" width="46" height="26" rx="3" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="1"/>
   <text x="71"  y="193" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
@@ -84,7 +84,7 @@
   <text x="271" y="193" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">15</text>
 
   <rect x="320" y="114" width="260" height="88" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
-  <text x="450" y="132" font-size="9.5" font-weight="700" fill="#78350f" text-anchor="middle">Range sum formula</text>
+  <text x="450" y="132" font-size="9.5" font-weight="700" fill="#78350f" text-anchor="middle">구간 합 공식</text>
   <text x="450" y="150" font-size="9" fill="#92400e" text-anchor="middle">prefix[R] − prefix[L−1]</text>
   <text x="450" y="166" font-size="9" fill="#92400e" text-anchor="middle">= prefix[3] − prefix[0]</text>
   <text x="450" y="184" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle">= 10 − 3 = 7 ✓  (O(1))</text>

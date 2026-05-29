@@ -4,7 +4,7 @@
     <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Binary Search — target = 33 in sorted array</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">이진 탐색 — 정렬된 배열에서 목표값 = 33 찾기</text>
 
   <!-- Sorted array: [2, 8, 13, 21, 33, 47, 58, 72, 91] — 9 elements -->
   <!-- index labels -->
@@ -39,7 +39,7 @@
   <text x="520" y="68" font-size="12" fill="#a1a1aa" text-anchor="middle">91</text>
 
   <!-- Step 1: lo=0, hi=8, mid=4, arr[4]=33 → found! -->
-  <text x="30" y="102" font-size="9" fill="#52525b" font-weight="700">Step 1:</text>
+  <text x="30" y="102" font-size="9" fill="#52525b" font-weight="700">1단계:</text>
   <text x="30" y="115" font-size="8.5" fill="#3b82f6">lo=0  hi=8  mid=4</text>
   <!-- lo pointer -->
   <line x1="40" y1="78" x2="40" y2="93" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
@@ -51,10 +51,10 @@
   <line x1="280" y1="78" x2="280" y2="93" stroke="#10b981" stroke-width="2" marker-end="url(#a)"/>
   <text x="280" y="100" font-size="8" fill="#10b981" text-anchor="middle">mid</text>
 
-  <text x="30" y="132" font-size="8.5" fill="#10b981">arr[mid]=33 == target → Found at index 4! ✓</text>
+  <text x="30" y="132" font-size="8.5" fill="#10b981">arr[mid]=33 == target → 인덱스 4에서 발견! ✓</text>
 
   <!-- Complexity comparison -->
   <rect x="16" y="146" width="565" height="36" rx="5" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="298" y="160" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">Why O(log n)?   Each step halves the search space</text>
-  <text x="298" y="176" font-size="8.5" fill="#52525b" text-anchor="middle">Linear search: up to 9 comparisons · Binary search: at most ⌈log₂ 9⌉ = 4 comparisons</text>
+  <text x="298" y="160" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">왜 O(log n)일까?   매 단계마다 탐색 범위가 절반으로 줄어든다</text>
+  <text x="298" y="176" font-size="8.5" fill="#52525b" text-anchor="middle">선형 탐색: 최대 9번 비교 · 이진 탐색: 최대 ⌈log₂ 9⌉ = 4번 비교</text>
 </svg>

@@ -7,12 +7,12 @@ interface EditableBlockProps {
   block: Block;
   blockIndex: number;
   stepIndex: number;
-  lang: "ko" | "en";
+  lang: "ko" | "en" | "ja";
   onDeleteBlock?: (stepIndex: number, blockIndex: number) => void;
   onMoveBlock?: (stepIndex: number, fromIndex: number, toIndex: number) => void;
   onDuplicateBlock?: (stepIndex: number, blockIndex: number) => void;
   onCopyBlock?: (stepIndex: number, blockIndex: number) => void;
-  renderBlock: (block: Block, idx: number, lang: "ko" | "en") => React.ReactNode;
+  renderBlock: (block: Block, idx: number, lang: "ko" | "en" | "ja") => React.ReactNode;
 }
 
 export default function EditableBlock({
@@ -127,8 +127,12 @@ export default function EditableBlock({
       onDrop={handleDrop}
     >
       {/* Drag handle and menu button */}
-      {isHovered && (
-        <div className="absolute -left-12 top-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      {(isHovered || showMenu) && (
+        <div
+          className={`absolute -left-12 top-2 flex items-center gap-1 transition-opacity ${
+            showMenu ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
+        >
           {/* Drag handle */}
           <button
             draggable

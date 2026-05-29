@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <rect width="600" height="200" fill="#fafafa" rx="10"/>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">BFS vs DFS — Traversal Order on Same Graph</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">BFS vs DFS — 같은 그래프에서의 순회 순서</text>
 
   <!-- Left: BFS -->
-  <text x="130" y="34" font-size="10" font-weight="700" fill="#3b82f6" text-anchor="middle">BFS (level by level)</text>
+  <text x="130" y="34" font-size="10" font-weight="700" fill="#3b82f6" text-anchor="middle">너비 우선 탐색(BFS) (레벨 단위)</text>
 
   <!-- Nodes: A at top, B C in level 2, D E F in level 3 -->
   <!-- BFS order: A(1), B(2), C(3), D(4), E(5), F(6) -->
@@ -39,13 +39,13 @@
   <text x="236" y="173" font-size="11" font-weight="700" fill="#1e40af" text-anchor="middle">F</text>
   <text x="250" y="160" font-size="8" fill="#3b82f6">⑥</text>
 
-  <text x="130" y="196" font-size="8" fill="#3b82f6" text-anchor="middle">Uses Queue · Good for shortest path</text>
+  <text x="130" y="196" font-size="8" fill="#3b82f6" text-anchor="middle">큐 사용 · 최단 경로에 적합</text>
 
   <!-- Divider -->
   <line x1="290" y1="26" x2="290" y2="192" stroke="#e4e4e7" stroke-width="1.5"/>
 
   <!-- Right: DFS -->
-  <text x="450" y="34" font-size="10" font-weight="700" fill="#f59e0b" text-anchor="middle">DFS (depth first)</text>
+  <text x="450" y="34" font-size="10" font-weight="700" fill="#f59e0b" text-anchor="middle">깊이 우선 탐색(DFS) (깊이 우선)</text>
 
   <!-- DFS order: A(1), B(2), D(3), E(4), C(5), F(6) -->
   <circle cx="450" cy="58" r="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
@@ -79,5 +79,5 @@
   <text x="556" y="173" font-size="11" font-weight="700" fill="#18181b" text-anchor="middle">F</text>
   <text x="570" y="160" font-size="8" fill="#f59e0b">⑥</text>
 
-  <text x="450" y="196" font-size="8" fill="#f59e0b" text-anchor="middle">Uses Stack/Recursion · Good for cycle detection</text>
+  <text x="450" y="196" font-size="8" fill="#f59e0b" text-anchor="middle">스택/재귀 사용 · 사이클 탐지에 적합</text>
 </svg>

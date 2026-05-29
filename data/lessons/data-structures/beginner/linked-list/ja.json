@@ -1,0 +1,136 @@
+{
+  "slug": "linked-list",
+  "tag": "LinkedList",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "array",
+    "stack-queue",
+    "bst"
+  ],
+  "title": "連結リスト",
+  "summary": "連結リストは、各要素が次の要素へのポインタを持つデータ構造です。配列とは異なり連続したメモリを必要としないため、高速な挿入と削除が可能ですが、ランダムアクセスはできません。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "連結リストとは何か",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-structure-ja.svg",
+          "alt": "連結リストのノード構造",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "連結リストは、ノードがポインタで接続されているデータ構造です。各ノードはデータと、次のノードを指す参照（next）を持ちます。"
+        },
+        {
+          "type": "text",
+          "content": "配列との重要な違いはメモリ配置にあります。配列は連続したメモリを必要としますが、連結リストはノードをメモリ上の任意の場所に配置し、ポインタで接続できます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "単方向連結リスト: nextポインタのみ",
+            "双方向連結リスト: next + prevポインタ",
+            "循環連結リスト: 最後のノードが先頭を指し返す"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "挿入と削除",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/linked-list-insert-ja.svg",
+          "alt": "連結リストの挿入操作",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "連結リストの中心的な利点は、O(1)での挿入と削除です。ただし、対象ノードへの参照をすでに持っていることが前提です。"
+        },
+        {
+          "type": "text",
+          "content": "特定の位置への挿入には走査（O(n)）が必要なため、検索を含めると合計はO(n)になります。ヘッドへの挿入と削除は常にO(1)です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "ヘッドへの挿入: O(1)",
+            "ヘッドからの削除: O(1)",
+            "任意の位置への挿入/削除: O(n)（走査） + O(1)（操作）",
+            "テイルへの挿入: テイルポインタがあればO(1)、なければO(n)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "配列と連結リスト",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "この2つの構造は補完的な関係にあります。適切な選択はアクセスパターンによって決まります。"
+        },
+        {
+          "type": "text",
+          "content": "頻繁な読み取りや固定サイズには配列が有利で、頻繁な挿入/削除や動的なサイズには連結リストが有利です。実際には、キャッシュの局所性により配列がデフォルトの選択になることが多いです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "ランダムアクセス: 配列 O(1) vs 連結リスト O(n)",
+            "ヘッドへの挿入: 配列 O(n) vs 連結リスト O(1)",
+            "メモリ: 配列は連続したブロックが必要、連結リストはポインタのオーバーヘッドがある",
+            "キャッシュ性能: 配列が有利（空間的局所性）"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "実世界での利用例",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "連結リストは、単独で使われるよりも、他のデータ構造の内部の構成要素として使われることが多いです。"
+        },
+        {
+          "type": "text",
+          "content": "衝突解決のためのハッシュテーブルのチェイン法、LRUキャッシュの実装、OSのプロセススケジューリングテーブルなどが代表的な例です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "ハッシュテーブルのチェイン法",
+            "LRUキャッシュ（双方向連結リスト + ハッシュマップ）",
+            "OSのプロセススケジューリングキュー",
+            "スタックとキューの内部実装"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "連結リストとは何か"
+        },
+        {
+          "type": "code",
+          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;",
+          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
+          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
+          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);"
+        }
+      ]
+    }
+  ]
+}

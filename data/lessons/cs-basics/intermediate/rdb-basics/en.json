@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/rdb-basics.svg",
+          "src": "/images/rdb-basics-en.svg",
           "alt": "Relational database tables and relationships",
           "width": 88
         },

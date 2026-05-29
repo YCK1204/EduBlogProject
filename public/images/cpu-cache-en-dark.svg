@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="190" fill="#18181b" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#52525b"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">CPU Cache Hierarchy — Speed vs Size Trade-off</text>
+
+  <!-- CPU at top -->
+  <rect x="260" y="30" width="80" height="28" rx="4" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="300" y="48" font-size="10" font-weight="700" fill="#fafafa" text-anchor="middle">CPU Core</text>
+
+  <!-- L1 Cache -->
+  <rect x="220" y="70" width="160" height="22" rx="3" fill="#14211b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="300" y="84" font-size="9" font-weight="700" fill="#6ee7b7" text-anchor="middle">L1 Cache (32-64 KB, 1-2 cycles)</text>
+
+  <!-- L2 Cache -->
+  <rect x="180" y="104" width="240" height="22" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="300" y="118" font-size="9" font-weight="700" fill="#93c5fd" text-anchor="middle">L2 Cache (256-512 KB, 10-20 cycles)</text>
+
+  <!-- L3 Cache -->
+  <rect x="120" y="138" width="360" height="22" rx="3" fill="#3a1a1a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="300" y="152" font-size="9" font-weight="700" fill="#fca5a5" text-anchor="middle">L3 Cache (8-32 MB, 40-75 cycles) — Shared between cores</text>
+
+  <!-- Main Memory -->
+  <rect x="40" y="172" width="520" height="12" rx="2" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="300" y="181" font-size="8" fill="#a1a1aa" text-anchor="middle">Main Memory (8-64 GB, 200+ cycles)</text>
+
+  <!-- Access arrows -->
+  <line x1="300" y1="58" x2="300" y2="68" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="300" y1="92" x2="300" y2="102" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="300" y1="126" x2="300" y2="136" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="300" y1="160" x2="300" y2="170" stroke="#52525b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Labels on the left -->
+  <text x="10" y="45" font-size="8" fill="#fbbf24" text-anchor="middle" transform="rotate(-90,10,45)">Fastest</text>
+  <text x="10" y="82" font-size="8" fill="#34d399" text-anchor="middle" transform="rotate(-90,10,82)">Very Fast</text>
+  <text x="10" y="116" font-size="8" fill="#60a5fa" text-anchor="middle" transform="rotate(-90,10,116)">Fast</text>
+  <text x="10" y="150" font-size="8" fill="#f87171" text-anchor="middle" transform="rotate(-90,10,150)">Medium</text>
+  <text x="10" y="178" font-size="8" fill="#a1a1aa" text-anchor="middle" transform="rotate(-90,10,178)">Slow</text>
+
+  <!-- Labels on the right -->
+  <text x="590" y="45" font-size="8" fill="#fbbf24" text-anchor="middle" transform="rotate(90,590,45)">Smallest</text>
+  <text x="590" y="82" font-size="8" fill="#34d399" text-anchor="middle" transform="rotate(90,590,82)">Small</text>
+  <text x="590" y="116" font-size="8" fill="#60a5fa" text-anchor="middle" transform="rotate(90,590,116)">Medium</text>
+  <text x="590" y="150" font-size="8" fill="#f87171" text-anchor="middle" transform="rotate(90,590,150)">Large</text>
+  <text x="590" y="178" font-size="8" fill="#a1a1aa" text-anchor="middle" transform="rotate(90,590,178)">Largest</text>
+
+  <!-- Miss path -->
+  <text x="450" y="26" font-size="8" fill="#a1a1aa">Cache miss path:</text>
+  <text x="450" y="38" font-size="8" fill="#a1a1aa">L1 → L2 → L3 → Memory</text>
+</svg>

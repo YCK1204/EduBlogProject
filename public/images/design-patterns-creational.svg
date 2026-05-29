@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <rect width="600" height="190" fill="#fafafa" rx="10"/>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Creational Design Patterns — Singleton &amp; Factory</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">생성 패턴 — 싱글턴(Singleton) &amp; 팩토리(Factory)</text>
 
-  <\!-- Singleton pattern (left) -->
-  <text x="140" y="34" font-size="9" font-weight="700" fill="#3b82f6" text-anchor="middle">Singleton (one instance only)</text>
+  <!-- Singleton pattern (left) -->
+  <text x="140" y="34" font-size="9" font-weight="700" fill="#3b82f6" text-anchor="middle">싱글턴 (인스턴스 하나만 유지)</text>
 
   <rect x="20" y="42" width="240" height="110" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
   <rect x="25" y="47" width="230" height="100" rx="3" fill="#18181b"/>
@@ -13,13 +13,13 @@
   <text x="30" y="76" font-size="8" fill="#a78bfa" font-family="monospace">  private static instance;</text>
   <text x="30" y="90" font-size="8" fill="#22d3ee" font-family="monospace">  private constructor() {}</text>
   <text x="30" y="104" font-size="8" fill="#10b981" font-family="monospace">  static getInstance() {</text>
-  <text x="30" y="118" font-size="8" fill="#a1a1aa" font-family="monospace">    if (\!this.instance)</text>
+  <text x="30" y="118" font-size="8" fill="#a1a1aa" font-family="monospace">    if (!this.instance)</text>
   <text x="30" y="132" font-size="8" fill="#a1a1aa" font-family="monospace">      this.instance = new Database();</text>
   <text x="30" y="146" font-size="8" fill="#fb7185" font-family="monospace">    return this.instance;</text>
   <text x="30" y="160" font-size="8" fill="#22d3ee" font-family="monospace">  }</text>
 
-  <\!-- Factory pattern (right) -->
-  <text x="450" y="34" font-size="9" font-weight="700" fill="#f59e0b" text-anchor="middle">Factory (create objects dynamically)</text>
+  <!-- Factory pattern (right) -->
+  <text x="450" y="34" font-size="9" font-weight="700" fill="#f59e0b" text-anchor="middle">팩토리 (객체를 동적으로 생성)</text>
 
   <rect x="280" y="42" width="300" height="110" rx="5" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
   <rect x="285" y="47" width="290" height="100" rx="3" fill="#18181b"/>
@@ -33,10 +33,10 @@
   <text x="290" y="146" font-size="8" fill="#fb7185" font-family="monospace">      default: throw Error();</text>
   <text x="290" y="160" font-size="8" fill="#22d3ee" font-family="monospace">    }</text>
 
-  <\!-- Use cases -->
+  <!-- Use cases -->
   <rect x="20" y="160" width="240" height="24" rx="3" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="140" y="175" font-size="8" fill="#3b82f6" text-anchor="middle">Config, Logger, Cache</text>
+  <text x="140" y="175" font-size="8" fill="#3b82f6" text-anchor="middle">설정, 로거, 캐시</text>
 
   <rect x="280" y="160" width="300" height="24" rx="3" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="430" y="175" font-size="8" fill="#f59e0b" text-anchor="middle">UI elements, API clients, Parsers</text>
+  <text x="430" y="175" font-size="8" fill="#f59e0b" text-anchor="middle">UI 요소, API 클라이언트, 파서</text>
 </svg>

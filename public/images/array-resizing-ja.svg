@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="210" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="arrowDown" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto">
+      <path d="M0,0 L7,0 L3.5,6 z" fill="#a1a1aa"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="18" font-size="9" font-weight="700" fill="#a1a1aa">① 満杯 — E の追加を要求</text>
+  <text x="20" y="90" font-size="9" font-weight="700" fill="#a1a1aa">② 2倍のバッファを確保 + コピー</text>
+  <text x="20" y="160" font-size="9" font-weight="700" fill="#a1a1aa">③ E を追加済み</text>
+
+  <!-- Step 1 -->
+  <rect x="20"  y="22" width="46" height="36" rx="3" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="43"  y="42" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <rect x="70"  y="22" width="46" height="36" rx="3" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="93"  y="42" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <rect x="120" y="22" width="46" height="36" rx="3" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="143" y="42" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <rect x="170" y="22" width="46" height="36" rx="3" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="193" y="42" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">D</text>
+  <text x="228" y="38" font-size="18" fill="#f87171">+</text>
+  <rect x="244" y="22" width="46" height="36" rx="3" fill="#fafafa" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="267" y="42" font-size="13" font-weight="700" fill="#f87171" text-anchor="middle">E</text>
+  <text x="310" y="36" font-size="9" fill="#dc2626">← 空きがない!</text>
+  <text x="43" y="68" font-size="8.5" fill="#a1a1aa">cap=4, size=4</text>
+
+  <line x1="120" y1="74" x2="120" y2="92" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Step 2 -->
+  <rect x="20"  y="96" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="43"  y="116" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <rect x="70"  y="96" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="93"  y="116" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <rect x="120" y="96" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="143" y="116" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <rect x="170" y="96" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="193" y="116" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">D</text>
+  <rect x="220" y="96" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="270" y="96" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="320" y="96" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="370" y="96" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="100" y="142" font-size="8.5" fill="#a1a1aa">新しいバッファ cap=8 (×2)</text>
+
+  <line x1="120" y1="146" x2="120" y2="162" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Step 3 -->
+  <rect x="20"  y="164" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="43"  y="184" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <rect x="70"  y="164" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="93"  y="184" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <rect x="120" y="164" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="143" y="184" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <rect x="170" y="164" width="46" height="36" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="193" y="184" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">D</text>
+  <rect x="220" y="164" width="46" height="36" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="243" y="184" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">E</text>
+  <rect x="270" y="164" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="320" y="164" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="370" y="164" width="46" height="36" rx="3" fill="#fafafa" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="100" y="210" font-size="8.5" fill="#1d4ed8">size=5, cap=8</text>
+
+  <!-- Summary -->
+  <rect x="430" y="22" width="154" height="174" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="507" y="44" font-size="9.5" font-weight="700" fill="#78350f" text-anchor="middle">リサイズのコスト</text>
+  <text x="507" y="62" font-size="9" fill="#92400e" text-anchor="middle">確保: O(1)</text>
+  <text x="507" y="78" font-size="9" fill="#92400e" text-anchor="middle">n 個の要素をコピー: O(n)</text>
+  <text x="507" y="94" font-size="9" fill="#92400e" text-anchor="middle">E を挿入: O(1)</text>
+  <line x1="444" y1="104" x2="570" y2="104" stroke="#fde68a" stroke-width="1"/>
+  <text x="507" y="122" font-size="9" fill="#78350f" text-anchor="middle">2倍の拡張により</text>
+  <text x="507" y="138" font-size="9" fill="#78350f" text-anchor="middle">リサイズが稀になる</text>
+  <line x1="444" y1="152" x2="570" y2="152" stroke="#fde68a" stroke-width="1"/>
+  <text x="507" y="170" font-size="9.5" font-weight="700" fill="#92400e" text-anchor="middle">償却: O(1)*</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+
+  <!-- Pattern 1: Two Pointer -->
+  <text x="20" y="16" font-size="10" font-weight="700" fill="#d4d4d8">패턴 1 — 투 포인터: 합이 9인 쌍 찾기</text>
+
+  <rect x="20"  y="24" width="52" height="40" rx="3" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="46"  y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">1</text>
+  <text x="46"  y="58" font-size="8" fill="#fcd34d" text-anchor="middle">[0]</text>
+
+  <rect x="76"  y="24" width="52" height="40" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="102" y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">3</text>
+  <text x="102" y="58" font-size="8" fill="#a1a1aa" text-anchor="middle">[1]</text>
+
+  <rect x="132" y="24" width="52" height="40" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="158" y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">4</text>
+  <text x="158" y="58" font-size="8" fill="#a1a1aa" text-anchor="middle">[2]</text>
+
+  <rect x="188" y="24" width="52" height="40" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="214" y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">6</text>
+  <text x="214" y="58" font-size="8" fill="#a1a1aa" text-anchor="middle">[3]</text>
+
+  <rect x="244" y="24" width="52" height="40" rx="3" fill="#dde5ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="270" y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">8</text>
+  <text x="270" y="58" font-size="8" fill="#4338ca" text-anchor="middle">[4]</text>
+
+  <rect x="300" y="24" width="52" height="40" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="326" y="46" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">11</text>
+  <text x="326" y="58" font-size="8" fill="#a1a1aa" text-anchor="middle">[5]</text>
+
+  <text x="46"  y="76" font-size="9.5" font-weight="700" fill="#fbbf24" text-anchor="middle">L=0 →</text>
+  <text x="270" y="76" font-size="9.5" font-weight="700" fill="#6366f1" text-anchor="middle">← R=4</text>
+
+  <rect x="370" y="24" width="210" height="54" rx="6" fill="#14211b" stroke="#10b981" stroke-width="1"/>
+  <text x="475" y="44" font-size="9.5" font-weight="700" fill="#6ee7b7" text-anchor="middle">arr[L] + arr[R] = 1+8 = 9 ✓</text>
+  <text x="475" y="60" font-size="9" fill="#34d399" text-anchor="middle">sum &gt; target → R-- / sum &lt; target → L++</text>
+  <text x="475" y="74" font-size="9" fill="#34d399" text-anchor="middle">시간 O(n)  공간 O(1)</text>
+
+  <line x1="20" y1="92" x2="580" y2="92" stroke="#3f3f46" stroke-width="1.5"/>
+
+  <!-- Pattern 2: Prefix Sum -->
+  <text x="20" y="108" font-size="10" font-weight="700" fill="#d4d4d8">패턴 2 — 누적 합: 구간 [1,3] 합을 O(1)로</text>
+
+  <text x="20" y="126" font-size="9" fill="#d4d4d8" font-weight="600">arr:</text>
+
+  <rect x="48"  y="114" width="46" height="34" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="71"  y="133" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">3</text>
+  <text x="71"  y="144" font-size="8" fill="#a1a1aa" text-anchor="middle">[0]</text>
+
+  <rect x="98"  y="114" width="46" height="34" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="121" y="133" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">1</text>
+  <text x="121" y="144" font-size="8" fill="#93c5fd" text-anchor="middle">[1]</text>
+
+  <rect x="148" y="114" width="46" height="34" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="171" y="133" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">4</text>
+  <text x="171" y="144" font-size="8" fill="#93c5fd" text-anchor="middle">[2]</text>
+
+  <rect x="198" y="114" width="46" height="34" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="221" y="133" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">2</text>
+  <text x="221" y="144" font-size="8" fill="#93c5fd" text-anchor="middle">[3]</text>
+
+  <rect x="248" y="114" width="46" height="34" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="271" y="133" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">5</text>
+  <text x="271" y="144" font-size="8" fill="#a1a1aa" text-anchor="middle">[4]</text>
+
+  <path d="M98,152 L98,158 L221,158 L221,152" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="159" y="170" font-size="8.5" fill="#93c5fd" text-anchor="middle">구간 [1,3]</text>
+
+  <text x="20" y="188" font-size="9" fill="#d4d4d8" font-weight="600">누적:</text>
+
+  <rect x="48"  y="176" width="46" height="26" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="71"  y="193" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">3</text>
+
+  <rect x="98"  y="176" width="46" height="26" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="121" y="193" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">4</text>
+
+  <rect x="148" y="176" width="46" height="26" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="171" y="193" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">8</text>
+
+  <rect x="198" y="176" width="46" height="26" rx="3" fill="#33280f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="221" y="193" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">10</text>
+
+  <rect x="248" y="176" width="46" height="26" rx="3" fill="#27272a" stroke="#52525b" stroke-width="1"/>
+  <text x="271" y="193" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">15</text>
+
+  <rect x="320" y="114" width="260" height="88" rx="6" fill="#33280f" stroke="#f59e0b" stroke-width="1"/>
+  <text x="450" y="132" font-size="9.5" font-weight="700" fill="#fbbf24" text-anchor="middle">구간 합 공식</text>
+  <text x="450" y="150" font-size="9" fill="#fcd34d" text-anchor="middle">prefix[R] − prefix[L−1]</text>
+  <text x="450" y="166" font-size="9" fill="#fcd34d" text-anchor="middle">= prefix[3] − prefix[0]</text>
+  <text x="450" y="184" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle">= 10 − 3 = 7 ✓  (O(1))</text>
+</svg>

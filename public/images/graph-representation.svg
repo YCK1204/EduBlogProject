@@ -4,10 +4,10 @@
     <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Graph G=(V,E) — Adjacency Matrix vs Adjacency List</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">그래프 G=(V,E) — 인접 행렬 vs 인접 리스트</text>
 
   <!-- Graph drawing -->
-  <text x="70" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Graph</text>
+  <text x="70" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">그래프</text>
   <circle cx="50"  cy="80" r="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
   <text x="50"  y="85" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
   <circle cx="110" cy="55" r="18" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
@@ -26,7 +26,7 @@
   <line x1="148" y1="28" x2="148" y2="188" stroke="#e4e4e7" stroke-width="1"/>
 
   <!-- Adjacency Matrix -->
-  <text x="250" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Adjacency Matrix — O(V²) space</text>
+  <text x="250" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">인접 행렬 — 공간 O(V²)</text>
 
   <!-- Header row -->
   <text x="186" y="56" font-size="9" fill="#a1a1aa" text-anchor="middle"> </text>
@@ -63,13 +63,13 @@
   <rect x="256" y="134" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="270" y="149" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
   <rect x="284" y="134" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="298" y="149" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
 
-  <text x="250" y="172" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Edge check O(1)  ·  Wastes space for sparse graphs</text>
+  <text x="250" y="172" font-size="8.5" fill="#a1a1aa" text-anchor="middle">간선 확인 O(1)  ·  희소 그래프에서 공간 낭비</text>
 
   <!-- Divider 2 -->
   <line x1="330" y1="28" x2="330" y2="188" stroke="#e4e4e7" stroke-width="1"/>
 
   <!-- Adjacency List -->
-  <text x="465" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Adjacency List — O(V+E) space</text>
+  <text x="465" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">인접 리스트 — 공간 O(V+E)</text>
 
   <text x="346" y="76" font-size="10" font-weight="700" fill="#52525b">A</text>
   <rect x="362" y="62" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
@@ -91,5 +91,5 @@
   <rect x="362" y="152" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="167" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
   <text x="392" y="167" font-size="10" fill="#d4d4d8">∅</text>
 
-  <text x="465" y="186" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Edge check O(degree)  ·  Efficient for sparse graphs</text>
+  <text x="465" y="186" font-size="8.5" fill="#a1a1aa" text-anchor="middle">간선 확인 O(차수)  ·  희소 그래프에 효율적</text>
 </svg>

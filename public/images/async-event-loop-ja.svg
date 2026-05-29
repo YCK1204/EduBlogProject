@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#3b82f6"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">イベントループ — 非同期実行</text>
+
+  <!-- Call Stack -->
+  <text x="80" y="34" font-size="9" font-weight="700" fill="#3b82f6" text-anchor="middle">コールスタック</text>
+  <rect x="20" y="42" width="120" height="100" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  
+  <rect x="30" y="48" width="100" height="18" rx="2" fill="#f4f4f5" stroke="#71717a" stroke-width="1"/>
+  <text x="80" y="60" font-size="8" text-anchor="middle">main()</text>
+  
+  <rect x="30" y="70" width="100" height="18" rx="2" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+  <text x="80" y="82" font-size="8" text-anchor="middle">processData()</text>
+
+  <!-- Event Queue -->
+  <text x="240" y="34" font-size="9" font-weight="700" fill="#f59e0b" text-anchor="middle">イベントキュー (コールバック)</text>
+  <rect x="160" y="42" width="160" height="44" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  
+  <rect x="170" y="50" width="70" height="14" rx="2" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+  <text x="205" y="60" font-size="7" text-anchor="middle">timeout cb</text>
+  
+  <rect x="245" y="50" width="70" height="14" rx="2" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+  <text x="280" y="60" font-size="7" text-anchor="middle">fetch cb</text>
+  
+  <rect x="170" y="68" width="70" height="14" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="205" y="78" font-size="7" text-anchor="middle">click cb</text>
+
+  <!-- Web APIs -->
+  <text x="240" y="104" font-size="9" font-weight="700" fill="#10b981" text-anchor="middle">Web APIs / Node APIs</text>
+  <rect x="160" y="112" width="160" height="64" rx="4" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  
+  <text x="170" y="128" font-size="8" fill="#065f46">setTimeout(cb, 1000)</text>
+  <text x="170" y="142" font-size="8" fill="#065f46">fetch('/api/data')</text>
+  <text x="170" y="156" font-size="8" fill="#065f46">fs.readFile(path, cb)</text>
+  <text x="170" y="170" font-size="8" fill="#065f46">addEventListener('click', cb)</text>
+
+  <!-- Event Loop -->
+  <circle cx="400" cy="95" r="40" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="400" y="92" font-size="9" font-weight="700" fill="#b91c1c" text-anchor="middle">イベント</text>
+  <text x="400" y="104" font-size="9" font-weight="700" fill="#b91c1c" text-anchor="middle">ループ</text>
+
+  <!-- Arrows -->
+  <path d="M 140 70 Q 180 40 220 70" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#a)"/>
+  <text x="180" y="45" font-size="7" fill="#3b82f6" text-anchor="middle">非同期呼び出し</text>
+
+  <path d="M 320 125 Q 350 105 360 95" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#a)"/>
+  <text x="345" y="120" font-size="7" fill="#f59e0b" text-anchor="middle">完了</text>
+
+  <path d="M 360 85 Q 320 50 290 55" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#a)"/>
+  <text x="325" y="60" font-size="7" fill="#ef4444" text-anchor="middle">キューに追加</text>
+
+  <path d="M 160 55 Q 120 35 100 55" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#a)"/>
+  <text x="130" y="40" font-size="7" fill="#ef4444" text-anchor="middle">実行</text>
+
+  <text x="500" y="60" font-size="8.5" fill="#a1a1aa">シングルスレッド</text>
+  <text x="500" y="74" font-size="8.5" fill="#a1a1aa">ノンブロッキング I/O</text>
+  <text x="500" y="120" font-size="8.5" fill="#a1a1aa">スタックが空のとき</text>
+  <text x="500" y="134" font-size="8.5" fill="#a1a1aa">コールバックを実行</text>
+
+  <text x="300" y="192" font-size="8.5" fill="#a1a1aa" text-anchor="middle">JavaScript, Node.js — イベント駆動アーキテクチャによる並行処理</text>
+</svg>

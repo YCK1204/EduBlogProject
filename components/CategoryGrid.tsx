@@ -53,8 +53,8 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
   const filtered = cards.filter((card) => {
     const matchLevel = activeLevel === "전체" || card.level === activeLevel;
     const q = searchQuery.trim().toLowerCase();
-    const title = lang === "en" ? card.enTitle : card.koTitle;
-    const summary = lang === "en" ? card.enSummary : card.koSummary;
+    const title = lang === "ja" ? card.jaTitle : lang === "en" ? card.enTitle : card.koTitle;
+    const summary = lang === "ja" ? card.jaSummary : lang === "en" ? card.enSummary : card.koSummary;
     const matchSearch =
       !q ||
       title.toLowerCase().includes(q) ||
@@ -96,8 +96,8 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((card, idx) => {
           const patternIndex = idx % PLACEHOLDER_PATTERNS.length;
-          const title = lang === "en" ? card.enTitle : card.koTitle;
-          const summary = lang === "en" ? card.enSummary : card.koSummary;
+          const title = lang === "ja" ? card.jaTitle : lang === "en" ? card.enTitle : card.koTitle;
+          const summary = lang === "ja" ? card.jaSummary : lang === "en" ? card.enSummary : card.koSummary;
           return (
             <div key={card.slug} className="relative group/card">
               <Link

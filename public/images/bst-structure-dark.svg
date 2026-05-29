@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#18181b" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#52525b"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#d4d4d8" text-anchor="middle">이진 탐색 트리 — 왼쪽 &lt; 노드 &lt; 오른쪽</text>
+
+  <!-- Level 0: root 50 -->
+  <circle cx="300" cy="50" r="22" fill="#33280f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="300" y="55" font-size="14" font-weight="700" fill="#fafafa" text-anchor="middle">50</text>
+
+  <!-- Level 1 -->
+  <line x1="282" y1="66" x2="194" y2="94" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="318" y1="66" x2="406" y2="94" stroke="#52525b" stroke-width="1.5"/>
+  <circle cx="180" cy="110" r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="180" y="115" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">25</text>
+  <circle cx="420" cy="110" r="20" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="420" y="115" font-size="13" font-weight="700" fill="#fafafa" text-anchor="middle">75</text>
+
+  <!-- Level 2 -->
+  <line x1="163" y1="126" x2="110" y2="150" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="197" y1="126" x2="250" y2="150" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="403" y1="126" x2="350" y2="150" stroke="#52525b" stroke-width="1.5"/>
+  <line x1="437" y1="126" x2="490" y2="150" stroke="#52525b" stroke-width="1.5"/>
+
+  <circle cx="96" cy="165" r="18" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="96" y="170" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">12</text>
+  <circle cx="264" cy="165" r="18" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="264" y="170" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">37</text>
+  <circle cx="336" cy="165" r="18" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="336" y="170" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">60</text>
+  <circle cx="504" cy="165" r="18" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+  <text x="504" y="170" font-size="12" font-weight="700" fill="#fafafa" text-anchor="middle">90</text>
+
+  <!-- Invariant labels -->
+  <text x="108" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">&lt; 25 &lt; 50</text>
+  <text x="264" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">25 &lt; · &lt; 50</text>
+  <text x="336" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">50 &lt; · &lt; 75</text>
+  <text x="504" y="196" font-size="8.5" fill="#a1a1aa" text-anchor="middle">&gt; 75</text>
+
+  <!-- Search annotation -->
+  <rect x="460" y="30" width="128" height="54" rx="6" fill="#14211b" stroke="#10b981" stroke-width="1"/>
+  <text x="524" y="48" font-size="9.5" font-weight="700" fill="#6ee7b7" text-anchor="middle">60 탐색</text>
+  <text x="524" y="63" font-size="8.5" fill="#34d399" text-anchor="middle">50 → 오른쪽으로</text>
+  <text x="524" y="76" font-size="8.5" fill="#34d399" text-anchor="middle">75 → 왼쪽으로 → 발견</text>
+</svg>

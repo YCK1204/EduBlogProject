@@ -2,52 +2,52 @@
   <rect width="600" height="200" fill="#fafafa" rx="10"/>
 
   <rect x="20" y="16" width="560" height="28" rx="5" fill="#18181b"/>
-  <text x="130" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">Operation</text>
-  <text x="290" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">Static Array</text>
-  <text x="420" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">Dynamic Array</text>
-  <text x="540" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">Note</text>
+  <text x="130" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">연산</text>
+  <text x="290" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">정적 배열</text>
+  <text x="420" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">동적 배열</text>
+  <text x="540" y="34" font-size="10" font-weight="700" fill="white" text-anchor="middle">비고</text>
   <line x1="220" y1="16" x2="220" y2="44" stroke="#3f3f46" stroke-width="1"/>
   <line x1="360" y1="16" x2="360" y2="44" stroke="#3f3f46" stroke-width="1"/>
   <line x1="480" y1="16" x2="480" y2="44" stroke="#3f3f46" stroke-width="1"/>
 
   <rect x="20" y="44" width="560" height="30" fill="#f0fdf4"/>
-  <text x="130" y="63" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">Access arr[i]</text>
+  <text x="130" y="63" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">접근 arr[i]</text>
   <rect x="258" y="50" width="64" height="18" rx="3" fill="#10b981"/>
   <text x="290" y="62" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(1)</text>
   <rect x="388" y="50" width="64" height="18" rx="3" fill="#10b981"/>
   <text x="420" y="62" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(1)</text>
-  <text x="540" y="63" font-size="8.5" fill="#166534" text-anchor="middle">always constant ★</text>
+  <text x="540" y="63" font-size="8.5" fill="#166534" text-anchor="middle">항상 상수 ★</text>
 
   <rect x="20" y="74" width="560" height="30" fill="#fafafa"/>
-  <text x="130" y="93" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">Search (linear)</text>
+  <text x="130" y="93" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">탐색 (선형)</text>
   <rect x="258" y="80" width="64" height="18" rx="3" fill="#f59e0b"/>
   <text x="290" y="92" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
   <rect x="388" y="80" width="64" height="18" rx="3" fill="#f59e0b"/>
   <text x="420" y="92" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
-  <text x="540" y="93" font-size="8.5" fill="#92400e" text-anchor="middle">worst: scan to end</text>
+  <text x="540" y="93" font-size="8.5" fill="#92400e" text-anchor="middle">최악: 끝까지 탐색</text>
 
   <rect x="20" y="104" width="560" height="30" fill="#f0fdf4"/>
-  <text x="130" y="123" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">Append (end)</text>
-  <text x="290" y="123" font-size="9" fill="#a1a1aa" text-anchor="middle">N/A (fixed)</text>
+  <text x="130" y="123" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">추가 (끝)</text>
+  <text x="290" y="123" font-size="9" fill="#a1a1aa" text-anchor="middle">불가 (고정)</text>
   <rect x="388" y="110" width="64" height="18" rx="3" fill="#10b981"/>
   <text x="420" y="122" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(1)*</text>
-  <text x="540" y="123" font-size="8.5" fill="#166534" text-anchor="middle">*amortized</text>
+  <text x="540" y="123" font-size="8.5" fill="#166534" text-anchor="middle">*분할 상환</text>
 
   <rect x="20" y="134" width="560" height="30" fill="#fafafa"/>
-  <text x="130" y="153" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">Insert (middle)</text>
+  <text x="130" y="153" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">삽입 (중간)</text>
   <rect x="258" y="140" width="64" height="18" rx="3" fill="#ef4444"/>
   <text x="290" y="152" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
   <rect x="388" y="140" width="64" height="18" rx="3" fill="#ef4444"/>
   <text x="420" y="152" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
-  <text x="540" y="153" font-size="8.5" fill="#991b1b" text-anchor="middle">elements must shift</text>
+  <text x="540" y="153" font-size="8.5" fill="#991b1b" text-anchor="middle">원소를 이동해야 함</text>
 
   <rect x="20" y="164" width="560" height="30" fill="#f0fdf4"/>
-  <text x="130" y="183" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">Delete (middle)</text>
+  <text x="130" y="183" font-size="9.5" fill="#18181b" text-anchor="middle" font-weight="600">삭제 (중간)</text>
   <rect x="258" y="170" width="64" height="18" rx="3" fill="#ef4444"/>
   <text x="290" y="182" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
   <rect x="388" y="170" width="64" height="18" rx="3" fill="#ef4444"/>
   <text x="420" y="182" font-size="10" font-weight="800" fill="white" text-anchor="middle">O(n)</text>
-  <text x="540" y="183" font-size="8.5" fill="#991b1b" text-anchor="middle">gap must be filled</text>
+  <text x="540" y="183" font-size="8.5" fill="#991b1b" text-anchor="middle">빈 자리를 채워야 함</text>
 
   <rect x="20" y="44" width="560" height="150" fill="none" stroke="#e4e4e7" stroke-width="1" rx="0"/>
   <line x1="20" y1="74"  x2="580" y2="74"  stroke="#e4e4e7" stroke-width="1"/>

@@ -1,0 +1,112 @@
+{
+  "slug": "design-patterns-creational",
+  "tag": "Design Pattern",
+  "estimatedTime": "30 min",
+  "relatedSlugs": [
+    "oop-intro",
+    "clean-code",
+    "memory-gc"
+  ],
+  "title": "デザインパターン — 生成パターン",
+  "summary": "シングルトン・ファクトリ・ビルダーパターンの実際のユースケースと、過剰に使ったときに生じる問題、そして代替アプローチを紹介します。パターンは道具であって目的ではありません。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "デザインパターンとは何か",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/design-patterns-creational-ja.svg",
+          "alt": "シングルトンとファクトリのデザインパターン",
+          "width": 88
+        },
+        {
+          "type": "text",
+          "content": "デザインパターンとは、繰り返し現れる設計上の問題に対する再利用可能な解決策です。GoF（Gang of Four）は23個の古典的なパターンを分類して整理しており、生成（Creational）・構造（Structural）・振る舞い（Behavioral）に分けられます。"
+        },
+        {
+          "type": "text",
+          "content": "パターンを学ぶ目的は、あらゆる場所に適用することではありません。開発者どうしの共通の語彙（「これはObserverパターンです」）を築き、同様の問題が過去にどう解決されたかという知恵を受け継ぐことにあります。パターンを過剰に使うと複雑さが増します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "生成（Creational）: オブジェクトの生成 — Singleton、Factory、Builder、Prototype",
+            "構造（Structural）: クラス／オブジェクトの合成 — Adapter、Composite、Decorator",
+            "振る舞い（Behavioral）: 責務の分配 — Observer、Strategy、Command",
+            "パターン = ガイドラインであり、決められた解答ではない"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "シングルトンパターン",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Singletonは、あるクラスのインスタンスがちょうど1つだけ存在することを保証します。グローバルな設定、ロガー、データベース接続プールなど、システム内に1つだけ存在すべきものに使われます。"
+        },
+        {
+          "type": "text",
+          "content": "Singletonはグローバルな状態と密結合を生み出し、テストを難しくします。これをDependency Injection（依存性注入）に置き換えると、テスト時にモックオブジェクトを注入でき、より柔軟になります。現代の開発ではSingletonはしばしばアンチパターンとして扱われます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "実装: privateなコンストラクタ + staticなgetInstance()メソッド",
+            "問題点: グローバルな状態 → テストが難しい、スレッドセーフティの懸念",
+            "スレッドセーフティ: double-checked locking または初期化時の保証",
+            "代替案: DIコンテナでシングルトンのライフタイムを管理する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "ファクトリパターン",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Factoryパターンは、オブジェクト生成のロジックを別のクラスに切り出します。インスタンス化するクラスが実行時に決まる場合、生成ロジックが複雑な場合、あるいは構築処理をカプセル化したい場合に使います。"
+        },
+        {
+          "type": "text",
+          "content": "Factory Methodパターンは生成のためのインターフェースを親クラスに定義し、どの具象クラスをインスタンス化するかをサブクラスに決めさせます。Abstract Factoryは関連するオブジェクト群を生成するためのインターフェースを提供します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "静的ファクトリ: Date.now()、List.of() — コンストラクタの代わりに説明的な名前",
+            "ファクトリメソッド: どのオブジェクトを生成するかをサブクラスが決める",
+            "抽象ファクトリ: 関連するクラス（例: Button、Input）をUIテーマ向けにまとめる",
+            "直接の 'new' の使用を減らす → 具象クラスへの依存が少なくなる"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "ビルダーパターン",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Builderパターンは複雑なオブジェクトを段階的に構築します。コンストラクタの引数が多すぎて読みにくい場合や、多くの引数が省略可能な場合に特に役立ちます。"
+        },
+        {
+          "type": "text",
+          "content": "Kotlinの名前付き引数やPythonのキーワード引数があると、しばしばBuilderは不要になります。JavaやJavaScriptではBuilderパターンは依然として実用的です。Lombokの@Builder（Java）やHTTPクライアントのビルダーが代表的な例です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "メソッドチェーン: HttpRequest.builder().url().method().header().build()",
+            "イミュータブルな結果: build()内で検証してからイミュータブルなオブジェクトを返す",
+            "必須の引数と省略可能な引数を区別する",
+            "代替案: Kotlinのdata class + 名前付き引数、Pythonのdataclass"
+          ]
+        }
+      ]
+    }
+  ]
+}

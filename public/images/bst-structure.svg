@@ -4,7 +4,7 @@
     <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
   </defs>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Binary Search Tree — left &lt; node &lt; right</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">이진 탐색 트리 — 왼쪽 &lt; 노드 &lt; 오른쪽</text>
 
   <!-- Level 0: root 50 -->
   <circle cx="300" cy="50" r="22" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
@@ -41,7 +41,7 @@
 
   <!-- Search annotation -->
   <rect x="460" y="30" width="128" height="54" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
-  <text x="524" y="48" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">Search 60</text>
-  <text x="524" y="63" font-size="8.5" fill="#047857" text-anchor="middle">50 → go right</text>
-  <text x="524" y="76" font-size="8.5" fill="#047857" text-anchor="middle">75 → go left → found</text>
+  <text x="524" y="48" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">60 탐색</text>
+  <text x="524" y="63" font-size="8.5" fill="#047857" text-anchor="middle">50 → 오른쪽으로</text>
+  <text x="524" y="76" font-size="8.5" fill="#047857" text-anchor="middle">75 → 왼쪽으로 → 발견</text>
 </svg>

@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/compiler-interpreter.svg",
+          "src": "/images/compiler-interpreter-en.svg",
           "alt": "Compiler vs interpreter code execution",
           "width": 88
         },

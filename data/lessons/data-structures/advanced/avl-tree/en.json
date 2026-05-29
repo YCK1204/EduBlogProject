@@ -39,7 +39,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/avl-rotation.svg",
+          "src": "/images/avl-rotation-en.svg",
           "alt": "AVL tree LL and RR rotations",
           "width": 88
         },

@@ -1,0 +1,130 @@
+{
+  "slug": "functions-first-class",
+  "tag": "Functional",
+  "estimatedTime": "20 min",
+  "relatedSlugs": [
+    "variables-types",
+    "async-event-loop",
+    "clean-code"
+  ],
+  "title": "関数と第一級オブジェクト",
+  "summary": "関数を値として扱い、高階関数（map、filter、reduce）を活用し、純粋関数の利点を理解します。これらは関数型プログラミングの基礎です。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "第一級市民としての関数",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/functions-first-class-ja.svg",
+          "alt": "第一級関数 map filter reduce",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "第一級市民とは、変数に格納でき、関数の引数として渡すことができ、関数から返すことができる値のことです。現代のほとんどの言語（JavaScript、Python、Kotlin、Swift）では、関数は第一級市民です。"
+        },
+        {
+          "type": "text",
+          "content": "関数を値として扱うと、抽象化のレベルが上がります。繰り返されるロジックの「どのように」を変数に、「何を」を関数の引数に分離でき、柔軟で再利用可能なコードを生み出せます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "格納: const greet = (name) => `Hello, ${name}`",
+            "渡す: setTimeout(callback, 1000)",
+            "返す: function makeAdder(x) { return (y) => x + y }",
+            "Java: ラムダとメソッド参照が第一級関数に近い役割を果たす"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "高階関数 — map、filter、reduce",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "高階関数とは、関数を引数として受け取るか、関数を返す関数のことです。代表的な例がmap、filter、reduceです。mapは各要素を変換し、filterは条件に合う要素だけを残し、reduceはすべてを1つの値に集約します。"
+        },
+        {
+          "type": "text",
+          "content": "高階関数をチェーンすると、宣言的なデータ変換のパイプラインができあがります。命令的なforループよりもコードが簡潔で、意図が読み取りやすくなります。ただし、各ステップで中間配列が生成されるため、パフォーマンスが重要な場面ではforループの方が速いことがあります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "map: [1,2,3].map(x => x*2) → [2,4,6]",
+            "filter: [1,2,3,4].filter(x => x%2===0) → [2,4]",
+            "reduce: [1,2,3].reduce((acc,x) => acc+x, 0) → 6",
+            "チェーン: .filter().map().reduce() のパイプライン"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "純粋関数と副作用",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "純粋関数とは、同じ入力に対して常に同じ出力を返し、外部の状態を変更しない（副作用がない）関数のことです。数学における関数の概念と一致します。"
+        },
+        {
+          "type": "text",
+          "content": "副作用とは外部の状態の変更です。グローバル変数の変更、ファイルの読み書き、ネットワークリクエストの送信、コンソールへのログ出力などが該当します。副作用を最小限にし、純粋関数を最大限にすると、コードのテスト・デバッグ・並列実行が容易になります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "純粋関数: 同じ入力 → 同じ出力、外部の変更なし",
+            "参照透過性: 呼び出しをその結果で置き換えられる",
+            "関数型設計: 副作用を境界（I/O層）へ押し出す",
+            "純粋関数はテストが容易で、並列実行しても安全"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "カリー化と関数合成",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "カリー化は、複数引数の関数を、単一引数の関数の連なりに変換します。f(a, b, c) → f(a)(b)(c) のように。部分適用は一部の引数を固定して、特化した新しい関数を作ります。"
+        },
+        {
+          "type": "text",
+          "content": "関数合成は、2つの関数を組み合わせて新しい1つの関数を作ります。compose(f, g)(x) = f(g(x)) のように。単純な関数を合成して複雑な変換を表現すると、再利用性が高まります。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "カリー化: add(1)(2)(3) — 関数の特化を可能にする",
+            "部分適用: const add5 = add.bind(null, 5)",
+            "合成: const process = compose(trim, toLowerCase, split)",
+            "Ramda、Lodash/fp: 関数型ユーティリティライブラリ"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "高階関数 — map、filter、reduce"
+        },
+        {
+          "type": "code",
+          "javascript": "const numbers = [1, 2, 3, 4, 5];\n\n// map: transform each element\nconst doubled = numbers.map(x => x * 2);\n// [2, 4, 6, 8, 10]\n\n// filter: keep matching elements\nconst evens = numbers.filter(x => x % 2 === 0);\n// [2, 4]\n\n// reduce: aggregate into one value\nconst sum = numbers.reduce((acc, x) => acc + x, 0);\n// 15\n\n// chaining: sum of squares of even numbers\nconst result = numbers\n  .filter(x => x % 2 === 0)\n  .map(x => x ** 2)\n  .reduce((acc, x) => acc + x, 0);\n// 20",
+          "python": "numbers = [1, 2, 3, 4, 5]\n\n# map\ndoubled = list(map(lambda x: x * 2, numbers))\n# [2, 4, 6, 8, 10]\n\n# filter\nevens = list(filter(lambda x: x % 2 == 0, numbers))\n# [2, 4]\n\n# reduce\nfrom functools import reduce\ntotal = reduce(lambda acc, x: acc + x, numbers, 0)\n# 15\n\n# list comprehension (more Pythonic)\ndoubled_lc = [x * 2 for x in numbers]\nevens_lc = [x for x in numbers if x % 2 == 0]",
+          "java": "import java.util.*;\nimport java.util.stream.*;\n\nList<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);\n\n// Stream API (Java 8+)\nList<Integer> doubled = numbers.stream()\n    .map(x -> x * 2)\n    .collect(Collectors.toList());\n\nList<Integer> evens = numbers.stream()\n    .filter(x -> x % 2 == 0)\n    .collect(Collectors.toList());\n\nint sum = numbers.stream()\n    .reduce(0, Integer::sum);",
+          "csharp": "var numbers = new[] { 1, 2, 3, 4, 5 };\n\n// LINQ (C#)\nvar doubled = numbers.Select(x => x * 2).ToList();\nvar evens   = numbers.Where(x => x % 2 == 0).ToList();\nvar sum     = numbers.Aggregate(0, (acc, x) => acc + x);\n\n// method chaining\nvar result = numbers\n    .Where(x => x % 2 == 0)\n    .Select(x => x * x)\n    .Sum();"
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <rect width="600" height="200" fill="#fafafa" rx="10"/>
 
-  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Dynamic Programming — Longest Common Subsequence (LCS)</text>
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">동적 계획법(DP) — 최장 공통 부분 수열 (LCS)</text>
 
   <!-- LCS of "ABCD" and "ACBD" -->
   <!-- DP Table -->
@@ -57,15 +57,15 @@
 
   <!-- Right side: recurrence -->
   <rect x="218" y="28" width="366" height="156" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
-  <text x="400" y="46" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">DP Recurrence</text>
+  <text x="400" y="46" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">DP 점화식</text>
 
   <rect x="228" y="54" width="346" height="52" rx="4" fill="#18181b"/>
   <text x="400" y="70" font-size="9" fill="#10b981" text-anchor="middle" font-family="monospace">if s1[i] == s2[j]:</text>
   <text x="400" y="84" font-size="9" fill="#a1a1aa" text-anchor="middle" font-family="monospace">  dp[i][j] = dp[i-1][j-1] + 1</text>
   <text x="400" y="98" font-size="9" fill="#3b82f6" text-anchor="middle" font-family="monospace">else:  dp[i][j] = max(dp[i-1][j], dp[i][j-1])</text>
 
-  <text x="228" y="122" font-size="9" fill="#52525b">DP properties required:</text>
-  <text x="228" y="137" font-size="8.5" fill="#52525b">① Optimal substructure — solution built from sub-solutions</text>
-  <text x="228" y="152" font-size="8.5" fill="#52525b">② Overlapping subproblems — same sub-results reused</text>
-  <text x="400" y="178" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Time O(m·n) · Space O(m·n) → can optimize to O(n)</text>
+  <text x="228" y="122" font-size="9" fill="#52525b">DP에 필요한 성질:</text>
+  <text x="228" y="137" font-size="8.5" fill="#52525b">① 최적 부분 구조 — 부분 해로부터 전체 해를 구성</text>
+  <text x="228" y="152" font-size="8.5" fill="#52525b">② 중복 부분 문제 — 동일한 부분 결과를 재사용</text>
+  <text x="400" y="178" font-size="8.5" fill="#a1a1aa" text-anchor="middle">시간 O(m·n) · 공간 O(m·n) → O(n)으로 최적화 가능</text>
 </svg>

@@ -59,12 +59,6 @@
             "최단 경로 보장: 가중치 없는 그래프에서",
             "레벨별 탐색: 각 레이어 처리 후 다음 레이어"
           ]
-        },
-        {
-          "type": "code",
-          "python": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set([start])\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        print(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)",
-          "javascript": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node);\n    for (const neighbor of graph[node]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n}",
-          "java": "void bfs(Map<Integer, List<Integer>> graph, int start) {\n    Set<Integer> visited = new HashSet<>();\n    Queue<Integer> queue = new LinkedList<>();\n    visited.add(start);\n    queue.offer(start);\n    while (!queue.isEmpty()) {\n        int node = queue.poll();\n        System.out.println(node);\n        for (int neighbor : graph.getOrDefault(node, List.of())) {\n            if (!visited.contains(neighbor)) {\n                visited.add(neighbor);\n                queue.offer(neighbor);\n            }\n        }\n    }\n}"
         }
       ]
     },
@@ -88,12 +82,6 @@
             "경로 추적: 현재 방문 중인 정점 집합 관리",
             "응용: 사이클 감지, 위상 정렬, SCC, 백트래킹"
           ]
-        },
-        {
-          "type": "code",
-          "python": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)\n\n# 반복 구현 (명시적 스택)\ndef dfs_iterative(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            print(node)\n            stack.extend(graph[node])",
-          "javascript": "function dfs(graph, node, visited = new Set()) {\n  visited.add(node);\n  console.log(node);\n  for (const neighbor of graph[node]) {\n    if (!visited.has(neighbor)) {\n      dfs(graph, neighbor, visited);\n    }\n  }\n}",
-          "java": "void dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {\n    visited.add(node);\n    System.out.println(node);\n    for (int neighbor : graph.getOrDefault(node, List.of())) {\n        if (!visited.contains(neighbor)) {\n            dfs(graph, neighbor, visited);\n        }\n    }\n}"
         }
       ]
     },
@@ -117,6 +105,34 @@
             "BFS 메모리: O(V) (넓은 그래프에서 큼)",
             "DFS 메모리: O(h) (깊은 트리에서 Stack Overflow 주의)"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "예시 코드",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "BFS — 너비 우선 탐색"
+        },
+        {
+          "type": "code",
+          "python": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set([start])\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        print(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)",
+          "javascript": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  while (queue.length) {\n    const node = queue.shift();\n    console.log(node);\n    for (const neighbor of graph[node]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n}",
+          "java": "void bfs(Map<Integer, List<Integer>> graph, int start) {\n    Set<Integer> visited = new HashSet<>();\n    Queue<Integer> queue = new LinkedList<>();\n    visited.add(start);\n    queue.offer(start);\n    while (!queue.isEmpty()) {\n        int node = queue.poll();\n        System.out.println(node);\n        for (int neighbor : graph.getOrDefault(node, List.of())) {\n            if (!visited.contains(neighbor)) {\n                visited.add(neighbor);\n                queue.offer(neighbor);\n            }\n        }\n    }\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "DFS — 깊이 우선 탐색"
+        },
+        {
+          "type": "code",
+          "python": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)\n\n# 반복 구현 (명시적 스택)\ndef dfs_iterative(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            print(node)\n            stack.extend(graph[node])",
+          "javascript": "function dfs(graph, node, visited = new Set()) {\n  visited.add(node);\n  console.log(node);\n  for (const neighbor of graph[node]) {\n    if (!visited.has(neighbor)) {\n      dfs(graph, neighbor, visited);\n    }\n  }\n}",
+          "java": "void dfs(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {\n    visited.add(node);\n    System.out.println(node);\n    for (int neighbor : graph.getOrDefault(node, List.of())) {\n        if (!visited.contains(neighbor)) {\n            dfs(graph, neighbor, visited);\n        }\n    }\n}"
         }
       ]
     }

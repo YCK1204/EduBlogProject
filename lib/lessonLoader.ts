@@ -11,6 +11,7 @@ export interface RelatedEntry {
   levelFolder: string;
   koTitle: string;
   enTitle: string;
+  jaTitle: string;
 }
 
 export interface LessonCard {
@@ -20,8 +21,10 @@ export interface LessonCard {
   tag: string;
   koTitle: string;
   enTitle: string;
+  jaTitle: string;
   koSummary: string;
   enSummary: string;
+  jaSummary: string;
 }
 
 function readJson(filePath: string): unknown | null {
@@ -33,7 +36,7 @@ export function loadLesson(
   category: string,
   levelFolder: string,
   slug: string,
-  lang: "ko" | "en" = "ko"
+  lang: "ko" | "en" | "ja" = "ko"
 ): Lesson | null {
   const filePath = path.join(LESSONS_DIR, category, levelFolder, slug, `${lang}.json`);
   const raw = readJson(filePath);
@@ -79,6 +82,7 @@ export function buildLessonCards(category: string): LessonCard[] {
       const ko = loadLesson(category, lvl, slug, "ko");
       if (!ko) continue;
       const en = loadLesson(category, lvl, slug, "en");
+      const ja = loadLesson(category, lvl, slug, "ja");
       cards.push({
         slug,
         levelFolder: lvl,
@@ -86,8 +90,10 @@ export function buildLessonCards(category: string): LessonCard[] {
         tag: ko.tag,
         koTitle: ko.title,
         enTitle: en?.title ?? ko.title,
+        jaTitle: ja?.title ?? en?.title ?? ko.title,
         koSummary: ko.summary,
         enSummary: en?.summary ?? ko.summary,
+        jaSummary: ja?.summary ?? en?.summary ?? ko.summary,
       });
     }
   }
@@ -105,7 +111,14 @@ export function buildRelatedEntries(
       const ko = loadLesson(category, lvl, slug, "ko");
       if (!ko) return null;
       const en = loadLesson(category, lvl, slug, "en");
-      return { slug, levelFolder: lvl, koTitle: ko.title, enTitle: en?.title ?? ko.title };
+      const ja = loadLesson(category, lvl, slug, "ja");
+      return {
+        slug,
+        levelFolder: lvl,
+        koTitle: ko.title,
+        enTitle: en?.title ?? ko.title,
+        jaTitle: ja?.title ?? en?.title ?? ko.title,
+      };
     })
     .filter((x): x is RelatedEntry => x !== null);
 }

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#f59e0b"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">バブルソート — パス1（最大要素が末尾へ浮かび上がる）</text>
+
+  <!-- Initial array -->
+  <text x="30" y="44" font-size="9" fill="#a1a1aa">開始:</text>
+
+  <!-- Helper function for cells -->
+  <!-- [5, 3, 8, 1, 4] -->
+  <rect x="60" y="32" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="78" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">5</text>
+  <rect x="100" y="32" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="118" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
+  <rect x="140" y="32" width="36" height="28" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="158" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">8</text>
+  <rect x="180" y="32" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="198" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="220" y="32" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="238" y="51" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
+
+  <!-- Step 1: compare 5,3 → swap -->
+  <text x="30" y="94" font-size="9" fill="#a1a1aa">ステップ1:</text>
+  <text x="30" y="106" font-size="8.5" fill="#ef4444">交換</text>
+  <!-- [3, 5, 8, 1, 4] -->
+  <rect x="60" y="82" width="36" height="28" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="78" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
+  <rect x="100" y="82" width="36" height="28" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="118" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">5</text>
+  <rect x="140" y="82" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="158" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">8</text>
+  <rect x="180" y="82" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="198" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="220" y="82" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="238" y="101" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
+
+  <!-- Step 2: 5<8 no swap, 8>1 swap, 8>4 swap → 8 at end -->
+  <text x="30" y="144" font-size="9" fill="#a1a1aa">パス1</text>
+  <text x="30" y="156" font-size="9" fill="#a1a1aa">の後:</text>
+  <!-- [3, 5, 1, 4, 8] -->
+  <rect x="60" y="132" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="78" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">3</text>
+  <rect x="100" y="132" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="118" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">5</text>
+  <rect x="140" y="132" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="158" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="180" y="132" width="36" height="28" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="198" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">4</text>
+  <rect x="220" y="132" width="36" height="28" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="238" y="151" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">8</text>
+  <text x="238" y="174" font-size="8.5" fill="#10b981" text-anchor="middle">整列済み ✓</text>
+
+  <!-- Right side: comparison info -->
+  <rect x="290" y="32" width="290" height="150" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+  <text x="435" y="52" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">バブルソート — 要点</text>
+  <text x="305" y="72" font-size="9" fill="#52525b">隣り合うペアを比較し、順序が逆なら交換する。</text>
+  <text x="305" y="89" font-size="9" fill="#52525b">各パスの後、未整列の最大要素が</text>
+  <text x="305" y="102" font-size="9" fill="#52525b">最終位置に到達する（末尾へ浮かび上がる）。</text>
+  <line x1="305" y1="112" x2="568" y2="112" stroke="#d4d4d8" stroke-width="1"/>
+  <text x="305" y="128" font-size="9" fill="#52525b">時間:  O(n²) — 二重ループ</text>
+  <text x="305" y="144" font-size="9" fill="#52525b">空間: O(1) — インプレース</text>
+  <text x="305" y="160" font-size="9" fill="#52525b">安定: はい — 等しい要素の順序を保つ</text>
+  <text x="305" y="176" font-size="9" fill="#52525b">最良の場合: 早期終了の最適化で O(n)</text>
+</svg>

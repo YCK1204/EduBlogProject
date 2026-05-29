@@ -4,6 +4,7 @@ import type { EditorLesson, EditorBlock } from "@/lib/editorTypes";
 import { LANG_LABELS, LEVEL_LABELS } from "@/lib/editorTypes";
 import { SLUG_TO_LABEL } from "@/lib/categories";
 import { useState, useEffect } from "react";
+import ThemedImage from "@/components/ThemedImage";
 
 interface Props {
   lesson: EditorLesson;
@@ -268,8 +269,7 @@ function PreviewBlock({ block }: { block: EditorBlock }) {
       }
       return (
         <div style={{ width: `${block.width ?? 100}%`, marginLeft: "auto", marginRight: "auto" }} className="rounded-xl overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={block.src} alt={block.alt} className="w-full h-auto" />
+          <ThemedImage src={block.src} alt={block.alt} className="w-full h-auto" />
         </div>
       );
 

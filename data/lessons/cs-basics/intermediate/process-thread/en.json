@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/process-thread.svg",
+          "src": "/images/process-thread-en.svg",
           "alt": "Process vs thread memory layout",
           "width": 85
         },

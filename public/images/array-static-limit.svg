@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 170" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <rect width="600" height="170" fill="#fafafa" rx="10"/>
 
-  <text x="165" y="16" font-size="9.5" font-weight="700" fill="#dc2626" text-anchor="middle">Too small → overflow</text>
+  <text x="165" y="16" font-size="9.5" font-weight="700" fill="#dc2626" text-anchor="middle">너무 작음 → 오버플로</text>
 
   <rect x="20"  y="24" width="54" height="44" rx="3" fill="#fef2f2" stroke="#f87171" stroke-width="1.5"/>
   <text x="47"  y="47" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">10</text>
@@ -21,11 +21,11 @@
   <line x1="262" y1="26" x2="312" y2="66" stroke="#dc2626" stroke-width="2"/>
   <line x1="312" y1="26" x2="262" y2="66" stroke="#dc2626" stroke-width="2"/>
 
-  <text x="165" y="82" font-size="9" fill="#dc2626" text-anchor="middle">int arr[4] — no space!</text>
+  <text x="165" y="82" font-size="9" fill="#dc2626" text-anchor="middle">int arr[4] — 공간 없음!</text>
 
   <line x1="330" y1="10" x2="330" y2="100" stroke="#e4e4e7" stroke-width="1"/>
 
-  <text x="468" y="16" font-size="9.5" font-weight="700" fill="#d97706" text-anchor="middle">Too large → wasted memory</text>
+  <text x="468" y="16" font-size="9.5" font-weight="700" fill="#d97706" text-anchor="middle">너무 큼 → 메모리 낭비</text>
 
   <rect x="338" y="24" width="44" height="44" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
   <text x="360" y="47" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
@@ -40,10 +40,10 @@
   <text x="504" y="50" font-size="10" fill="#d4d4d8" text-anchor="middle">—</text>
   <text x="552" y="50" font-size="10" fill="#d4d4d8" text-anchor="middle">—</text>
 
-  <text x="468" y="82" font-size="9" fill="#d97706" text-anchor="middle">int arr[5] — 3 slots wasted</text>
+  <text x="468" y="82" font-size="9" fill="#d97706" text-anchor="middle">int arr[5] — 3칸 낭비</text>
 
   <line x1="20" y1="98" x2="580" y2="98" stroke="#e4e4e7" stroke-width="1"/>
   <rect x="20" y="108" width="560" height="46" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
-  <text x="300" y="126" font-size="10" font-weight="700" fill="#78350f" text-anchor="middle">Solution → Dynamic Array</text>
-  <text x="300" y="144" font-size="9.5" fill="#92400e" text-anchor="middle">Resizes automatically at runtime — Python list · Java ArrayList · C++ vector</text>
+  <text x="300" y="126" font-size="10" font-weight="700" fill="#78350f" text-anchor="middle">해결책 → 동적 배열</text>
+  <text x="300" y="144" font-size="9.5" fill="#92400e" text-anchor="middle">런타임에 자동으로 크기 조정 — Python list · Java ArrayList · C++ vector</text>
 </svg>

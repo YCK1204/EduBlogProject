@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/memory-gc.svg",
+          "src": "/images/memory-gc-en.svg",
           "alt": "Garbage collection mark and sweep",
           "width": 85
         },

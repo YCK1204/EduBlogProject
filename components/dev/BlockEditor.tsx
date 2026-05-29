@@ -52,6 +52,7 @@ export default function BlockEditor({ blocks, onChange, isInsideBox = false }: P
   const [slashQuery, setSlashQuery] = useState("");
   const [dragOver, setDragOver] = useState<number | null>(null);
   const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [menuIdx, setMenuIdx] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -74,6 +75,32 @@ export default function BlockEditor({ blocks, onChange, isInsideBox = false }: P
     const next = [...blocks];
     next.splice(idx + 1, 0, block);
     onChange(next);
+  };
+
+  // 블록 복제 (바로 아래에 깊은 복사본 삽입)
+  const duplicate = (idx: number) => {
+    insertAfter(idx, JSON.parse(JSON.stringify(blocks[idx])) as EditorBlock);
+  };
+
+  // 블록 JSON을 클립보드에 복사
+  const copyToClipboard = async (idx: number) => {
+    const text = JSON.stringify(blocks[idx], null, 2);
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+    } catch (error) {
+      console.error("클립보드 복사 실패:", error);
+    }
   };
 
   const filteredMenu = SLASH_MENU.filter(
@@ -144,22 +171,56 @@ export default function BlockEditor({ blocks, onChange, isInsideBox = false }: P
     <div ref={containerRef} className={`space-y-1 ${isInsideBox ? "" : "min-h-[200px]"}`}>
       {blocks.map((block, idx) => (
         <div key={idx} className="group/block flex items-start gap-1">
-          {/* 드래그 핸들 */}
-          <div
-            draggable
-            onDragStart={(e) => {
-              e.dataTransfer.setData("text/block-index", String(idx));
-              const el = blockRefs.current[idx];
-              if (el) e.dataTransfer.setDragImage(el, 16, 16);
-            }}
-            className="mt-2.5 shrink-0 w-4 flex justify-center cursor-grab opacity-0 group-hover/block:opacity-40 hover:!opacity-80 transition-opacity select-none text-zinc-400 dark:text-zinc-500"
-            title="드래그해서 순서 변경"
-          >
-            <svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor">
-              <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-              <circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/>
-              <circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/>
-            </svg>
+          {/* 드래그 핸들 + 옵션 메뉴 (드래그: 순서 변경 · 클릭: 복사/복제/삭제) */}
+          <div className="relative mt-2.5 shrink-0">
+            <button
+              type="button"
+              draggable
+              onDragStart={(e) => {
+                e.dataTransfer.setData("text/block-index", String(idx));
+                const el = blockRefs.current[idx];
+                if (el) e.dataTransfer.setDragImage(el, 16, 16);
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenuIdx(menuIdx === idx ? null : idx);
+              }}
+              className={`w-4 flex justify-center cursor-grab hover:!opacity-80 transition-opacity select-none text-zinc-400 dark:text-zinc-500 ${
+                menuIdx === idx ? "opacity-80" : "opacity-0 group-hover/block:opacity-40"
+              }`}
+              title="드래그: 순서 변경 · 클릭: 옵션"
+            >
+              <svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor">
+                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                <circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/>
+                <circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/>
+              </svg>
+            </button>
+
+            {menuIdx === idx && (
+              <>
+                {/* 바깥 클릭 시 닫기 */}
+                <div className="fixed inset-0 z-40" onClick={() => setMenuIdx(null)} />
+                <div className="absolute left-0 top-6 z-50 min-w-40 bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-xl py-1">
+                  <button
+                    type="button"
+                    onClick={() => { copyToClipboard(idx); setMenuIdx(null); }}
+                    className="w-full px-3 py-2 text-left text-xs text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                  >클립보드에 복사</button>
+                  <button
+                    type="button"
+                    onClick={() => { duplicate(idx); setMenuIdx(null); }}
+                    className="w-full px-3 py-2 text-left text-xs text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                  >복제</button>
+                  <div className="my-1 h-px bg-zinc-200 dark:bg-zinc-600" />
+                  <button
+                    type="button"
+                    onClick={() => { remove(idx); setMenuIdx(null); }}
+                    className="w-full px-3 py-2 text-left text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  >삭제</button>
+                </div>
+              </>
+            )}
           </div>
 
           {/* 블록 콘텐츠 */}
@@ -173,11 +234,6 @@ export default function BlockEditor({ blocks, onChange, isInsideBox = false }: P
             onDragLeave={() => setDragOver(null)}
             onDrop={(e) => handleBlockDrop(e, idx)}
           >
-            <button
-              onClick={(e) => { e.stopPropagation(); remove(idx); }}
-              className="absolute -right-2 -top-2 z-10 hidden group-hover/item:flex w-5 h-5 items-center justify-center rounded-full bg-red-500 text-white text-xs hover:bg-red-600"
-            >×</button>
-
             <BlockItem
               block={block}
               idx={idx}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">再帰 — コールスタック (factorial(3))</text>
+
+  <!-- Call stack frames, growing upward -->
+  <!-- Frame 4: factorial(0) = 1 — top of stack -->
+  <rect x="60" y="36" width="200" height="34" rx="4" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="160" y="50" font-size="9.5" font-weight="700" fill="#065f46" text-anchor="middle">factorial(0)</text>
+  <text x="160" y="63" font-size="8.5" fill="#047857" text-anchor="middle">基底ケース → return 1</text>
+
+  <!-- Frame 3: factorial(1) -->
+  <rect x="60" y="74" width="200" height="34" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="160" y="88" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">factorial(1)</text>
+  <text x="160" y="101" font-size="8.5" fill="#52525b" text-anchor="middle">待機中: 1 × factorial(0)</text>
+
+  <!-- Frame 2: factorial(2) -->
+  <rect x="60" y="112" width="200" height="34" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="160" y="126" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">factorial(2)</text>
+  <text x="160" y="139" font-size="8.5" fill="#52525b" text-anchor="middle">待機中: 2 × factorial(1)</text>
+
+  <!-- Frame 1: factorial(3) — bottom of stack -->
+  <rect x="60" y="150" width="200" height="34" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="160" y="164" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">factorial(3)</text>
+  <text x="160" y="177" font-size="8.5" fill="#92400e" text-anchor="middle">最初の呼び出し: 3 × factorial(2)</text>
+
+  <!-- Stack label -->
+  <text x="42" y="100" font-size="9" fill="#a1a1aa" text-anchor="middle" transform="rotate(-90,42,100)">コールスタック</text>
+  <line x1="54" y1="36" x2="54" y2="184" stroke="#d4d4d8" stroke-width="1.5"/>
+
+  <!-- Return flow -->
+  <text x="300" y="36" font-size="9" font-weight="700" fill="#52525b">戻り値</text>
+  <text x="300" y="60" font-size="9" fill="#10b981">① factorial(0) = 1</text>
+  <text x="300" y="80" font-size="9" fill="#52525b">② factorial(1) = 1×1 = 1</text>
+  <text x="300" y="100" font-size="9" fill="#52525b">③ factorial(2) = 2×1 = 2</text>
+  <text x="300" y="120" font-size="9" fill="#52525b">④ factorial(3) = 3×2 = 6</text>
+
+  <!-- Base case / Recursive case labels -->
+  <rect x="282" y="138" width="290" height="44" rx="5" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+  <text x="290" y="153" font-size="8.5" font-weight="700" fill="#18181b">再帰の構造:</text>
+  <text x="290" y="167" font-size="8.5" fill="#52525b">基底ケース — 再帰を止める (n == 0)</text>
+  <text x="290" y="181" font-size="8.5" fill="#52525b">再帰ケース — より小さい入力で自身を呼ぶ</text>
+</svg>

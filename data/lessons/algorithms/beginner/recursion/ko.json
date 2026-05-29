@@ -36,13 +36,6 @@
             "팩토리얼: n! = n × (n-1)!, base case: 0! = 1",
             "피보나치: fib(n) = fib(n-1) + fib(n-2), base case: fib(0)=0, fib(1)=1"
           ]
-        },
-        {
-          "type": "code",
-          "python": "# 팩토리얼\ndef factorial(n):\n    if n == 0:   # base case\n        return 1\n    return n * factorial(n - 1)  # recursive case\n\n# 피보나치 (순수 재귀 — O(2^n))\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
-          "javascript": "// 팩토리얼\nfunction factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀 — O(2^n))\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
-          "java": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
-          "c": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
         }
       ]
     },
@@ -112,6 +105,29 @@
             "Python @lru_cache / @cache 데코레이터로 간단 적용",
             "메모이제이션 = 탑다운 DP"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "예시 코드",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "재귀의 기본 구조"
+        },
+        {
+          "type": "code",
+          "python": "# 팩토리얼\ndef factorial(n):\n    if n == 0:   # base case\n        return 1\n    return n * factorial(n - 1)  # recursive case\n\n# 피보나치 (순수 재귀 — O(2^n))\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "javascript": "// 팩토리얼\nfunction factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀 — O(2^n))\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
+          "java": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "c": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "메모이제이션으로 최적화"
         },
         {
           "type": "code",

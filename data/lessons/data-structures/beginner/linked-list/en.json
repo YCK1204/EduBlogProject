@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/linked-list-structure.svg",
+          "src": "/images/linked-list-structure-en.svg",
           "alt": "Linked list node structure",
           "width": 85
         },
@@ -35,14 +35,6 @@
             "Doubly linked list: next + prev pointers",
             "Circular linked list: last node points back to the first"
           ]
-        },
-        {
-          "type": "code",
-          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;",
-          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
-          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
-          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
-          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);"
         }
       ]
     },
@@ -52,7 +44,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/linked-list-insert.svg",
+          "src": "/images/linked-list-insert-en.svg",
           "alt": "Linked list insert operation",
           "width": 85
         },
@@ -118,6 +110,25 @@
             "OS process scheduling queue",
             "Internal implementation of stacks and queues"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Example Code",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "What is a Linked List?"
+        },
+        {
+          "type": "code",
+          "c": "struct Node {\n    int data;\n    struct Node* next;\n};\n\nstruct Node* head = NULL;\nstruct Node* newNode = (struct Node*)malloc(sizeof(struct Node));\nnewNode->data = 1;\nnewNode->next = NULL;\nhead = newNode;",
+          "cpp": "struct Node {\n    int data;\n    Node* next;\n    Node(int val) : data(val), next(nullptr) {}\n};\n\nNode* head = new Node(1);\nhead->next = new Node(2);\nhead->next->next = new Node(3);",
+          "python": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nhead = Node(1)\nhead.next = Node(2)\nhead.next.next = Node(3)",
+          "java": "class Node {\n    int data;\n    Node next;\n    Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n}\n\nNode head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);",
+          "javascript": "class Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n  }\n}\n\nconst head = new Node(1);\nhead.next = new Node(2);\nhead.next.next = new Node(3);"
         }
       ]
     }

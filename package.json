@@ -2,6 +2,10 @@
   "name": "edublog",
   "version": "0.1.0",
   "private": true,
+  "volta": {
+    "node": "20.18.0",
+    "npm": "10.8.2"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

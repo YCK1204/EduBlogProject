@@ -1,0 +1,130 @@
+{
+  "slug": "type-system-generics",
+  "tag": "TypeScript",
+  "estimatedTime": "25 min",
+  "relatedSlugs": [
+    "variables-types",
+    "async-event-loop",
+    "oop-intro"
+  ],
+  "title": "型システムとジェネリクス",
+  "summary": "静的な型が実行前にどのようにバグを防ぐか、ジェネリクスによる型安全で再利用可能なコードの書き方、そして型推論と型ガードの理解について解説します。",
+  "steps": [
+    {
+      "number": 1,
+      "title": "型システムの目的",
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/images/type-system-generics-ja.svg",
+          "alt": "ジェネリクスによる型安全なコードの再利用",
+          "width": 85
+        },
+        {
+          "type": "text",
+          "content": "型システムは変数や式に型を割り当て、コンパイル時にプログラムの正しさを検証します。誤った型の使用を早期に捕捉し、実行時エラーを減らします。"
+        },
+        {
+          "type": "text",
+          "content": "TypeScript が JavaScript に型を加えたのは、大規模なコードベースで引数と戻り値の型を明示することで、IDE の自動補完が正確になり、リファクタリングのエラーを即座に捕捉できるからです。型はインラインのドキュメントとしても機能します。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "コンパイル時のエラー検出: 実行時の予期せぬ事態が減る",
+            "IDE のサポート: 正確な自動補完とリファクタリングツール",
+            "ドキュメント: 関数のシグネチャが意図された使い方を説明する",
+            "段階的型付け: 'any' により既存の JS コードに型を少しずつ導入できる"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "ジェネリクスとは",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "ジェネリクスは型をパラメータとするコードを書けるようにし、多くの型にまたがる再利用を可能にします。配列、Map、Promise は代表的なジェネリック型です。Array<number> は数値だけを、Array<string> は文字列だけを保持します。"
+        },
+        {
+          "type": "text",
+          "content": "ジェネリクスがないと、再利用性を実現するには 'any' が必要になり、型安全性が犠牲になります。ジェネリクスは「この関数は任意の型を受け取るが、入力と出力の型は一致しなければならない」と表現します。型情報を完全に保ったまま再利用できるのです。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "関数のジェネリック: function identity<T>(arg: T): T { return arg }",
+            "型制約: <T extends Comparable> — T はインターフェースを満たさなければならない",
+            "複数の型パラメータ: <K, V>",
+            "ユーティリティ型: Partial<T>、Readonly<T>、Pick<T, K>"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "型推論",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "型推論は、コンパイラがコードから型を自動的に導き出す能力です。TypeScript は 'const x = 5' の型を、明示的な注釈なしに number と推論します。冗長にならずに型安全性が保たれます。"
+        },
+        {
+          "type": "text",
+          "content": "優れた型推論は、安全性を保ちながらコードを簡潔に保ちます。推論された型が広すぎたり予期しないものだったりする場合には、明示的な注釈が依然として必要です。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "let x = 5: TypeScript は number と推論する",
+            "関数の戻り値の型: 実装から推論される（公開 API では明示が望ましい）",
+            "const アサーション: as const → 可能な限り狭い型",
+            "infer: 条件型の中で型を抽出する"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "型ガードと絞り込み",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "型の絞り込みは、条件チェックを使ってユニオン型をより具体的な型へ絞り込みます。'if (typeof x === \"string\")' の内部では、TypeScript は x を文字列として扱います。"
+        },
+        {
+          "type": "text",
+          "content": "ユーザー定義の型ガードは、戻り値の型として 'is' キーワードを使い、特定の条件下で TypeScript が型を絞り込めるようにします。instanceof、in、リテラル型のチェックも絞り込みに使われます。"
+        },
+        {
+          "type": "points",
+          "items": [
+            "typeof: 'string' | 'number' | 'boolean' | 'object' などをチェックする",
+            "instanceof: クラスのインスタンスをチェックする",
+            "in: プロパティの存在をチェックする（判別可能なユニオンに便利）",
+            "カスタム型ガード: function isError(x): x is Error { ... }"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "サンプルコード",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "ジェネリクスとは"
+        },
+        {
+          "type": "code",
+          "javascript": "// TypeScript generics\n// using any — no type safety\nfunction firstAny(arr) {\n  return arr[0]; // return type unknown\n}\n\n// generic — preserves type info\nfunction first<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n\nconst num = first([1, 2, 3]);    // number | undefined\nconst str = first([\"a\", \"b\"]);   // string | undefined\n\n// generic interface\ninterface ApiResponse<T> {\n  data: T;\n  status: number;\n  message: string;\n}\n\ntype UserResponse = ApiResponse<{ id: number; name: string }>;",
+          "java": "// Java generics\npublic class Box<T> {\n    private T value;\n\n    public Box(T value) { this.value = value; }\n    public T getValue() { return value; }\n}\n\nBox<Integer> intBox = new Box<>(42);\nBox<String>  strBox = new Box<>(\"hello\");\n\n// generic method\npublic <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) >= 0 ? a : b;\n}",
+          "csharp": "// C# generics\npublic class Stack<T> {\n    private readonly List<T> items = new();\n\n    public void Push(T item) => items.Add(item);\n    public T Pop() {\n        var last = items[^1];\n        items.RemoveAt(items.Count - 1);\n        return last;\n    }\n}\n\nvar intStack = new Stack<int>();\nintStack.Push(1);\nvar top = intStack.Pop(); // int",
+          "cpp": "// C++ templates (generics)\ntemplate<typename T>\nT max(T a, T b) {\n    return a > b ? a : b;\n}\n\nint    m1 = max(3, 5);      // int\ndouble m2 = max(3.1, 2.7);  // double\n\n// generic container\ntemplate<typename T>\nclass Stack {\n    std::vector<T> data;\npublic:\n    void push(T val) { data.push_back(val); }\n    T    pop()       { auto v=data.back(); data.pop_back(); return v; }\n};"
+        }
+      ]
+    }
+  ]
+}

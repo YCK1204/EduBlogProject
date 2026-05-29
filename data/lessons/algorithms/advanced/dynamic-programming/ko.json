@@ -59,12 +59,6 @@
             "단점: 재귀 스택 오버헤드, Stack Overflow 위험",
             "Python @lru_cache로 쉽게 적용 가능"
           ]
-        },
-        {
-          "type": "code",
-          "python": "from functools import lru_cache\n\n# 계단 오르기: 1칸 또는 2칸씩 오를 수 있을 때 n번째 계단까지의 경우의 수\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# 수동 메모이제이션\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
-          "javascript": "// 계단 오르기 (탑다운)\nfunction climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
-          "java": "// 계단 오르기 (탑다운)\nMap<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
         }
       ]
     },
@@ -88,13 +82,6 @@
             "공간 최적화 가능: 이전 값만 유지",
             "단점: 모든 부분 문제를 계산 (탑다운은 필요한 것만)"
           ]
-        },
-        {
-          "type": "code",
-          "python": "# 피보나치 바텀업 — O(n) 시간, O(n) 공간\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# 공간 최적화 — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-          "javascript": "// 피보나치 바텀업\nfunction fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// 공간 최적화\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
-          "java": "// 피보나치 바텀업\nlong fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
-          "c": "// 피보나치 바텀업 (공간 최적화)\nlong long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
         }
       ]
     },
@@ -118,6 +105,35 @@
             "배낭(Knapsack): 0/1 배낭, 분할 가능 배낭",
             "DP 설계: 부분 문제 정의 → 점화식 → 초기값 → 순서"
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "예시 코드",
+      "blocks": [
+        {
+          "type": "header",
+          "level": 3,
+          "content": "탑다운 — 메모이제이션"
+        },
+        {
+          "type": "code",
+          "python": "from functools import lru_cache\n\n# 계단 오르기: 1칸 또는 2칸씩 오를 수 있을 때 n번째 계단까지의 경우의 수\n@lru_cache(maxsize=None)\ndef climb(n):\n    if n <= 1:\n        return 1\n    return climb(n - 1) + climb(n - 2)\n\n# 수동 메모이제이션\ndef climb_memo(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return 1\n    memo[n] = climb_memo(n-1, memo) + climb_memo(n-2, memo)\n    return memo[n]",
+          "javascript": "// 계단 오르기 (탑다운)\nfunction climb(n, memo = new Map()) {\n  if (n <= 1) return 1;\n  if (memo.has(n)) return memo.get(n);\n  const result = climb(n - 1, memo) + climb(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
+          "java": "// 계단 오르기 (탑다운)\nMap<Integer, Long> memo = new HashMap<>();\n\nlong climb(int n) {\n    if (n <= 1) return 1;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = climb(n - 1) + climb(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+        },
+        {
+          "type": "header",
+          "level": 3,
+          "content": "바텀업 — 테이블 채우기"
+        },
+        {
+          "type": "code",
+          "python": "# 피보나치 바텀업 — O(n) 시간, O(n) 공간\ndef fib_bottom_up(n):\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    return dp[n]\n\n# 공간 최적화 — O(1)\ndef fib_optimized(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+          "javascript": "// 피보나치 바텀업\nfunction fibBottomUp(n) {\n  const dp = new Array(n + 1).fill(0);\n  dp[1] = 1;\n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\n// 공간 최적화\nfunction fibOptimized(n) {\n  let [a, b] = [0, 1];\n  for (let i = 0; i < n; i++) [a, b] = [b, a + b];\n  return a;\n}",
+          "java": "// 피보나치 바텀업\nlong fibBottomUp(int n) {\n    if (n <= 1) return n;\n    long[] dp = new long[n + 1];\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++)\n        dp[i] = dp[i - 1] + dp[i - 2];\n    return dp[n];\n}",
+          "c": "// 피보나치 바텀업 (공간 최적화)\nlong long fib(int n) {\n    if (n <= 1) return n;\n    long long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        long long c = a + b;\n        a = b; b = c;\n    }\n    return b;\n}"
         }
       ]
     }

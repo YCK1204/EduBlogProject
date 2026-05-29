@@ -16,7 +16,7 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/tcp-ip.svg",
+          "src": "/images/tcp-ip-en.svg",
           "alt": "TCP/IP 4-layer model encapsulation",
           "width": 88
         },

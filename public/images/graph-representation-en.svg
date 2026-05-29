@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <rect width="600" height="200" fill="#fafafa" rx="10"/>
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#71717a"/></marker>
+  </defs>
+
+  <text x="300" y="16" font-size="10" font-weight="700" fill="#52525b" text-anchor="middle">Graph G=(V,E) — Adjacency Matrix vs Adjacency List</text>
+
+  <!-- Graph drawing -->
+  <text x="70" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Graph</text>
+  <circle cx="50"  cy="80" r="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="50"  y="85" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <circle cx="110" cy="55" r="18" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="110" y="60" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <circle cx="110" cy="110" r="18" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="110" y="115" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <circle cx="50"  cy="138" r="18" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
+  <text x="50"  y="143" font-size="13" font-weight="700" fill="#18181b" text-anchor="middle">D</text>
+
+  <line x1="66" y1="68" x2="94" y2="60" stroke="#71717a" stroke-width="1.5"/>
+  <line x1="66" y1="92" x2="94" y2="100" stroke="#71717a" stroke-width="1.5"/>
+  <line x1="110" y1="73" x2="110" y2="92" stroke="#71717a" stroke-width="1.5"/>
+  <line x1="50"  y1="98" x2="50"  y2="120" stroke="#71717a" stroke-width="1.5"/>
+
+  <!-- Divider 1 -->
+  <line x1="148" y1="28" x2="148" y2="188" stroke="#e4e4e7" stroke-width="1"/>
+
+  <!-- Adjacency Matrix -->
+  <text x="250" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Adjacency Matrix — O(V²) space</text>
+
+  <!-- Header row -->
+  <text x="186" y="56" font-size="9" fill="#a1a1aa" text-anchor="middle"> </text>
+  <text x="216" y="56" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">A</text>
+  <text x="244" y="56" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">B</text>
+  <text x="272" y="56" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">C</text>
+  <text x="300" y="56" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">D</text>
+
+  <!-- Rows -->
+  <text x="186" y="80" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">A</text>
+  <text x="186" y="104" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">B</text>
+  <text x="186" y="128" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">C</text>
+  <text x="186" y="152" font-size="9" font-weight="700" fill="#52525b" text-anchor="middle">D</text>
+
+  <!-- Matrix cells -->
+  <!-- Row A: 0 1 1 1 -->
+  <rect x="200" y="62" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="214" y="77" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <rect x="228" y="62" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="242" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="256" y="62" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="270" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="284" y="62" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="298" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <!-- Row B: 1 0 1 0 -->
+  <rect x="200" y="86" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="214" y="101" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="228" y="86" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="242" y="101" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <rect x="256" y="86" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="270" y="101" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="284" y="86" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="298" y="101" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <!-- Row C: 1 1 0 0 -->
+  <rect x="200" y="110" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="214" y="125" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="228" y="110" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="242" y="125" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="256" y="110" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="270" y="125" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <rect x="284" y="110" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="298" y="125" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <!-- Row D: 1 0 0 0 -->
+  <rect x="200" y="134" width="28" height="22" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="214" y="149" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">1</text>
+  <rect x="228" y="134" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="242" y="149" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <rect x="256" y="134" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="270" y="149" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+  <rect x="284" y="134" width="28" height="22" rx="2" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/><text x="298" y="149" font-size="10" fill="#a1a1aa" text-anchor="middle">0</text>
+
+  <text x="250" y="172" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Edge check O(1)  ·  Wastes space for sparse graphs</text>
+
+  <!-- Divider 2 -->
+  <line x1="330" y1="28" x2="330" y2="188" stroke="#e4e4e7" stroke-width="1"/>
+
+  <!-- Adjacency List -->
+  <text x="465" y="34" font-size="9" fill="#a1a1aa" text-anchor="middle">Adjacency List — O(V+E) space</text>
+
+  <text x="346" y="76" font-size="10" font-weight="700" fill="#52525b">A</text>
+  <rect x="362" y="62" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <line x1="390" y1="73" x2="402" y2="73" stroke="#71717a" stroke-width="1"/><rect x="402" y="62" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="416" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <line x1="430" y1="73" x2="442" y2="73" stroke="#71717a" stroke-width="1"/><rect x="442" y="62" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="456" y="77" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">D</text>
+  <text x="472" y="77" font-size="10" fill="#d4d4d8">∅</text>
+
+  <text x="346" y="106" font-size="10" font-weight="700" fill="#52525b">B</text>
+  <rect x="362" y="92" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="107" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <line x1="390" y1="103" x2="402" y2="103" stroke="#71717a" stroke-width="1"/><rect x="402" y="92" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="416" y="107" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">C</text>
+  <text x="432" y="107" font-size="10" fill="#d4d4d8">∅</text>
+
+  <text x="346" y="136" font-size="10" font-weight="700" fill="#52525b">C</text>
+  <rect x="362" y="122" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="137" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <line x1="390" y1="133" x2="402" y2="133" stroke="#71717a" stroke-width="1"/><rect x="402" y="122" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="416" y="137" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">B</text>
+  <text x="432" y="137" font-size="10" fill="#d4d4d8">∅</text>
+
+  <text x="346" y="166" font-size="10" font-weight="700" fill="#52525b">D</text>
+  <rect x="362" y="152" width="28" height="22" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="376" y="167" font-size="10" font-weight="700" fill="#18181b" text-anchor="middle">A</text>
+  <text x="392" y="167" font-size="10" fill="#d4d4d8">∅</text>
+
+  <text x="465" y="186" font-size="8.5" fill="#a1a1aa" text-anchor="middle">Edge check O(degree)  ·  Efficient for sparse graphs</text>
+</svg>
