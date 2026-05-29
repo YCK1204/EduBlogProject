@@ -39,7 +39,18 @@
       "Bash(pdftotext -layout 2024.tacl-1.9.pdf out19.txt)",
       "Bash(pdfinfo \"LostInTheMiddle_한글번역본.pdf\")",
       "Bash(pdftotext \"LostInTheMiddle_한글번역본.pdf\" -)",
-      "Bash(npx eslint *)"
+      "Bash(npx eslint *)",
+      "Bash(npx skills install grill-me)",
+      "Bash(mkdir -p ~/.claude/skills/grill-me)",
+      "Bash(curl -L https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md -o ~/.claude/skills/grill-me/SKILL.md)",
+      "Bash(ls -la ~/.claude/skills/grill-me/)",
+      "Bash(ls -la .claude/)",
+      "Bash(mkdir -p .claude/skills/grill-me)",
+      "Bash(cp ~/.claude/skills/grill-me/SKILL.md .claude/skills/grill-me/)",
+      "Bash(ls -la .claude/skills/grill-me/)",
+      "Bash(rg -n \"Undo|Redo|저장|EditableBlock\" /mnt/c/Users/User/Desktop/EduBlogProject/components/LessonView.tsx)",
+      "Bash(mv /mnt/c/Users/User/Desktop/EduBlogProject/components/LessonView.tsx /mnt/c/Users/User/Desktop/EduBlogProject/components/LessonViewOld.tsx)",
+      "Bash(mv /mnt/c/Users/User/Desktop/EduBlogProject/components/LessonViewClean.tsx /mnt/c/Users/User/Desktop/EduBlogProject/components/LessonView.tsx)"
     ]
   }
 }

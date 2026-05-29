@@ -5,9 +5,7 @@ import Link from "next/link";
 import type { Lesson, Block, CodeBlock as CodeBlockType } from "@/lib/lessonTypes";
 import type { RelatedEntry } from "@/lib/lessonLoader";
 import CodeBlock from "@/components/CodeBlock";
-import EditableBlock from "@/components/EditableBlock";
 import ThemedImage from "@/components/ThemedImage";
-import Toast, { useToast } from "@/components/Toast";
 import { useLang } from "@/components/LanguageProvider";
 import { useProgress } from "@/lib/useProgress";
 
@@ -51,64 +49,56 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en" | "ja"): React
     }
 
     case "bold":
-      return <p key={idx} className="text-sm font-bold text-zinc-800 dark:text-zinc-200">{block.content}</p>;
-
+      return <p key={idx} className="text-sm leading-relaxed font-bold text-zinc-900 dark:text-white">{block.content}</p>;
     case "italic":
-      return <p key={idx} className="text-sm italic text-zinc-600 dark:text-zinc-400">{block.content}</p>;
-
+      return <p key={idx} className="text-sm leading-relaxed italic text-zinc-600 dark:text-zinc-400">{block.content}</p>;
     case "underbar":
-      return <p key={idx} className="text-sm underline text-zinc-600 dark:text-zinc-400">{block.content}</p>;
-
+      return <p key={idx} className="text-sm leading-relaxed underline text-zinc-600 dark:text-zinc-400">{block.content}</p>;
     case "strike":
-      return <p key={idx} className="text-sm line-through text-zinc-400">{block.content}</p>;
-
+      return <p key={idx} className="text-sm leading-relaxed line-through text-zinc-600 dark:text-zinc-400">{block.content}</p>;
     case "color":
-      return <p key={idx} className="text-sm" style={{ color: block.color }}>{block.content}</p>;
+      return <p key={idx} className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400" style={{ color: block.color }}>{block.content}</p>;
 
     case "points":
       return (
-        <ul key={idx} className="space-y-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 p-5">
-          {block.items.map((pt, j) => (
-            <li key={j} className="flex items-start gap-2 text-sm text-zinc-700 dark:text-zinc-300">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
-              {pt}
-            </li>
-          ))}
+        <ul key={idx} className="space-y-1 list-disc list-inside text-sm text-zinc-600 dark:text-zinc-400">
+          {block.items.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
       );
 
     case "ol":
       return (
-        <ol key={idx} className="space-y-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 p-5 list-decimal list-inside">
-          {block.items.map((pt, j) => (
-            <li key={j} className="text-sm text-zinc-700 dark:text-zinc-300">{pt}</li>
-          ))}
+        <ol key={idx} className="space-y-1 list-decimal list-inside text-sm text-zinc-600 dark:text-zinc-400">
+          {block.items.map((item, i) => <li key={i}>{item}</li>)}
         </ol>
       );
 
     case "box":
       return (
-        <div key={idx} className="rounded-xl bg-zinc-800 dark:bg-zinc-900 border border-zinc-700 p-5 space-y-3">
-          {block.blocks.map((b, j) => renderBlock(b, j, lang))}
+        <div key={idx} className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 space-y-3">
+          {block.blocks.map((b, i) => renderBlock(b, i, lang))}
         </div>
       );
 
     case "image": {
-      // Use language-specific image if available
       const src = lang === "en" && block.srcEn ? block.srcEn : block.src;
       const alt = lang === "en" && block.altEn ? block.altEn : block.alt;
       
       return (
-        <div key={idx} style={{ width: `${block.width ?? 100}%`, marginLeft: "auto", marginRight: "auto" }} className="rounded-xl overflow-hidden">
-          <ThemedImage src={src} alt={alt} className="w-full h-auto" />
+        <div key={idx} className="my-6">
+          <ThemedImage
+            src={src}
+            alt={alt}
+            width={block.width || 600}
+            height={400}
+            className="rounded-lg mx-auto"
+          />
         </div>
       );
     }
 
-    case "code": {
-      const { type, ...codeMap } = block as CodeBlockType & { type: string };
-      return <CodeBlock key={idx} code={codeMap as Partial<Record<import("@/lib/lessonTypes").CodeLang, string>>} />;
-    }
+    case "code":
+      return <CodeBlock key={idx} code={block as CodeBlockType} />;
 
     default:
       return null;
@@ -117,56 +107,16 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en" | "ja"): React
 
 export default function LessonView({ koLesson, enLesson, jaLesson, category, relatedEntries }: Props) {
   const { lang, t } = useLang();
-  const { toast, showToast, hideToast } = useToast();
-  const [editableLesson, setEditableLesson] = useState<Lesson>(koLesson);
-  const [editableEnLesson, setEditableEnLesson] = useState<Lesson | null>(enLesson);
-  const [editableJaLesson, setEditableJaLesson] = useState<Lesson | null>(jaLesson);
+  
   // 표시 언어 → 폴백 ja → en → ko
   const lesson =
     lang === "ja"
-      ? editableJaLesson ?? editableEnLesson ?? editableLesson
+      ? jaLesson ?? enLesson ?? koLesson
       : lang === "en"
-        ? editableEnLesson ?? editableLesson
-        : editableLesson;
+        ? enLesson ?? koLesson
+        : koLesson;
+  
   const [activeStep, setActiveStep] = useState(1);
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  // Load saved data on component mount
-  useEffect(() => {
-    const saveKey = `lesson-${koLesson.slug}-ko`;
-    const savedKoData = localStorage.getItem(saveKey);
-    if (savedKoData) {
-      try {
-        setEditableLesson(JSON.parse(savedKoData));
-      } catch (error) {
-        console.error("저장된 한국어 데이터를 불러오는 중 오류:", error);
-      }
-    }
-
-    if (enLesson) {
-      const saveKeyEn = `lesson-${koLesson.slug}-en`;
-      const savedEnData = localStorage.getItem(saveKeyEn);
-      if (savedEnData) {
-        try {
-          setEditableEnLesson(JSON.parse(savedEnData));
-        } catch (error) {
-          console.error("저장된 영어 데이터를 불러오는 중 오류:", error);
-        }
-      }
-    }
-
-    if (jaLesson) {
-      const saveKeyJa = `lesson-${koLesson.slug}-ja`;
-      const savedJaData = localStorage.getItem(saveKeyJa);
-      if (savedJaData) {
-        try {
-          setEditableJaLesson(JSON.parse(savedJaData));
-        } catch (error) {
-          console.error("저장된 일본어 데이터를 불러오는 중 오류:", error);
-        }
-      }
-    }
-  }, [koLesson.slug, enLesson, jaLesson]);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
   const sidebarItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const { markComplete, isComplete } = useProgress();
@@ -176,7 +126,7 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
   const categoryLabel = navKey ? t.nav[navKey] : category;
   const categoryHref = `/category/${category}`;
 
-  // 스크롤 기반 활성 스텝 감지 — 뷰포트 상단 150px 기준선을 넘은 마지막 스텝을 활성화
+  // 스크롤 기반 활성 스텝 감지
   useEffect(() => {
     const TRIGGER_OFFSET = 150;
 
@@ -209,114 +159,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY - 120;
     window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  // Block editing functions
-  const updateLessonData = (updater: (lesson: Lesson) => Lesson) => {
-    if (lang === "ja" && editableJaLesson) {
-      setEditableJaLesson(updater(editableJaLesson));
-    } else if (lang === "en" && editableEnLesson) {
-      setEditableEnLesson(updater(editableEnLesson));
-    } else {
-      setEditableLesson(updater(editableLesson));
-    }
-  };
-
-  const handleDeleteBlock = (stepIndex: number, blockIndex: number) => {
-    updateLessonData(lesson => ({
-      ...lesson,
-      steps: lesson.steps.map((step, i) => 
-        i === stepIndex 
-          ? { ...step, blocks: step.blocks.filter((_, j) => j !== blockIndex) }
-          : step
-      )
-    }));
-  };
-
-  const handleMoveBlock = (stepIndex: number, fromIndex: number, toIndex: number) => {
-    updateLessonData(lesson => ({
-      ...lesson,
-      steps: lesson.steps.map((step, i) => {
-        if (i !== stepIndex) return step;
-        
-        const blocks = [...step.blocks];
-        const [movedBlock] = blocks.splice(fromIndex, 1);
-        const newToIndex = toIndex > fromIndex ? toIndex - 1 : toIndex;
-        blocks.splice(Math.max(0, Math.min(newToIndex, blocks.length)), 0, movedBlock);
-        
-        return { ...step, blocks };
-      })
-    }));
-  };
-
-  const handleDuplicateBlock = (stepIndex: number, blockIndex: number) => {
-    updateLessonData(lesson => ({
-      ...lesson,
-      steps: lesson.steps.map((step, i) => 
-        i === stepIndex 
-          ? { 
-              ...step, 
-              blocks: [
-                ...step.blocks.slice(0, blockIndex + 1),
-                JSON.parse(JSON.stringify(step.blocks[blockIndex])), // Deep copy
-                ...step.blocks.slice(blockIndex + 1)
-              ]
-            }
-          : step
-      )
-    }));
-  };
-
-  const handleCopyBlock = async (stepIndex: number, blockIndex: number) => {
-    try {
-      const blockToCopy = lesson.steps[stepIndex].blocks[blockIndex];
-      const textToCopy = JSON.stringify(blockToCopy, null, 2);
-      
-      // Copy to clipboard using the modern Clipboard API
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(textToCopy);
-      } else {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = textToCopy;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        document.execCommand('copy');
-        textArea.remove();
-      }
-      
-      // Show success toast
-      showToast('블록이 클립보드에 복사되었습니다', 'success');
-      
-    } catch (error) {
-      console.error('클립보드 복사 중 오류가 발생했습니다:', error);
-      showToast('클립보드 복사에 실패했습니다', 'error');
-    }
-  };
-
-  const handleSaveChanges = () => {
-    try {
-      // Save to localStorage for demo purposes
-      // In a real app, this would be an API call
-      const saveKey = `lesson-${koLesson.slug}-${lang}`;
-      const dataToSave =
-        lang === "ja" && editableJaLesson
-          ? editableJaLesson
-          : lang === "en" && editableEnLesson
-            ? editableEnLesson
-            : editableLesson;
-      localStorage.setItem(saveKey, JSON.stringify(dataToSave));
-      
-      // Show success toast
-      showToast("변경사항이 저장되었습니다!", "success");
-    } catch (error) {
-      console.error("저장 중 오류가 발생했습니다:", error);
-      showToast("저장 중 오류가 발생했습니다.", "error");
-    }
   };
 
   return (
@@ -378,26 +220,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
 
           <div className="flex items-center justify-between mb-3">
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{lesson.title}</h1>
-            <div className="flex items-center gap-2">
-              {isEditMode && (
-                <button
-                  onClick={() => handleSaveChanges()}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 transition-colors"
-                >
-                  변경사항 저장
-                </button>
-              )}
-              <button
-                onClick={() => setIsEditMode(!isEditMode)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                  isEditMode
-                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                    : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-                }`}
-              >
-                {isEditMode ? "편집 완료" : "편집 모드"}
-              </button>
-            </div>
           </div>
           <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{lesson.summary}</p>
 
@@ -423,109 +245,53 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
               <div />
             )}
 
-            <div />
+            <nav className="flex flex-wrap gap-2 text-xs">
+              <Link href={categoryHref} className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300">
+                {categoryLabel}
+              </Link>
+              <span className="text-zinc-300 dark:text-zinc-600">•</span>
+              <span className="text-zinc-500">{t.lesson.level[koLesson.level]}</span>
+            </nav>
           </div>
         </section>
 
-        {/* 모바일 전용 스텝 진행 표시 */}
-        {(() => {
-          const totalSteps = lesson.steps.length;
-          const currentStep = lesson.steps.find((s) => s.number === activeStep);
-          const progressPct = totalSteps > 0 ? (activeStep / totalSteps) * 100 : 0;
-          return (
-            <div className="lg:hidden rounded-xl border border-zinc-200 dark:border-zinc-800 px-4 py-3 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  {activeStep} / {totalSteps} 단계
-                </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">
-                  {Math.round(progressPct)}%
-                </span>
-              </div>
-              {currentStep && (
-                <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 truncate">
-                  {currentStep.number}. {currentStep.title}
-                </p>
-              )}
-              <div className="w-full h-1 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-300"
-                  style={{ width: `${progressPct}%` }}
-                />
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* 스텝 카드들 */}
+        {/* 스텝 목록 */}
         {lesson.steps.map((step, i) => {
-          const pat = PLACEHOLDER_PATTERNS[i % PLACEHOLDER_PATTERNS.length];
+          const pattern = PLACEHOLDER_PATTERNS[step.number % PLACEHOLDER_PATTERNS.length];
           return (
             <section
               key={step.number}
               ref={(el) => { stepRefs.current[i] = el; }}
               id={`step-${step.number}`}
-              className={`rounded-2xl border border-zinc-200 dark:border-zinc-800 ${
-                isEditMode ? "overflow-visible" : "overflow-hidden"
-              }`}
+              className="rounded-2xl border border-zinc-200 dark:border-zinc-800"
             >
-              <div className={`p-8 space-y-4 ${isEditMode ? 'pl-16' : ''}`}>
+              <div className="p-8 space-y-4">
                 <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
                   {step.number}. {step.title}
                 </h2>
                 <div className="space-y-3">
-                  {step.blocks.map((block, j) => 
-                    isEditMode ? (
-                      <EditableBlock
-                        key={`${step.number}-${j}`}
-                        block={block}
-                        blockIndex={j}
-                        stepIndex={i}
-                        lang={lang}
-                        onDeleteBlock={handleDeleteBlock}
-                        onMoveBlock={handleMoveBlock}
-                        onDuplicateBlock={handleDuplicateBlock}
-                        onCopyBlock={handleCopyBlock}
-                        renderBlock={renderBlock}
-                      />
-                    ) : (
-                      <div key={j}>{renderBlock(block, j, lang)}</div>
-                    )
-                  )}
+                  {step.blocks.map((block, j) => (
+                    <div key={j}>{renderBlock(block, j, lang)}</div>
+                  ))}
                 </div>
               </div>
             </section>
           );
         })}
 
-        {/* 하단 네비게이션 */}
-        <div className="flex items-center justify-between py-6 border-t border-zinc-200 dark:border-zinc-800">
-          <Link
-            href={categoryHref}
-            className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-          >
-            {t.lesson.backToListPrefix}{categoryLabel}{t.lesson.backToListSuffix}
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-zinc-400 dark:text-zinc-500">
-              {lesson.steps.length}{t.lesson.stepsCompleted}
-            </span>
+        {/* 완료 버튼 */}
+        <div className="flex justify-center pt-8">
+          <div className="text-center">
             <button
               onClick={() => markComplete(koLesson.slug)}
-              disabled={completed}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`rounded-xl px-8 py-4 font-semibold text-sm transition-colors ${
                 completed
-                  ? "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400 cursor-default"
-                  : "bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  ? "bg-green-500 text-white"
+                  : "bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
               }`}
             >
               {completed ? (
-                <>
-                  <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  완료됨
-                </>
+                "✓ 완료됨"
               ) : (
                 "완료 표시"
               )}
@@ -533,14 +299,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
           </div>
         </div>
       </div>
-
-      {/* Toast notification */}
-      <Toast
-        message={toast.message}
-        type={toast.type}
-        isVisible={toast.isVisible}
-        onHide={hideToast}
-      />
     </div>
   );
 }

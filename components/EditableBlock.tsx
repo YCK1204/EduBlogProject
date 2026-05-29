@@ -12,6 +12,7 @@ interface EditableBlockProps {
   onMoveBlock?: (stepIndex: number, fromIndex: number, toIndex: number) => void;
   onDuplicateBlock?: (stepIndex: number, blockIndex: number) => void;
   onCopyBlock?: (stepIndex: number, blockIndex: number) => void;
+  onUpdateBlock?: (stepIndex: number, blockIndex: number, newBlock: Block) => void;
   renderBlock: (block: Block, idx: number, lang: "ko" | "en" | "ja") => React.ReactNode;
 }
 
@@ -24,14 +25,18 @@ export default function EditableBlock({
   onMoveBlock,
   onDuplicateBlock,
   onCopyBlock,
+  onUpdateBlock,
   renderBlock,
 }: EditableBlockProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOverPosition, setDragOverPosition] = useState<'top' | 'bottom' | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
   const dragRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   const handleDragStart = (e: React.DragEvent) => {
     setIsDragging(true);
@@ -87,10 +92,66 @@ export default function EditableBlock({
     setDragOverPosition(null);
   };
 
+  // 인라인 편집 기능
+  const startEditing = () => {
+    if (block.type === 'text' || block.type === 'header') {
+      setEditValue(block.content);
+      setIsEditing(true);
+      // 다음 렌더링 후 포커스
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } else if (block.type === 'points' || block.type === 'ol') {
+      setEditValue(block.items.join('\n'));
+      setIsEditing(true);
+      setTimeout(() => inputRef.current?.focus(), 0);
+    }
+  };
+
+  const saveEdit = () => {
+    if (!onUpdateBlock || !editValue.trim()) return;
+    
+    let updatedBlock: Block;
+    
+    if (block.type === 'text' || block.type === 'header') {
+      updatedBlock = {
+        ...block,
+        content: editValue.trim()
+      };
+    } else if (block.type === 'points' || block.type === 'ol') {
+      updatedBlock = {
+        ...block,
+        items: editValue.split('\n').filter(item => item.trim()).map(item => item.trim())
+      };
+    } else {
+      return; // 지원하지 않는 타입
+    }
+    
+    onUpdateBlock(stepIndex, blockIndex, updatedBlock);
+    setIsEditing(false);
+    setEditValue('');
+  };
+
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditValue('');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      cancelEdit();
+    }
+  };
+
   const handleMenuClick = (action: string) => {
     setShowMenu(false);
     
     switch (action) {
+      case 'edit':
+        startEditing();
+        break;
       case 'delete':
         onDeleteBlock?.(stepIndex, blockIndex);
         break;
@@ -110,6 +171,9 @@ export default function EditableBlock({
         break;
     }
   };
+
+  // 편집 가능한 블록 타입 확인
+  const isEditableType = block.type === 'text' || block.type === 'header' || block.type === 'points' || block.type === 'ol';
 
   return (
     <div
@@ -187,6 +251,22 @@ export default function EditableBlock({
                 className="absolute left-0 top-8 z-50 min-w-52 bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-xl py-2"
                 onBlur={() => setShowMenu(false)}
               >
+                {/* Edit button */}
+                {isEditableType && (
+                  <button
+                    onClick={() => handleMenuClick('edit')}
+                    className="w-full px-3 py-2 text-left text-sm hover:bg-zinc-50 dark:hover:bg-zinc-700 flex items-center gap-2"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-zinc-500">
+                      <path d="M11.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1v1a.5.5 0 0 1-.5.5h-1v1a.5.5 0 0 1-.5.5H8v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 .5-.5h9z" fill="currentColor"/>
+                    </svg>
+                    <span className="flex-1">텍스트 편집</span>
+                    <span className="text-xs text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-1.5 py-0.5 rounded">더블클릭</span>
+                  </button>
+                )}
+
+                {isEditableType && <div className="my-1 h-px bg-zinc-200 dark:bg-zinc-600" />}
+
                 {/* Move buttons */}
                 <button
                   onClick={() => handleMenuClick('move-up')}
@@ -259,8 +339,62 @@ export default function EditableBlock({
       )}
 
       {/* Block content */}
-      <div className={isHovered ? 'ml-2 pl-2 border-l-2 border-blue-200 dark:border-blue-700' : ''}>
-        {renderBlock(block, blockIndex, lang)}
+      <div 
+        className={isHovered ? 'ml-2 pl-2 border-l-2 border-blue-200 dark:border-blue-700' : ''}
+        onDoubleClick={isEditableType ? startEditing : undefined}
+      >
+        {isEditing && isEditableType ? (
+          <div className="space-y-2">
+            {block.type === 'text' ? (
+              <textarea
+                ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={saveEdit}
+                className="w-full p-2 text-sm border border-zinc-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[60px]"
+                placeholder="텍스트를 입력하세요..."
+                rows={3}
+              />
+            ) : block.type === 'header' ? (
+              <input
+                ref={inputRef as React.RefObject<HTMLInputElement>}
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={saveEdit}
+                className="w-full p-2 text-lg font-bold border border-zinc-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="제목을 입력하세요..."
+              />
+            ) : (block.type === 'points' || block.type === 'ol') ? (
+              <textarea
+                ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={saveEdit}
+                className="w-full p-2 text-sm border border-zinc-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
+                placeholder={`${block.type === 'points' ? '• 항목' : '1. 항목'}을 한 줄씩 입력하세요...`}
+                rows={4}
+              />
+            ) : null}
+            <div className="flex items-center gap-2 text-xs text-zinc-500">
+              <span>Enter: 저장</span>
+              <span>•</span>
+              <span>Esc: 취소</span>
+              <span>•</span>
+              <span>더블클릭으로 편집</span>
+              {(block.type === 'points' || block.type === 'ol') && (
+                <>
+                  <span>•</span>
+                  <span>한 줄에 하나씩</span>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          renderBlock(block, blockIndex, lang)
+        )}
       </div>
 
       {/* Click outside handler for menu */}

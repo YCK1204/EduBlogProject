@@ -24,6 +24,11 @@ function EditorInner() {
   const [showPreview, setShowPreview] = useState(() => searchParams.get("preview") === "true");
   const [stepDragOver, setStepDragOver] = useState<number | null>(null);
   const initialized = useRef(false);
+  
+  // Undo/Redo 히스토리 관리
+  const [history, setHistory] = useState<EditorLesson[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [redoStack, setRedoStack] = useState<EditorLesson[]>([]);
 
   // 수정 모드: 기존 레슨 로드
   useEffect(() => {
@@ -64,9 +69,87 @@ function EditorInner() {
     }
   }, [lesson.steps, activeStepId]);
 
+  // 히스토리에 현재 상태 저장
+  const saveToHistory = () => {
+    const newHistory = [...history.slice(0, historyIndex + 1), lesson];
+    
+    // 히스토리 크기 제한 (최대 50개)
+    if (newHistory.length > 50) {
+      newHistory.splice(0, newHistory.length - 50);
+    }
+    
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+    setRedoStack([]); // redo 스택 초기화
+  };
+
+  // Undo 실행
+  const handleUndo = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      
+      // Redo 스택에 현재 상태 저장
+      setRedoStack(prev => [...prev, lesson]);
+      
+      // 이전 상태로 복원
+      setLesson(history[newIndex]);
+    }
+  };
+
+  // Redo 실행
+  const handleRedo = () => {
+    if (redoStack.length > 0) {
+      const lastRedo = redoStack[redoStack.length - 1];
+      
+      // 히스토리에 현재 상태 추가
+      const newHistoryIndex = historyIndex + 1;
+      const newHistory = [...history.slice(0, newHistoryIndex), lastRedo];
+      setHistory(newHistory);
+      setHistoryIndex(newHistoryIndex);
+      
+      // Redo 스택에서 제거
+      setRedoStack(prev => prev.slice(0, -1));
+      
+      // 상태 복원
+      setLesson(lastRedo);
+    }
+  };
+
+  // 키보드 단축키 이벤트 리스너
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+Z (Undo)
+      if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        handleUndo();
+      }
+      // Ctrl+Shift+Z (Redo)
+      else if (e.ctrlKey && e.shiftKey && e.key === 'Z') {
+        e.preventDefault();
+        handleRedo();
+      }
+      // Ctrl+Y (Redo alternative)
+      else if (e.ctrlKey && e.key === 'y') {
+        e.preventDefault();
+        handleRedo();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [historyIndex, redoStack, lesson]);
+
   const activeStep = lesson.steps.find((s) => s.id === activeStepId) ?? lesson.steps[0];
 
+  // 레슨 업데이트 (히스토리 포함)
+  const updateLesson = (updater: (lesson: EditorLesson) => EditorLesson) => {
+    saveToHistory();
+    setLesson(updater);
+  };
+
   const addStep = () => {
+    saveToHistory();
     const step: EditorStep = { id: crypto.randomUUID(), title: "새 챕터", blocks: [] };
     const next = { ...lesson, steps: [...lesson.steps, step] };
     setLesson(next);
@@ -74,6 +157,7 @@ function EditorInner() {
   };
 
   const updateStep = (id: string, patch: Partial<EditorStep>) => {
+    saveToHistory();
     setLesson((prev) => ({
       ...prev,
       steps: prev.steps.map((s) => (s.id === id ? { ...s, ...patch } : s)),
@@ -81,6 +165,7 @@ function EditorInner() {
   };
 
   const removeStep = (id: string) => {
+    saveToHistory();
     const next = lesson.steps.filter((s) => s.id !== id);
     setLesson((prev) => ({ ...prev, steps: next }));
     if (activeStepId === id) setActiveStepId(next[0]?.id ?? "");
@@ -88,6 +173,7 @@ function EditorInner() {
 
   const reorderSteps = (fromIdx: number, toIdx: number) => {
     if (fromIdx === toIdx) return;
+    saveToHistory();
     const next = [...lesson.steps];
     const [moved] = next.splice(fromIdx, 1);
     next.splice(fromIdx < toIdx ? toIdx - 1 : toIdx, 0, moved);
@@ -214,30 +300,58 @@ function EditorInner() {
       {/* ── 우측: 편집 영역 ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* 토글 버튼 바 */}
-        <div className="shrink-0 flex items-center justify-end gap-2 px-6 py-2 border-b border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-          <button
-            onClick={saveAndExit}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-red-400 hover:text-red-500 transition-all"
-          >
-            ✕ 수정 종료
-          </button>
-          <button
-            onClick={save}
-            disabled={saving}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              saved
-                ? "bg-green-500 text-white"
-                : "bg-amber-400 hover:bg-amber-500 text-zinc-900"
-            } disabled:opacity-50`}
-          >
-            {saving ? "저장 중..." : saved ? "✓ 저장됨" : "저장"}
-          </button>
-          <button
-            onClick={() => setShowPreview(true)}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-blue-400 hover:text-blue-500 transition-all"
-          >
-            <span>👁</span> 미리보기 OFF
-          </button>
+        <div className="shrink-0 flex items-center justify-between px-6 py-2 border-b border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+          {/* Undo/Redo 버튼 */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleUndo}
+              disabled={historyIndex <= 0}
+              className="p-1.5 rounded-lg text-xs font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              title="실행 취소 (Ctrl+Z)"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-current">
+                <path d="M9 14l-4-4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 10h11a4 4 0 0 1 0 8h-1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              onClick={handleRedo}
+              disabled={redoStack.length === 0}
+              className="p-1.5 rounded-lg text-xs font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              title="다시 실행 (Ctrl+Shift+Z)"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-current">
+                <path d="M15 14l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M19 10H8a4 4 0 0 0 0 8h1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={saveAndExit}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-red-400 hover:text-red-500 transition-all"
+            >
+              ✕ 수정 종료
+            </button>
+            <button
+              onClick={save}
+              disabled={saving}
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                saved
+                  ? "bg-green-500 text-white"
+                  : "bg-amber-400 hover:bg-amber-500 text-zinc-900"
+              } disabled:opacity-50`}
+            >
+              {saving ? "저장 중..." : saved ? "✓ 저장됨" : "저장"}
+            </button>
+            <button
+              onClick={() => setShowPreview(true)}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-blue-400 hover:text-blue-500 transition-all"
+            >
+              <span>👁</span> 미리보기 OFF
+            </button>
+          </div>
         </div>
         <main className="flex-1 overflow-y-auto">
           <div style={{ padding: "2rem 10vw" }}>
