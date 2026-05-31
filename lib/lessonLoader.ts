@@ -1,10 +1,26 @@
 import fs from "fs";
 import path from "path";
-import type { Lesson } from "@/lib/lessonTypes";
+import type { Lesson, Block, ImageBlock } from "@/lib/lessonTypes";
 import { FOLDER_TO_LEVEL } from "@/lib/lessonTypes";
 
 const LESSONS_DIR = path.join(process.cwd(), "data/lessons");
 const LEVEL_FOLDERS = ["beginner", "intermediate", "advanced"] as const;
+
+function safeReadDir(dirPath: string): string[] {
+  try {
+    if (!fs.existsSync(dirPath)) return [];
+    return fs.readdirSync(dirPath).filter((f) => {
+      try {
+        return fs.statSync(path.join(dirPath, f)).isDirectory();
+      } catch {
+        return false;
+      }
+    });
+  } catch (error) {
+    console.error(`Failed to read directory ${dirPath}:`, error);
+    return [];
+  }
+}
 
 export interface RelatedEntry {
   slug: string;
@@ -25,11 +41,24 @@ export interface LessonCard {
   koSummary: string;
   enSummary: string;
   jaSummary: string;
+  koPreviewImage: string | null;
+  enPreviewImage: string | null;
+  jaPreviewImage: string | null;
 }
 
-function readJson(filePath: string): unknown | null {
-  if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+function readJson(filePath: string): { data: unknown | null; error?: string } {
+  if (!fs.existsSync(filePath)) {
+    return { data: null, error: 'File not found' };
+  }
+  try {
+    const content = fs.readFileSync(filePath, "utf-8");
+    const data = JSON.parse(content);
+    return { data };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error(`Failed to read/parse ${filePath}:`, message);
+    return { data: null, error: `Parse error: ${message}` };
+  }
 }
 
 export function loadLesson(
@@ -39,11 +68,23 @@ export function loadLesson(
   lang: "ko" | "en" | "ja" = "ko"
 ): Lesson | null {
   const filePath = path.join(LESSONS_DIR, category, levelFolder, slug, `${lang}.json`);
-  const raw = readJson(filePath);
-  if (!raw) return null;
-  const data = raw as Lesson;
-  data.level = FOLDER_TO_LEVEL[levelFolder];
-  return data;
+  const { data, error } = readJson(filePath);
+  
+  if (!data) {
+    if (error && error !== 'File not found') {
+      console.warn(`Failed to load lesson ${category}/${levelFolder}/${slug}/${lang}: ${error}`);
+    }
+    return null;
+  }
+  
+  try {
+    const lesson = data as Lesson;
+    lesson.level = FOLDER_TO_LEVEL[levelFolder];
+    return lesson;
+  } catch (error) {
+    console.error(`Invalid lesson structure for ${filePath}:`, error);
+    return null;
+  }
 }
 
 function findLessonLevelFolder(category: string, slug: string): string | null {
@@ -58,10 +99,8 @@ export function getAllLessons(category: string): Lesson[] {
   const lessons: Lesson[] = [];
   for (const lvl of LEVEL_FOLDERS) {
     const lvlDir = path.join(LESSONS_DIR, category, lvl);
-    if (!fs.existsSync(lvlDir)) continue;
-    const slugs = fs
-      .readdirSync(lvlDir)
-      .filter((f) => fs.statSync(path.join(lvlDir, f)).isDirectory());
+    const slugs = safeReadDir(lvlDir);
+    
     for (const slug of slugs) {
       const lesson = loadLesson(category, lvl, slug, "ko");
       if (lesson) lessons.push(lesson);
@@ -74,15 +113,15 @@ export function buildLessonCards(category: string): LessonCard[] {
   const cards: LessonCard[] = [];
   for (const lvl of LEVEL_FOLDERS) {
     const lvlDir = path.join(LESSONS_DIR, category, lvl);
-    if (!fs.existsSync(lvlDir)) continue;
-    const slugs = fs
-      .readdirSync(lvlDir)
-      .filter((f) => fs.statSync(path.join(lvlDir, f)).isDirectory());
+    const slugs = safeReadDir(lvlDir);
+    
     for (const slug of slugs) {
       const ko = loadLesson(category, lvl, slug, "ko");
       if (!ko) continue;
+      
       const en = loadLesson(category, lvl, slug, "en");
       const ja = loadLesson(category, lvl, slug, "ja");
+      
       cards.push({
         slug,
         levelFolder: lvl,
@@ -94,6 +133,9 @@ export function buildLessonCards(category: string): LessonCard[] {
         koSummary: ko.summary,
         enSummary: en?.summary ?? ko.summary,
         jaSummary: ja?.summary ?? en?.summary ?? ko.summary,
+        koPreviewImage: extractFirstImage(ko, "ko"),
+        enPreviewImage: extractFirstImage(en || ko, "en"),
+        jaPreviewImage: extractFirstImage(ja || en || ko, "ja"),
       });
     }
   }
@@ -121,4 +163,34 @@ export function buildRelatedEntries(
       };
     })
     .filter((x): x is RelatedEntry => x !== null);
+}
+
+// 레슨에서 첫 번째 이미지를 추출하는 함수
+export function extractFirstImage(lesson: Lesson, lang: "ko" | "en" | "ja" = "ko"): string | null {
+  function findImageInBlocks(blocks: Block[]): string | null {
+    for (const block of blocks) {
+      if (block.type === "image") {
+        const imageBlock = block as ImageBlock;
+        // 언어별 이미지가 있으면 우선 사용, 없으면 기본 이미지
+        if (lang === "en" && imageBlock.srcEn) {
+          return imageBlock.srcEn;
+        }
+        return imageBlock.src;
+      }
+      // 박스 블록 내부도 재귀적으로 검색
+      if (block.type === "box") {
+        const found = findImageInBlocks(block.blocks);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  // 모든 스텝을 순회하며 첫 번째 이미지 찾기
+  for (const step of lesson.steps) {
+    const image = findImageInBlocks(step.blocks);
+    if (image) return image;
+  }
+
+  return null;
 }

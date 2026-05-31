@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { LessonCard } from "@/lib/lessonLoader";
 import { useLang } from "@/components/LanguageProvider";
+import { useTheme } from "@/components/ThemeProvider";
+import { toDarkSrc } from "@/components/ThemedImage";
 
 const IS_DEV = process.env.NODE_ENV === "development";
 
@@ -39,6 +41,7 @@ interface Props {
 
 export default function CategoryGrid({ cards, categorySlug }: Props) {
   const { lang, t } = useLang();
+  const { theme } = useTheme();
   const router = useRouter();
   const [activeLevel, setActiveLevel] = useState<Level>("전체");
   const [searchQuery, setSearchQuery] = useState("");
@@ -98,6 +101,17 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
           const patternIndex = idx % PLACEHOLDER_PATTERNS.length;
           const title = lang === "ja" ? card.jaTitle : lang === "en" ? card.enTitle : card.koTitle;
           const summary = lang === "ja" ? card.jaSummary : lang === "en" ? card.enSummary : card.koSummary;
+          
+          // 언어별 미리보기 이미지 선택
+          let previewImage = lang === "ja" ? card.jaPreviewImage 
+                           : lang === "en" ? card.enPreviewImage 
+                           : card.koPreviewImage;
+          
+          // 테마에 맞는 이미지로 변환
+          if (previewImage) {
+            previewImage = theme === "dark" ? toDarkSrc(previewImage) : previewImage;
+          }
+          
           return (
             <div key={card.slug} className="relative group/card">
               <Link
@@ -106,18 +120,29 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
               >
                 <article className="rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors group cursor-pointer h-full">
                   <div className="relative h-44 bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
-                    <div
-                      className="absolute inset-0 opacity-[0.07] dark:opacity-[0.12] text-zinc-900 dark:text-white"
-                      style={{
-                        backgroundImage: PLACEHOLDER_PATTERNS[patternIndex],
-                        backgroundSize: PLACEHOLDER_SIZES[patternIndex],
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-3xl font-black text-zinc-200 dark:text-zinc-700 select-none">
-                        {card.tag.split(" ")[0]}
-                      </span>
-                    </div>
+                    {previewImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={previewImage}
+                        alt={title}
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <>
+                        <div
+                          className="absolute inset-0 opacity-[0.07] dark:opacity-[0.12] text-zinc-900 dark:text-white"
+                          style={{
+                            backgroundImage: PLACEHOLDER_PATTERNS[patternIndex],
+                            backgroundSize: PLACEHOLDER_SIZES[patternIndex],
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-3xl font-black text-zinc-200 dark:text-zinc-700 select-none">
+                            {card.tag.split(" ")[0]}
+                          </span>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div className="p-5">
@@ -144,9 +169,9 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
                     `/dev/editor?category=${categorySlug}&level=${card.levelFolder}&slug=${card.slug}`
                   )}
                   className="absolute top-2 right-2 z-10 opacity-0 group-hover/card:opacity-100 transition-opacity flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-400 hover:bg-amber-500 text-zinc-900 text-xs font-bold shadow-lg"
-                  title="레슨 수정"
+                  title={t.dev.editLesson}
                 >
-                  ✏️ 수정
+                  ✏️ {t.dev.edit}
                 </button>
               )}
             </div>
@@ -167,7 +192,7 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
           >
             <span className="text-4xl text-zinc-300 dark:text-zinc-600 group-hover/add:text-amber-400 transition-colors">+</span>
             <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500 group-hover/add:text-amber-500 transition-colors">
-              새 레슨 추가
+              {t.dev.addNewLesson}
             </span>
           </button>
         )}

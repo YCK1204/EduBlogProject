@@ -1,7 +1,6 @@
 {
   "slug": "bfs-dfs",
   "tag": "Graph Search",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "recursion",
     "dynamic-programming",

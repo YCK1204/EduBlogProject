@@ -1,7 +1,6 @@
 {
   "slug": "type-system-generics",
   "tag": "TypeScript",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "variables-types",
     "async-event-loop",

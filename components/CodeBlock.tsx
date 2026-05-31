@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/components/LanguageProvider";
 import hljs from "highlight.js/lib/core";
 import c from "highlight.js/lib/languages/c";
 import cpp from "highlight.js/lib/languages/cpp";
@@ -45,6 +46,7 @@ interface Props {
 
 export default function CodeBlock({ code }: Props) {
   const available = LANG_ORDER.filter((l) => code[l] !== undefined);
+  const { t } = useLang();
 
   const [active, setActive] = useState<CodeLang>(() => available[0]);
   const [open, setOpen] = useState(false);
@@ -132,7 +134,7 @@ export default function CodeBlock({ code }: Props) {
           onClick={handleCopy}
           className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors px-2 py-1 rounded hover:bg-zinc-700"
         >
-          {copied ? "✓ 복사됨" : "복사"}
+          {copied ? `✓ ${t.dev.copySuccess}` : t.dev.copy}
         </button>
       </div>
 

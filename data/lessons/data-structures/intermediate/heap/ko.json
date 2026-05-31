@@ -1,7 +1,6 @@
 {
   "slug": "heap",
   "tag": "Heap",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "bst",
     "avl-tree",

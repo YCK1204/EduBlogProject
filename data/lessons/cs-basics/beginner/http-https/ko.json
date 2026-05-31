@@ -1,7 +1,6 @@
 {
   "slug": "http-https",
   "tag": "Network",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "tcp-ip",
     "compiler-interpreter",

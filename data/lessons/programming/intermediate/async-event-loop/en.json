@@ -1,7 +1,6 @@
 {
   "slug": "async-event-loop",
   "tag": "Async",
-  "estimatedTime": "25 min",
   "relatedSlugs": [
     "functions-first-class",
     "type-system-generics",

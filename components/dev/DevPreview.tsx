@@ -106,9 +106,6 @@ export default function DevPreview({ lesson, category, level }: Props) {
                     #{tag.trim()}
                   </span>
                 ))}
-                {lesson.estimatedTime && (
-                  <span className="text-xs text-zinc-400 dark:text-zinc-500">{lesson.estimatedTime}</span>
-                )}
                 <span className="text-xs text-zinc-400 dark:text-zinc-500">
                   {lesson.steps.length}개 스텝
                 </span>

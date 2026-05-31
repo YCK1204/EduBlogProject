@@ -1,7 +1,6 @@
 {
   "slug": "oop-intro",
   "tag": "OOP",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "variables-types",
     "design-patterns-creational",

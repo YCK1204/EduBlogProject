@@ -2,7 +2,6 @@
   "slug": "array",
   "title": "배열과 동적 배열",
   "tag": "Array",
-  "estimatedTime": "60분",
   "relatedSlugs": [
     "linked-list",
     "stack-queue",

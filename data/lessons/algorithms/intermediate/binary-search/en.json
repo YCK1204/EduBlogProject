@@ -2,7 +2,6 @@
   "slug": "binary-search",
   "title": "이진 탐색",
   "tag": "Search",
-  "estimatedTime": "15분",
   "relatedSlugs": [
     "bubble-selection-sort",
     "two-pointer",

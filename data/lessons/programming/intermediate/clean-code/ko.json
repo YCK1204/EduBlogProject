@@ -1,7 +1,6 @@
 {
   "slug": "clean-code",
   "tag": "Clean Code",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "functions-first-class",
     "oop-intro",

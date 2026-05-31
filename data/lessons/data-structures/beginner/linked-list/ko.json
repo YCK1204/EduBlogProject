@@ -2,7 +2,6 @@
   "slug": "linked-list",
   "title": "연결 리스트",
   "tag": "LinkedList",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "array",
     "stack-queue",

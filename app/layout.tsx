@@ -7,8 +7,14 @@ import LangFAB from "@/components/LangFAB";
 import MainWrapper from "@/components/MainWrapper";
 
 export const metadata: Metadata = {
-  title: "DevNote - 개발 공부 블로그",
-  description: "자료구조, 알고리즘, CS기초, 프로그래밍을 공부하는 블로그",
+  title: "DevNote - AI 시대의 필수 CS 지식",
+  description: "AI가 코드를 작성해줘도, 더 나은 결과를 위해서는 개발자의 기초 지식이 필요합니다. 언제 어떤 기법을 쓸지, 성능 문제는 어디서 생기는지를 알고 있어야 AI와 효과적으로 협업할 수 있습니다.",
+  openGraph: {
+    title: "DevNote - AI 시대의 필수 CS 지식",
+    description: "AI와 효과적으로 협업하기 위한 CS 기초지식을 학습하세요",
+    type: "website",
+    siteName: "DevNote",
+  },
 };
 
 export default function RootLayout({

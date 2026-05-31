@@ -1,7 +1,6 @@
 {
   "slug": "tcp-ip",
   "tag": "Network",
-  "estimatedTime": "25분",
   "relatedSlugs": [
     "http-https",
     "os-intro",

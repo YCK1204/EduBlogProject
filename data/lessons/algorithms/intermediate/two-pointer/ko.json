@@ -1,7 +1,6 @@
 {
   "slug": "two-pointer",
   "tag": "Two Pointer",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "binary-search",
     "dynamic-programming",

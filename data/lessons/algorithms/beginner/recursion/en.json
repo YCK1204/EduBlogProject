@@ -1,7 +1,6 @@
 {
   "slug": "recursion",
   "tag": "Recursion",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "dynamic-programming",
     "bfs-dfs",

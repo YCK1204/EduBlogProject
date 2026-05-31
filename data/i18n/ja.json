@@ -45,6 +45,9 @@
     "noResults": "に一致する記事がありません。",
     "noLevel": "このレベルの記事はありません。"
   },
+  "common": {
+    "home": "ホーム"
+  },
   "home": {
     "aboutLabel": "About This Blog",
     "tagline1": "開発を学ぶ",
@@ -70,5 +73,87 @@
   },
   "footer": {
     "copyright": "© 2026 DevNote. 学習記録ブログ。"
+  },
+  "dev": {
+    "edit": "編集",
+    "editLesson": "レッスン編集",
+    "editLessonTitle": "レッスン編集 (dev only)",
+    "addChapter": "チャプター追加",
+    "addBlock": "ブロック追加",
+    "addItem": "項目追加", 
+    "addNewLesson": "新規レッスン追加",
+    "save": "保存",
+    "saving": "保存中...",
+    "saved": "保存済み",
+    "completed": "完了済み",
+    "undo": "元に戻す (Ctrl+Z)",
+    "redo": "やり直し (Ctrl+Shift+Z)",
+    "exitEdit": "編集終了",
+    "preview": "プレビュー",
+    "previewOn": "プレビュー ON",
+    "previewOff": "プレビュー OFF",
+    "loading": "読み込み中...",
+    "goBack": "戻る",
+    "dragToReorder": "ドラッグして移動",
+    "blockOptions": "ブロックオプション",
+    "doubleClickToEdit": "ダブルクリックで編集",
+    "moveUp": "上へ移動",
+    "moveDown": "下へ移動",
+    "copy": "コピー",
+    "copyToClipboard": "クリップボードにコピー",
+    "copySuccess": "コピー済み",
+    "duplicate": "複製", 
+    "delete": "削除",
+    "remove": "削除",
+    "dragAndDrop": "画像をドラッグ&ドロップまたは",
+    "selectFile": "ファイル選択",
+    "allLanguagesAdded": "全言語追加済み",
+    "addLanguage": "言語",
+    "noMatchingBlocks": "一致するブロックなし",
+    "noBlocks": "ブロックがありません。",
+    "noImage": "画像なし",
+    "noCode": "コードなし",
+    "noTitle": "タイトルなし",
+    "untitled": "(無題)",
+    "copyClipboardFailed": "クリップボードコピー失敗:",
+    "enterSlug": "スラッグを入力してください。",
+    "enterTitle": "タイトルを入力してください。",
+    "saveFailed": "保存失敗"
+  },
+  "placeholders": {
+    "enterText": "テキストを入力...",
+    "enterTitle": "タイトルを入力...",
+    "enterItems": "1行ずつ入力...",
+    "chapterTitle": "チャプタータイトル...",
+    "textOrSlash": "テキストを入力または '/' でブロック追加...",
+    "boldText": "太字テキスト...",
+    "italicText": "斜体テキスト...",
+    "underlineText": "下線テキスト...",
+    "strikeText": "取り消し線テキスト...",
+    "colorText": "カラーテキスト...",
+    "enterItem": "項目を入力...",
+    "enterCode": "コードを入力...",
+    "imageAlt": "画像の説明 (alt)...",
+    "imageUrl": "または画像URLを直接入力..."
+  },
+  "help": {
+    "enterSave": "Enter: 保存",
+    "escCancel": "Esc: キャンセル",
+    "onePerLine": "1行に1つ"
+  },
+  "aria": {
+    "stepNavigation": "ステップ{number}: {title}へ移動",
+    "lessonCompleted": "レッスン完了", 
+    "markCompleted": "完了マーク"
+  },
+  "storage": {
+    "readFailed": "localStorageの読み込みに失敗しました",
+    "saveFailed": "localStorageの保存に失敗しました"
+  },
+  "theme": {
+    "dark": "ダークモード",
+    "light": "ライトモード",
+    "switchToDark": "ダークモードに切り替え",
+    "switchToLight": "ライトモードに切り替え"
   }
 }

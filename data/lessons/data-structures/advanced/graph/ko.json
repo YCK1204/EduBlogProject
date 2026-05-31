@@ -1,7 +1,6 @@
 {
   "slug": "graph",
   "tag": "Graph",
-  "estimatedTime": "30분",
   "relatedSlugs": [
     "bst",
     "avl-tree",

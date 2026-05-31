@@ -1,7 +1,6 @@
 {
   "slug": "hash-table",
   "tag": "HashTable",
-  "estimatedTime": "30 min",
   "relatedSlugs": [
     "array",
     "linked-list",

@@ -1,7 +1,6 @@
 {
   "slug": "dijkstra",
   "tag": "Shortest Path",
-  "estimatedTime": "35분",
   "relatedSlugs": [
     "bfs-dfs",
     "dynamic-programming",

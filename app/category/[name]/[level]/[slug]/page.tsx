@@ -5,6 +5,7 @@ import { SLUG_TO_LABEL } from "@/lib/categories";
 import LessonView from "@/components/LessonView";
 import Breadcrumb from "@/components/Breadcrumb";
 import DevEditButton from "@/components/dev/DevEditButton";
+import LessonPageClient from "./LessonPageClient";
 
 const CATEGORIES = ["data-structures", "algorithms", "cs-basics", "programming"] as const;
 const LEVELS = ["beginner", "intermediate", "advanced"] as const;
@@ -59,24 +60,15 @@ export default async function LessonPage({ params }: Props) {
   const categoryLabel = SLUG_TO_LABEL[name] ?? name;
 
   return (
-    <div className="py-4 space-y-4">
-      <Breadcrumb
-        items={[
-          { label: "홈", href: "/" },
-          { label: categoryLabel, href: `/category/${name}` },
-          { label: koLesson.title },
-        ]}
-      />
-      {process.env.NODE_ENV === "development" && (
-        <DevEditButton category={name} level={level} slug={slug} />
-      )}
-      <LessonView
-        koLesson={koLesson}
-        enLesson={enLesson}
-        jaLesson={jaLesson}
-        category={name}
-        relatedEntries={relatedEntries}
-      />
-    </div>
+    <LessonPageClient 
+      category={name}
+      level={level}
+      slug={slug}
+      categoryLabel={categoryLabel}
+      koLesson={koLesson}
+      enLesson={enLesson || null}
+      jaLesson={jaLesson || null}
+      relatedEntries={relatedEntries}
+    />
   );
 }

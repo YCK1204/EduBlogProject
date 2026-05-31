@@ -45,6 +45,9 @@
     "noResults": " — no results found.",
     "noLevel": "No posts for this level."
   },
+  "common": {
+    "home": "Home"
+  },
   "home": {
     "aboutLabel": "About This Blog",
     "tagline1": "Documenting every step",
@@ -70,5 +73,87 @@
   },
   "footer": {
     "copyright": "© 2026 DevNote. A study journal."
+  },
+  "dev": {
+    "edit": "Edit",
+    "editLesson": "Edit Lesson",
+    "editLessonTitle": "Edit Lesson (dev only)",
+    "addChapter": "Add Chapter",
+    "addBlock": "Add Block",
+    "addItem": "Add Item", 
+    "addNewLesson": "Add New Lesson",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "completed": "Completed",
+    "undo": "Undo (Ctrl+Z)",
+    "redo": "Redo (Ctrl+Shift+Z)",
+    "exitEdit": "Exit Edit",
+    "preview": "Preview",
+    "previewOn": "Preview ON",
+    "previewOff": "Preview OFF",
+    "loading": "Loading...",
+    "goBack": "Go Back",
+    "dragToReorder": "Drag to reorder",
+    "blockOptions": "Block Options",
+    "doubleClickToEdit": "Double-click to edit",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "copy": "Copy",
+    "copyToClipboard": "Copy to clipboard",
+    "copySuccess": "Copied",
+    "duplicate": "Duplicate", 
+    "delete": "Delete",
+    "remove": "Remove",
+    "dragAndDrop": "Drag and drop an image or",
+    "selectFile": "Select File",
+    "allLanguagesAdded": "All languages added",
+    "addLanguage": "Language",
+    "noMatchingBlocks": "No matching blocks",
+    "noBlocks": "No blocks.",
+    "noImage": "No image",
+    "noCode": "No code",
+    "noTitle": "No title",
+    "untitled": "(Untitled)",
+    "copyClipboardFailed": "Clipboard copy failed:",
+    "enterSlug": "Please enter a slug.",
+    "enterTitle": "Please enter a title.",
+    "saveFailed": "Save failed"
+  },
+  "placeholders": {
+    "enterText": "Enter text...",
+    "enterTitle": "Enter title...",
+    "enterItems": "Enter items one per line...",
+    "chapterTitle": "Chapter title...",
+    "textOrSlash": "Enter text or '/' to add block...",
+    "boldText": "Bold text...",
+    "italicText": "Italic text...",
+    "underlineText": "Underlined text...",
+    "strikeText": "Strikethrough text...",
+    "colorText": "Colored text...",
+    "enterItem": "Enter item...",
+    "enterCode": "Enter code...",
+    "imageAlt": "Image description (alt)...",
+    "imageUrl": "Or enter image URL directly..."
+  },
+  "help": {
+    "enterSave": "Enter: Save",
+    "escCancel": "Esc: Cancel",
+    "onePerLine": "One per line"
+  },
+  "aria": {
+    "stepNavigation": "Step {number}: Go to {title}",
+    "lessonCompleted": "Lesson completed", 
+    "markCompleted": "Mark Complete"
+  },
+  "storage": {
+    "readFailed": "Failed to read from localStorage",
+    "saveFailed": "Failed to save to localStorage"
+  },
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
   }
 }

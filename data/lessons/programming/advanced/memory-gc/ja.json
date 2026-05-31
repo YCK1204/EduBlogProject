@@ -1,7 +1,6 @@
 {
   "slug": "memory-gc",
   "tag": "Memory",
-  "estimatedTime": "30 min",
   "relatedSlugs": [
     "variables-types",
     "design-patterns-creational",

@@ -29,7 +29,6 @@ export interface EditorLesson {
   summary: string;
   tag: string;
   level: "beginner" | "intermediate" | "advanced";
-  estimatedTime: string;
   relatedSlugs: string[];
   steps: EditorStep[];
 }
@@ -53,7 +52,6 @@ export function newLesson(category: string, level: string): EditorLesson {
     summary: "",
     tag: "",
     level: (level as EditorLesson["level"]) ?? "beginner",
-    estimatedTime: "20분",
     relatedSlugs: [],
     steps: [{ id: crypto.randomUUID(), title: "개요", blocks: [] }],
   };

@@ -1,7 +1,6 @@
 {
   "slug": "bubble-selection-sort",
   "tag": "Sort",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "merge-sort",
     "binary-search"

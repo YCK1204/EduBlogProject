@@ -1,7 +1,6 @@
 {
   "slug": "compiler-interpreter",
   "tag": "PL",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "os-intro",
     "http-https",

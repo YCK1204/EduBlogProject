@@ -1,7 +1,6 @@
 {
   "slug": "avl-tree",
   "tag": "AVL Tree",
-  "estimatedTime": "35 min",
   "relatedSlugs": [
     "bst",
     "heap",

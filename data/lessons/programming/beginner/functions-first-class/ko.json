@@ -1,7 +1,6 @@
 {
   "slug": "functions-first-class",
   "tag": "Functional",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "variables-types",
     "async-event-loop",

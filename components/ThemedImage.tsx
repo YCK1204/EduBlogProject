@@ -6,6 +6,8 @@ interface ThemedImageProps {
   src: string;
   alt: string;
   className?: string;
+  width?: number;
+  height?: number;
 }
 
 /**
@@ -20,12 +22,12 @@ export function toDarkSrc(src: string): string {
   return src.replace(/\.svg$/, "-dark.svg");
 }
 
-export default function ThemedImage({ src, alt, className }: ThemedImageProps) {
+export default function ThemedImage({ src, alt, className, width, height }: ThemedImageProps) {
   const { theme } = useTheme();
   const resolved = theme === "dark" ? toDarkSrc(src) : src;
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={resolved} alt={alt} className={className} />
+    <img src={resolved} alt={alt} className={className} width={width} height={height} />
   );
 }

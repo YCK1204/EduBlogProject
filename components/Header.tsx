@@ -73,34 +73,24 @@ export default function Header() {
           DevNote
         </Link>
 
-        <div className="flex items-center gap-2">
-          <nav className="flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const isActive = pathname.startsWith(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-4 py-2 text-sm rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                      : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <button
-            onClick={toggle}
-            title={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
-            className="ml-2 flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-white"
-          >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-          </button>
-        </div>
+        <nav className="flex items-center gap-1">
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname.startsWith(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+                  isActive
+                    ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
+                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
     </header>
   );

@@ -1,7 +1,6 @@
 {
   "slug": "bst",
   "tag": "BST",
-  "estimatedTime": "30분",
   "relatedSlugs": [
     "array",
     "heap",

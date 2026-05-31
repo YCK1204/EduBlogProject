@@ -1,7 +1,6 @@
 {
   "slug": "design-patterns-creational",
   "tag": "Design Pattern",
-  "estimatedTime": "30분",
   "relatedSlugs": [
     "oop-intro",
     "clean-code",

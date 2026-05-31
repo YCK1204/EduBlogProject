@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import { CATEGORY_SLUGS, SLUG_TO_LABEL, type CategorySlug } from "@/lib/categories";
 import { buildLessonCards } from "@/lib/lessonLoader";
-import CategoryHeader from "@/components/CategoryHeader";
-import CategoryGrid from "@/components/CategoryGrid";
+import CategoryPageClient from "./CategoryPageClient";
 
 interface Props {
   params: Promise<{ name: string }>;
@@ -31,10 +30,5 @@ export default async function CategoryPage({ params }: Props) {
 
   const cards = buildLessonCards(name);
 
-  return (
-    <div>
-      <CategoryHeader categorySlug={name as CategorySlug} />
-      <CategoryGrid cards={cards} categorySlug={name} />
-    </div>
-  );
+  return <CategoryPageClient categorySlug={name as CategorySlug} initialCards={cards} />;
 }

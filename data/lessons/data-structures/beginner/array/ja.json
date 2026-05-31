@@ -1,7 +1,6 @@
 {
   "slug": "array",
   "tag": "Array",
-  "estimatedTime": "60 min",
   "relatedSlugs": [
     "linked-list",
     "stack-queue",

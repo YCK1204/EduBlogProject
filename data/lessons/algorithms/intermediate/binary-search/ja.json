@@ -2,7 +2,6 @@
   "slug": "binary-search",
   "title": "二分探索",
   "tag": "Search",
-  "estimatedTime": "15分",
   "relatedSlugs": [
     "bubble-selection-sort",
     "two-pointer",

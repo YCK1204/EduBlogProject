@@ -1,7 +1,6 @@
 {
   "slug": "cpu-cache",
   "tag": "Architecture",
-  "estimatedTime": "30 min",
   "relatedSlugs": [
     "virtual-memory",
     "process-thread",

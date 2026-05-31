@@ -1,7 +1,6 @@
 {
   "slug": "variables-types",
   "tag": "기초",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "functions-first-class",
     "oop-intro",

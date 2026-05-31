@@ -30,37 +30,13 @@ function EditorInner() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [redoStack, setRedoStack] = useState<EditorLesson[]>([]);
 
-  // 수정 모드: 기존 레슨 로드
+  // 수정 모드: 기존 레슨 로드 비활성화 (API 라우트 제거됨)
   useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
-    if (!slug) return;
-
-    fetch(`/api/dev/load?category=${category}&level=${level}&slug=${slug}`)
-      .then((r) => r.json())
-      .then((data) => {
-        // JSON → EditorLesson 변환
-        const steps: EditorStep[] = (data.steps ?? []).map((s: {
-          number: number;
-          title: string;
-          blocks: unknown[];
-        }) => ({
-          id: crypto.randomUUID(),
-          title: s.title ?? "",
-          blocks: (s.blocks ?? []).map((b: unknown) => convertBlock(b)),
-        }));
-        setLesson({
-          slug: data.slug ?? slug,
-          title: data.title ?? "",
-          summary: data.summary ?? "",
-          tag: data.tag ?? "",
-          level: data.level === "초급" ? "beginner" : data.level === "중급" ? "intermediate" : data.level === "고급" ? "advanced" : level as EditorLesson["level"],
-          estimatedTime: data.estimatedTime ?? "20분",
-          relatedSlugs: data.relatedSlugs ?? [],
-          steps: steps.length > 0 ? steps : [{ id: crypto.randomUUID(), title: "개요", blocks: [] }],
-        });
-      })
-      .catch(() => {});
+    
+    // 기존 레슨 로드 기능 비활성화 - 새 레슨 모드로만 동작
+    console.log("Editor: 새 레슨 모드");
   }, [category, level, slug]);
 
   useEffect(() => {
@@ -181,53 +157,11 @@ function EditorInner() {
   };
 
   const save = async () => {
-    if (!lesson.slug) { alert("slug를 입력하세요."); return; }
-    if (!lesson.title) { alert("제목을 입력하세요."); return; }
-    setSaving(true);
-    try {
-      const payload = lessonToJson(lesson);
-      const res = await fetch("/api/dev/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          level: lesson.level,
-          slug: lesson.slug,
-          lesson: payload,
-          oldLevel: level !== lesson.level ? level : undefined,
-        }),
-      });
-      if (!res.ok) throw new Error("save failed");
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-      router.replace(`/dev/editor?category=${category}&level=${lesson.level}&slug=${lesson.slug}`);
-    } catch {
-      alert("저장 실패");
-    } finally {
-      setSaving(false);
-    }
+    alert("저장 기능이 비활성화되었습니다. API 라우트가 제거되어 정적 빌드용으로만 동작합니다.");
   };
 
   const saveAndExit = async () => {
-    if (!lesson.slug || !lesson.title) {
-      router.push(`/category/${category}`);
-      return;
-    }
-    try {
-      const payload = lessonToJson(lesson);
-      await fetch("/api/dev/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          level: lesson.level,
-          slug: lesson.slug,
-          lesson: payload,
-          oldLevel: level !== lesson.level ? level : undefined,
-        }),
-      });
-    } catch { /* 저장 실패해도 이동 */ }
-    router.push(`/category/${category}/${lesson.level}/${lesson.slug}`);
+    router.push(`/category/${category}`);
   };
 
   return (
@@ -439,7 +373,6 @@ function lessonToJson(lesson: EditorLesson) {
     slug: lesson.slug,
     title: lesson.title,
     tag: lesson.tag,
-    estimatedTime: lesson.estimatedTime,
     relatedSlugs: lesson.relatedSlugs,
     summary: lesson.summary,
     steps: lesson.steps.map((step, idx) => ({

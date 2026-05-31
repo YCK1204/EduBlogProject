@@ -1,7 +1,6 @@
 {
   "slug": "virtual-memory",
   "tag": "OS",
-  "estimatedTime": "30 min",
   "relatedSlugs": [
     "os-intro",
     "process-thread",

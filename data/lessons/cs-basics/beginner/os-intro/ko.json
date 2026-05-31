@@ -1,7 +1,6 @@
 {
   "slug": "os-intro",
   "tag": "OS",
-  "estimatedTime": "20분",
   "relatedSlugs": [
     "process-thread",
     "virtual-memory",

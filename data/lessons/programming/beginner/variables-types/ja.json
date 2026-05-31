@@ -1,7 +1,6 @@
 {
   "slug": "variables-types",
   "tag": "Basics",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "functions-first-class",
     "oop-intro",

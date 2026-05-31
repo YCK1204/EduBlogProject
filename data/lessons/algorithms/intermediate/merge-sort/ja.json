@@ -1,7 +1,6 @@
 {
   "slug": "merge-sort",
   "tag": "Divide & Conquer",
-  "estimatedTime": "25 min",
   "relatedSlugs": [
     "bubble-selection-sort",
     "bfs-dfs",

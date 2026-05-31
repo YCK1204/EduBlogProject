@@ -8,6 +8,7 @@ import CodeBlock from "@/components/CodeBlock";
 import ThemedImage from "@/components/ThemedImage";
 import { useLang } from "@/components/LanguageProvider";
 import { useProgress } from "@/lib/useProgress";
+import Toast, { useToast } from "@/components/Toast";
 
 const CATEGORY_NAV_KEY: Record<string, "dataStructures" | "algorithms" | "csBasics" | "programming"> = {
   "data-structures": "dataStructures",
@@ -119,8 +120,17 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
   const [activeStep, setActiveStep] = useState(1);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
   const sidebarItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const { markComplete, isComplete } = useProgress();
+  const { markComplete, isComplete, error, clearError } = useProgress();
   const completed = isComplete(koLesson.slug);
+  const { toast, showToast, hideToast } = useToast();
+
+  // localStorage 에러 처리
+  useEffect(() => {
+    if (error) {
+      showToast(error, 'error');
+      clearError();
+    }
+  }, [error, showToast, clearError]);
 
   const navKey = CATEGORY_NAV_KEY[category];
   const categoryLabel = navKey ? t.nav[navKey] : category;
@@ -161,8 +171,46 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
     window.scrollTo({ top, behavior: "smooth" });
   };
 
+  // 키보드 내비게이션
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+      
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'k':
+          e.preventDefault();
+          if (activeStep > 1) {
+            scrollToStep(activeStep - 1);
+          }
+          break;
+        case 'ArrowDown':
+        case 'j':
+          e.preventDefault();
+          if (activeStep < lesson.steps.length) {
+            scrollToStep(activeStep + 1);
+          }
+          break;
+        case ' ':
+          e.preventDefault();
+          markComplete(koLesson.slug);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeStep, lesson.steps.length, markComplete, koLesson.slug]);
+
   return (
-    <div className="flex gap-10">
+    <>
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onHide={hideToast}
+      />
+      <div className="flex gap-10">
       {/* 왼쪽 사이드바 */}
       <aside className="hidden lg:block w-56 shrink-0">
         <div className="sticky top-24 flex flex-col" style={{ maxHeight: "calc(100vh - 7rem)" }}>
@@ -175,6 +223,10 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
                 key={step.number}
                 ref={(el) => { sidebarItemRefs.current[i] = el; }}
                 onClick={() => scrollToStep(step.number)}
+                aria-label={t.aria.stepNavigation.replace('{number}', step.number.toString()).replace('{title}', step.title)}
+                role="tab"
+                aria-selected={activeStep === step.number}
+                tabIndex={activeStep === step.number ? 0 : -1}
                 className={`flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
                   activeStep === step.number
                     ? "bg-zinc-100 dark:bg-zinc-800"
@@ -212,7 +264,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
             {koLesson.tag.split(",").filter(Boolean).map((tag, i) => (
               <span key={i} className="text-xs text-zinc-400 dark:text-zinc-500">#{tag.trim()}</span>
             ))}
-            <span className="text-xs text-zinc-400 dark:text-zinc-500">{koLesson.estimatedTime}</span>
             <span className="text-xs text-zinc-400 dark:text-zinc-500">
               {lesson.steps.length}{t.lesson.stepsCount}
             </span>
@@ -284,6 +335,8 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
           <div className="text-center">
             <button
               onClick={() => markComplete(koLesson.slug)}
+              aria-label={completed ? t.aria.lessonCompleted : t.aria.markCompleted}
+              aria-pressed={completed}
               className={`rounded-xl px-8 py-4 font-semibold text-sm transition-colors ${
                 completed
                   ? "bg-green-500 text-white"
@@ -291,14 +344,15 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
               }`}
             >
               {completed ? (
-                "✓ 완료됨"
+                `✓ ${t.dev.completed}`
               ) : (
-                "완료 표시"
+                t.aria.markCompleted
               )}
             </button>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

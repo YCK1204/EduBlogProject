@@ -37,10 +37,8 @@ export default function OverviewEditor({ lesson, onChange }: Props) {
   const levelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/dev/lessons")
-      .then((r) => r.json())
-      .then(setRelatedOptions)
-      .catch(() => {});
+    // API 라우트 제거됨 - 관련 레슨 로드 비활성화
+    setRelatedOptions([]);
   }, []);
 
   useEffect(() => {
@@ -156,15 +154,6 @@ export default function OverviewEditor({ lesson, onChange }: Props) {
           )}
         </div>
 
-        {/* 예상 시간 */}
-        <div className="flex items-center gap-1">
-          <span className="text-xs text-zinc-400">⏱</span>
-          <input
-            value={lesson.estimatedTime}
-            onChange={(e) => onChange({ ...lesson, estimatedTime: e.target.value })}
-            className="text-xs bg-transparent outline-none text-zinc-500 dark:text-zinc-400 w-16 border-b border-transparent focus:border-zinc-300"
-          />
-        </div>
       </div>
 
       {/* 관련 레슨 */}

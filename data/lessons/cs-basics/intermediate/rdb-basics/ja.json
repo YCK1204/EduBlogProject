@@ -1,7 +1,6 @@
 {
   "slug": "rdb-basics",
   "tag": "Database",
-  "estimatedTime": "30 min",
   "relatedSlugs": [
     "os-intro",
     "tcp-ip",

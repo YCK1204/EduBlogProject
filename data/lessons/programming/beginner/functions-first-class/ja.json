@@ -1,7 +1,6 @@
 {
   "slug": "functions-first-class",
   "tag": "Functional",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "variables-types",
     "async-event-loop",

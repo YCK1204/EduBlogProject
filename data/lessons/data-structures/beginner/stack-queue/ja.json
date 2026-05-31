@@ -1,7 +1,6 @@
 {
   "slug": "stack-queue",
   "tag": "Stack · Queue",
-  "estimatedTime": "20 min",
   "relatedSlugs": [
     "array",
     "linked-list",
