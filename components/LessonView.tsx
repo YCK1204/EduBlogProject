@@ -264,9 +264,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
             {koLesson.tag.split(",").filter(Boolean).map((tag, i) => (
               <span key={i} className="text-xs text-zinc-400 dark:text-zinc-500">#{tag.trim()}</span>
             ))}
-            <span className="text-xs text-zinc-400 dark:text-zinc-500">
-              {lesson.steps.length}{t.lesson.stepsCount}
-            </span>
           </div>
 
           <div className="flex items-center justify-between mb-3">
