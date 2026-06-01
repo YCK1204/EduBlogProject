@@ -5,6 +5,7 @@ import { LANG_LABELS, LEVEL_LABELS } from "@/lib/editorTypes";
 import { SLUG_TO_LABEL } from "@/lib/categories";
 import { useState, useEffect } from "react";
 import ThemedImage from "@/components/ThemedImage";
+import { useLang } from "@/components/LanguageProvider";
 
 interface Props {
   lesson: EditorLesson;
@@ -20,17 +21,12 @@ const LEVEL_COLORS: Record<string, string> = {
 
 export default function DevPreview({ lesson, category, level }: Props) {
   const [activeStep, setActiveStep] = useState(0);
+  const { t } = useLang();
   const [slugTitleMap, setSlugTitleMap] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    fetch("/api/dev/lessons")
-      .then((r) => r.json())
-      .then((list: { slug: string; title: string }[]) => {
-        const map: Record<string, string> = {};
-        for (const item of list) map[item.slug] = item.title;
-        setSlugTitleMap(map);
-      })
-      .catch(() => {});
+    // API 라우트 제거됨 - 관련 레슨 제목 로딩 비활성화
+    setSlugTitleMap({});
   }, []);
 
   const scrollToStep = (i: number) => {
@@ -107,7 +103,7 @@ export default function DevPreview({ lesson, category, level }: Props) {
                   </span>
                 ))}
                 <span className="text-xs text-zinc-400 dark:text-zinc-500">
-                  {lesson.steps.length}개 스텝
+                  {lesson.steps.length}{t.lesson.stepsCount}
                 </span>
               </div>
               <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">

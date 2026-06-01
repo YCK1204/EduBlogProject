@@ -14,7 +14,7 @@ interface RelatedOption {
 const CATEGORY_LABELS: Record<string, string> = {
   "data-structures": "자료구조",
   "algorithms": "알고리즘",
-  "cs-basics": "CS기초",
+  "cs-basics": "CS",
   "programming": "프로그래밍",
 };
 

@@ -121,7 +121,9 @@
           "python": "# 팩토리얼\ndef factorial(n):\n    if n == 0:   # base case\n        return 1\n    return n * factorial(n - 1)  # recursive case\n\n# 피보나치 (순수 재귀 — O(2^n))\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
           "javascript": "// 팩토리얼\nfunction factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀 — O(2^n))\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
           "java": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
-          "c": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+          "c": "// 팩토리얼\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\n// 피보나치 (순수 재귀)\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "cpp": "# 팩토리얼\nvoid factorial(n) {\nif n == 0 {   # base case\nreturn 1\nreturn n * factorial(n - 1)  # recursive case\n\n# 피보나치 (순수 재귀 — O(2^n))\nvoid fib(n) {\nif n <= 1 {\nreturn n\nreturn fib(n - 1) + fib(n - 2)",
+          "csharp": "# 팩토리얼\npublic static void factorial(n) {\n    if n == 0 {   # base case\n        return 1\n    return n * factorial(n - 1)  # recursive case\n\n# 피보나치 (순수 재귀 — O(2^n))\npublic static void fib(n) {\n    if n <= 1 {\n        return n\n    return fib(n - 1) + fib(n - 2)"
         },
         {
           "type": "header",
@@ -132,7 +134,10 @@
           "type": "code",
           "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\n# 직접 memo 딕셔너리 사용\ndef fib_memo(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n <= 1:\n        return n\n    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)\n    return memo[n]",
           "javascript": "function fib(n, memo = new Map()) {\n  if (memo.has(n)) return memo.get(n);\n  if (n <= 1) return n;\n  const result = fib(n - 1, memo) + fib(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
-          "java": "import java.util.HashMap;\nimport java.util.Map;\n\nMap<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+          "java": "import java.util.HashMap;\nimport java.util.Map;\n\nMap<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}",
+          "c": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\n# 직접 memo 딕셔너리 사용\ndef fib_memo(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n <= 1:\n        return n\n    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)\n    return memo[n]",
+          "cpp": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\nvoid fib(n) {\nif n <= 1 {\nreturn n\nreturn fib(n - 1) + fib(n - 2)\n\n# 직접 memo 딕셔너리 사용\nvoid fib_memo(n, memo={}) {\nif n in memo {\nreturn memo[n]\nif n <= 1 {\nreturn n\nmemo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)\nreturn memo[n]",
+          "csharp": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\npublic static void fib(n) {\n    if n <= 1 {\n        return n\n    return fib(n - 1) + fib(n - 2)\n\n# 직접 memo 딕셔너리 사용\npublic static void fib_memo(n, memo={}) {\n    if n in memo {\n        return memo[n]\n    if n <= 1 {\n        return n\n    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)\n    return memo[n]"
         }
       ]
     }

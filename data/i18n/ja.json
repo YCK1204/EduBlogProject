@@ -2,7 +2,7 @@
   "nav": {
     "dataStructures": "データ構造",
     "algorithms": "アルゴリズム",
-    "csBasics": "CS基礎",
+    "csBasics": "CS",
     "programming": "プログラミング"
   },
   "category": {
@@ -15,7 +15,7 @@
       "description": "問題を段階的に解決する戦略と最適化の方法を整理します。"
     },
     "cs-basics": {
-      "label": "CS基礎",
+      "label": "CS",
       "description": "OS、ネットワーク、データベースなど、コンピュータサイエンスの核心概念を扱います。"
     },
     "programming": {
@@ -26,6 +26,7 @@
   "lesson": {
     "language": "言語",
     "relatedTopics": "関連項目",
+    "steps": "ステップ",
     "stepsCount": "ステップ",
     "stepsCompleted": "ステップ完了",
     "backToListPrefix": "← ",

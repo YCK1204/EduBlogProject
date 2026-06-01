@@ -2,7 +2,7 @@
   "nav": {
     "dataStructures": "Data Structures",
     "algorithms": "Algorithms",
-    "csBasics": "CS Basics",
+    "csBasics": "CS",
     "programming": "Programming"
   },
   "category": {
@@ -15,7 +15,7 @@
       "description": "Strategies and optimization methods for solving problems step by step."
     },
     "cs-basics": {
-      "label": "CS Basics",
+      "label": "CS",
       "description": "Core concepts in OS, networking, databases, and more."
     },
     "programming": {
@@ -26,6 +26,7 @@
   "lesson": {
     "language": "Language",
     "relatedTopics": "Related Topics",
+    "steps": "Steps",
     "stepsCount": " steps",
     "stepsCompleted": " steps completed",
     "backToListPrefix": "← Back to ",

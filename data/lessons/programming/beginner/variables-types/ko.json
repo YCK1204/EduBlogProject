@@ -122,7 +122,8 @@
           "javascript": "// 동적 타입 JavaScript\nlet x = 5;\nx = \"hello\";  // 가능 — 런타임에 타입 변경\n\n// 약타입: 암묵적 변환\nconsole.log(\"1\" + 1);  // \"11\" (문자열 연결)\nconsole.log(\"5\" - 1);  // 4   (숫자로 변환)",
           "java": "// 정적 타입 Java — 컴파일 시 타입 검사\nint x = 5;\n// x = \"hello\";  // 컴파일 오류!\n\nString name = \"Alice\";\nint len = name.length();  // IDE가 정확한 메서드 제안",
           "csharp": "// 정적 타입 C# — var로 타입 추론 가능\nvar x = 5;        // int로 추론\nvar name = \"Bob\"; // string으로 추론\n\n// 컴파일 오류 예시\n// int age = \"30\";  // CS0029 오류",
-          "cpp": "// 정적 타입 C++\nint x = 5;\n// x = \"hello\";  // 컴파일 오류\n\nauto y = 3.14;  // double로 추론 (C++11)\nauto z = std::string(\"hi\");  // std::string으로 추론"
+          "cpp": "// 정적 타입 C++\nint x = 5;\n// x = \"hello\";  // 컴파일 오류\n\nauto y = 3.14;  // double로 추론 (C++11)\nauto z = std::string(\"hi\");  // std::string으로 추론",
+          "c": "# 동적 타입 — 타입 힌트 없이 동작\ndef add(a, b):\n    return a + b\n\nadd(1, 2)        # 3\nadd(\"1\", \"2\")    # \"12\"  (런타임에 타입 결정)\n\n# 타입 힌트 (Python 3.5+) — 강제가 아닌 힌트\ndef add_typed(a: int, b: int) -> int:\n    return a + b"
         }
       ]
     }

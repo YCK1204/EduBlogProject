@@ -121,7 +121,9 @@
           "python": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
           "javascript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}\n\nfunction fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}",
           "java": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
-          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}"
+          "c": "int factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}",
+          "cpp": "void factorial(n) {\nif n == 0 {\nreturn 1\nreturn n * factorial(n - 1)\n\nvoid fib(n) {\nif n <= 1 {\nreturn n\nreturn fib(n - 1) + fib(n - 2)",
+          "csharp": "public static void factorial(n) {\n    if n == 0 {\n        return 1\n    return n * factorial(n - 1)\n\npublic static void fib(n) {\n    if n <= 1 {\n        return n\n    return fib(n - 1) + fib(n - 2)"
         },
         {
           "type": "header",
@@ -132,7 +134,10 @@
           "type": "code",
           "python": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
           "javascript": "function fib(n, memo = new Map()) {\n  if (memo.has(n)) return memo.get(n);\n  if (n <= 1) return n;\n  const result = fib(n - 1, memo) + fib(n - 2, memo);\n  memo.set(n, result);\n  return result;\n}",
-          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}"
+          "java": "Map<Integer, Long> memo = new HashMap<>();\n\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    long result = fib(n - 1) + fib(n - 2);\n    memo.put(n, result);\n    return result;\n}",
+          "c": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+          "cpp": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\nvoid fib(n) {\nif n <= 1 {\nreturn n\nreturn fib(n - 1) + fib(n - 2)",
+          "csharp": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\npublic static void fib(n) {\n    if n <= 1 {\n        return n\n    return fib(n - 1) + fib(n - 2)"
         }
       ]
     }

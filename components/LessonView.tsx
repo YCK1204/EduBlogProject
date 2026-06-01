@@ -215,7 +215,7 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
       <aside className="hidden lg:block w-56 shrink-0">
         <div className="sticky top-24 flex flex-col" style={{ maxHeight: "calc(100vh - 7rem)" }}>
           <p className="mb-3 shrink-0 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-            Steps
+            {t.lesson.steps}
           </p>
           <div className="overflow-y-auto space-y-1 pr-1">
             {lesson.steps.map((step, i) => (
@@ -261,7 +261,7 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
             <span className={`rounded-full px-3 py-0.5 text-xs font-semibold ${LEVEL_COLORS[koLesson.level]}`}>
               {t.lesson.level[koLesson.level]}
             </span>
-            {koLesson.tag.split(",").filter(Boolean).map((tag, i) => (
+            {lesson.tag.split(",").filter(Boolean).map((tag, i) => (
               <span key={i} className="text-xs text-zinc-400 dark:text-zinc-500">#{tag.trim()}</span>
             ))}
           </div>

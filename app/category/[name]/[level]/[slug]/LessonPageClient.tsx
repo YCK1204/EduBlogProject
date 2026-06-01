@@ -28,15 +28,27 @@ export default function LessonPageClient({
   jaLesson,
   relatedEntries,
 }: LessonPageClientProps) {
-  const { t } = useLang();
+  const { lang, t } = useLang();
+
+  // 현재 언어에 맞는 레슨 선택
+  const currentLesson = 
+    lang === "ja" 
+      ? jaLesson ?? enLesson ?? koLesson
+      : lang === "en" 
+        ? enLesson ?? koLesson
+        : koLesson;
+
+  // 카테고리별 다국어 레이블 가져오기
+  const categoryData = t.category[category as keyof typeof t.category];
+  const localizedCategoryLabel = categoryData?.label ?? categoryLabel;
 
   return (
     <div className="py-4 space-y-4">
       <Breadcrumb
         items={[
           { label: t.common.home, href: "/" },
-          { label: categoryLabel, href: `/category/${category}` },
-          { label: koLesson.title },
+          { label: localizedCategoryLabel, href: `/category/${category}` },
+          { label: currentLesson.title },
         ]}
       />
       {process.env.NODE_ENV === "development" && (
