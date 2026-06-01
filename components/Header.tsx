@@ -70,7 +70,7 @@ export default function Header() {
           href="/"
           className="shrink-0 text-xl font-bold tracking-tight text-zinc-900 transition-colors hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
         >
-          DevNote
+          AIkido
         </Link>
 
         <nav className="flex items-center gap-1">

@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props) {
   if (!CATEGORY_SLUGS.includes(name as CategorySlug)) return {};
   const label = SLUG_TO_LABEL[name] ?? name;
   return {
-    title: `${label} | DevNote`,
+    title: `${label} | AIkido`,
     description: `${label} 강의 목록 — 초급부터 고급까지 단계별로 학습하세요.`,
   };
 }

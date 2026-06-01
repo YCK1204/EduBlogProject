@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "devnote_progress";
+const STORAGE_KEY = "aikido_progress";
 
 function getCompletedSlugs(): { slugs: string[]; error?: string } {
   if (typeof window === "undefined") return { slugs: [] };

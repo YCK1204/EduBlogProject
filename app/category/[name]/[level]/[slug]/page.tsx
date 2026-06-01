@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
   const lesson = loadLesson(name, level, slug, "ko");
   if (!lesson) return {};
   return {
-    title: `${lesson.title} | DevNote`,
+    title: `${lesson.title} | AIkido`,
     description: lesson.summary,
     openGraph: {
       title: lesson.title,
