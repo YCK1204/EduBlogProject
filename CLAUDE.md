@@ -24,8 +24,9 @@ npm run lint   # eslint (eslint-config-next)
 trailingSlash: true
 images: { unoptimized: true }
 ```
-- **개발 모드**: `output: "export"`가 해제되어 `app/api/dev/*` Route Handler가 동작 → 인앱 에디터로 레슨 JSON 직접 편집 가능.
-- **프로덕션 빌드**: 정적 export. API Route는 빌드에서 제외되며, 각 핸들러도 `NODE_ENV !== "development"`면 403을 반환한다.
+- **개발 모드**: `output: "export"`가 해제되어 `app/api/dev/*` Route Handler가 동작 → 인앱 에디터로 레슨 JSON 직접 편집/저장 가능.
+- **프로덕션 빌드**: 정적 export. 각 핸들러는 `NODE_ENV !== "development"`면 403을 반환한다.
+  - ⚠️ **빌드 주의**: `app/api/dev/*`(특히 POST `save`)는 dev 전용 도구다. `output: export`와의 정적 빌드 호환성은 환경에 따라 달라질 수 있으니, 라우트를 건드린 뒤에는 반드시 `npm run build`로 확인할 것. (이 라우트들은 과거 커밋 `20620b0`에서 레거시 정리에 휩쓸려 실수로 함께 제거됐다가 복원된 이력이 있음.)
 
 ## 아키텍처: 데이터 흐름
 
@@ -60,7 +61,7 @@ data/i18n/{ko,en}.json # UI 문자열
 | step 식별 | `number` | `id`(uuid) |
 | level | `"초급"/"중급"/"고급"` | `"beginner"/"intermediate"/"advanced"` |
 
-`app/dev/editor/page.tsx`가 두 형식을 상호 변환한다(`convertBlock`). **블록 타입을 추가/수정할 때는 두 스키마와 변환 로직, 렌더러(`LessonView`/`EditableBlock`), 에디터(`BlockEditor`)를 모두 함께 고쳐야 한다.**
+`CodeLang` 타입은 `lib/lessonTypes.ts`에 단일 정의되며 `editorTypes.ts`가 이를 재수출(re-export)한다. `app/dev/editor/page.tsx`의 `convertBlock`(JSON→EditorBlock, 로드용)과 `lessonToJson`/`blockToJson`(EditorBlock→JSON, 저장용)이 두 스키마를 상호 변환한다. **블록 타입을 추가/수정할 때는 두 스키마(`Block`/`EditorBlock`), 변환 로직(`convertBlock`/`blockToJson`), 렌더러(`LessonView.renderBlock`/`DevPreview`), 에디터(`BlockEditor`)를 모두 함께 고쳐야 한다.**
 
 ### 데이터 로딩 레이어 (`lib/lessonLoader.ts`, 서버 전용 `fs`)
 - `loadLesson(category, levelFolder, slug, lang)` — 단일 레슨
@@ -79,10 +80,10 @@ data/i18n/{ko,en}.json # UI 문자열
 카테고리 slug ↔ 한국어 레이블 매핑은 `lib/categories.ts`(`SLUG_TO_LABEL` / `LABEL_TO_SLUG`).
 
 ### 인앱 레슨 에디터 (개발 모드 전용)
-- 진입: 레슨 페이지의 `DevEditButton`, 또는 `/dev/editor` 직접 접근. `components/EditableBlock.tsx`는 본문 인라인 편집 진입점.
+- 진입: 레슨 페이지의 `DevEditButton`("✏️ 수정") → `/dev/editor?...&slug=...&preview=true`, 또는 `/dev/editor` 직접 접근(slug 없으면 신규).
 - 에디터 UI: `components/dev/{BlockEditor,OverviewEditor,DevPreview}.tsx`.
-- 저장 흐름: `POST /api/dev/save` → `data/lessons/{cat}/{level}/{slug}/ko.json` 기록. `en.json`은 **없을 때만** ko 내용으로 복제(기존 번역 보존). `oldLevel`과 `level`이 다르면 이전 폴더를 삭제(레벨 이동).
-- 로드: `GET /api/dev/load`, 관련 레슨 선택용 목록: `GET /api/dev/lessons`.
+- 로드: `GET /api/dev/load` → `convertBlock`으로 기존 `ko.json`을 `EditorLesson`으로 변환. 관련 레슨 선택 목록: `GET /api/dev/lessons`.
+- 저장: `lessonToJson` → `POST /api/dev/save` → `data/lessons/{cat}/{level}/{slug}/ko.json` 기록. `en.json`/`ja.json`은 **없을 때만** ko 내용으로 복제(기존 번역 보존). `oldLevel`과 `level`이 다르면 이전 폴더 삭제(레벨 이동).
 - 세 핸들러 모두 `NODE_ENV !== "development"`면 403.
 
 ### i18n (다국어)
@@ -94,8 +95,7 @@ data/i18n/{ko,en}.json # UI 문자열
 ### 핵심 컴포넌트
 | 컴포넌트 | 역할 |
 |---|---|
-| `LessonView` | 레슨 상세 레이아웃 (사이드바 steps + 콘텐츠 렌더) |
-| `EditableBlock` | 블록 렌더 + 개발 모드 인라인 편집 |
+| `LessonView` | 레슨 상세 레이아웃 (사이드바 steps + 콘텐츠 렌더, 자체 `renderBlock` 보유) |
 | `CodeBlock` | 언어 선택 드롭다운 + 코드 렌더링 |
 | `LanguageProvider` / `ThemeProvider` | ko↔en, 라이트↔다크 전역 컨텍스트 |
 | `lib/useProgress.ts` | 레슨 진행도 추적 (localStorage) |
@@ -110,11 +110,12 @@ data/i18n/{ko,en}.json # UI 문자열
 - 카테고리 slug: `data-structures` · `algorithms` · `cs-basics` · `programming`
 - 레벨 폴더: `beginner` · `intermediate` · `advanced`
 
-## 레거시 / 미사용 코드 (수정 전 확인)
-다음은 현재 어떤 라우트에서도 import되지 않는다. JSON 레슨 시스템으로 대체되었으므로, 새 콘텐츠는 여기에 추가하지 말 것:
-- `lib/algoContent.ts` · `lib/csContent.ts` · `lib/dsContent.ts` · `lib/progContent.ts` (대용량 하드코딩 콘텐츠)
-- `lib/categoryCards.ts`
-- 마크다운 포스트 시스템: `posts/*.md` + `lib/posts.ts`(`getAllPosts`/`getPostBySlug`) — 타입만 `PostCard.tsx`에서 참조될 뿐 라우트에 연결돼 있지 않음.
+## 레거시 / 미사용 코드
+과거 존재하던 다음 레거시 자산은 **모두 제거 완료**되었다 (JSON 레슨 시스템으로 대체):
+- 하드코딩 콘텐츠 `lib/{algo,cs,ds,prog}Content.ts`, `lib/categoryCards.ts`
+- 마크다운 포스트 시스템 `posts/*.md` + `lib/posts.ts` + `components/PostCard.tsx`
+- 미사용 컴포넌트 `Masthead` · `SubNav` · `CategoryHeader` · `FooterLangToggle`
+- `EditableBlock`(삭제된 `LessonViewOld`의 인라인 편집기였음 — 현재 `LessonView`는 읽기 전용이고 편집은 `/dev/editor`로 일원화)
 
 ## 규칙
 - **한국어로 답변**

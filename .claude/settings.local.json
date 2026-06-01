@@ -40,7 +40,11 @@
       "Bash(pdfinfo \"LostInTheMiddle_한글번역본.pdf\")",
       "Bash(pdftotext \"LostInTheMiddle_한글번역본.pdf\" -)",
       "Bash(npx eslint *)",
-      "Bash(awk '{print $NF, $5\"B\"}')"
+      "Bash(awk '{print $NF, $5\"B\"}')",
+      "Bash(git rm *)",
+      "Bash(echo \"--- 빌드 종료코드: $? ---\")",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies.next\\)\")",
+      "Bash(git check-ignore *)"
     ]
   }
 }

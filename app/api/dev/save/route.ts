@@ -1,0 +1,50 @@
+import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+
+export async function POST(req: NextRequest) {
+  if (process.env.NODE_ENV !== "development") {
+    return NextResponse.json({ error: "dev only" }, { status: 403 });
+  }
+
+  const body = await req.json();
+  const { category, level, slug, lesson, oldLevel } = body as {
+    category: string;
+    level: string;
+    slug: string;
+    lesson: unknown;
+    oldLevel?: string;
+  };
+
+  if (!category || !level || !slug || !lesson) {
+    return NextResponse.json({ error: "missing fields" }, { status: 400 });
+  }
+
+  const dir = path.join(process.cwd(), "data/lessons", category, level, slug);
+  fs.mkdirSync(dir, { recursive: true });
+
+  const koPath = path.join(dir, "ko.json");
+  const enPath = path.join(dir, "en.json");
+  const jaPath = path.join(dir, "ja.json");
+  const content = JSON.stringify(lesson, null, 2);
+
+  fs.writeFileSync(koPath, content, "utf-8");
+
+  // en/ja 번역 파일은 없을 때만 ko 내용으로 복제 (기존 번역 보존)
+  if (!fs.existsSync(enPath)) {
+    fs.writeFileSync(enPath, content, "utf-8");
+  }
+  if (!fs.existsSync(jaPath)) {
+    fs.writeFileSync(jaPath, content, "utf-8");
+  }
+
+  // 난이도가 변경된 경우 기존 폴더 삭제 (레벨 이동)
+  if (oldLevel && oldLevel !== level) {
+    const oldDir = path.join(process.cwd(), "data/lessons", category, oldLevel, slug);
+    if (fs.existsSync(oldDir)) {
+      fs.rmSync(oldDir, { recursive: true });
+    }
+  }
+
+  return NextResponse.json({ ok: true });
+}

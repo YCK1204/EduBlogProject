@@ -1,4 +1,6 @@
-export type CodeLang = "python" | "javascript" | "java" | "cpp" | "c" | "csharp";
+// CodeLang은 저장/렌더 스키마(lessonTypes)와 동일한 단일 정의를 재사용한다.
+import type { CodeLang } from "@/lib/lessonTypes";
+export type { CodeLang };
 
 export interface TextBlock { type: "text"; content: string }
 export interface HeaderBlock { type: "header"; level: 1 | 2 | 3; content: string }

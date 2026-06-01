@@ -2,9 +2,6 @@ import { notFound } from "next/navigation";
 import { loadLesson, buildRelatedEntries, getAllLessons } from "@/lib/lessonLoader";
 import { FOLDER_TO_LEVEL } from "@/lib/lessonTypes";
 import { SLUG_TO_LABEL } from "@/lib/categories";
-import LessonView from "@/components/LessonView";
-import Breadcrumb from "@/components/Breadcrumb";
-import DevEditButton from "@/components/dev/DevEditButton";
 import LessonPageClient from "./LessonPageClient";
 
 const CATEGORIES = ["data-structures", "algorithms", "cs-basics", "programming"] as const;

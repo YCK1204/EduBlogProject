@@ -41,12 +41,6 @@ export interface Lesson {
   steps: Step[];
 }
 
-export const LEVEL_TO_FOLDER: Record<"초급" | "중급" | "고급", string> = {
-  "초급": "beginner",
-  "중급": "intermediate",
-  "고급": "advanced",
-};
-
 export const FOLDER_TO_LEVEL: Record<string, "초급" | "중급" | "고급"> = {
   beginner: "초급",
   intermediate: "중급",

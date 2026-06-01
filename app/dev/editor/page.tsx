@@ -24,19 +24,50 @@ function EditorInner() {
   const [showPreview, setShowPreview] = useState(() => searchParams.get("preview") === "true");
   const [stepDragOver, setStepDragOver] = useState<number | null>(null);
   const initialized = useRef(false);
-  
+
   // Undo/Redo 히스토리 관리
   const [history, setHistory] = useState<EditorLesson[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [redoStack, setRedoStack] = useState<EditorLesson[]>([]);
 
-  // 수정 모드: 기존 레슨 로드 비활성화 (API 라우트 제거됨)
+  // 수정 모드: 기존 레슨을 /api/dev/load 로 불러와 EditorLesson 으로 변환 (개발 모드 전용)
   useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
-    
-    // 기존 레슨 로드 기능 비활성화 - 새 레슨 모드로만 동작
-    console.log("Editor: 새 레슨 모드");
+    if (!slug) return;
+
+    fetch(`/api/dev/load?category=${category}&level=${level}&slug=${slug}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("load failed"))))
+      .then((data) => {
+        const steps: EditorStep[] = (data.steps ?? []).map((s: {
+          number: number;
+          title: string;
+          blocks: unknown[];
+        }) => ({
+          id: crypto.randomUUID(),
+          title: s.title ?? "",
+          blocks: (s.blocks ?? []).map((b: unknown) => convertBlock(b)),
+        }));
+        setLesson({
+          slug: data.slug ?? slug,
+          title: data.title ?? "",
+          summary: data.summary ?? "",
+          tag: data.tag ?? "",
+          level:
+            data.level === "초급"
+              ? "beginner"
+              : data.level === "중급"
+                ? "intermediate"
+                : data.level === "고급"
+                  ? "advanced"
+                  : (level as EditorLesson["level"]),
+          relatedSlugs: data.relatedSlugs ?? [],
+          steps: steps.length > 0 ? steps : [{ id: crypto.randomUUID(), title: "개요", blocks: [] }],
+        });
+      })
+      .catch(() => {
+        // 로드 실패(404 등) 시 새 레슨 모드로 그대로 진행
+      });
   }, [category, level, slug]);
 
   useEffect(() => {
@@ -48,12 +79,12 @@ function EditorInner() {
   // 히스토리에 현재 상태 저장
   const saveToHistory = () => {
     const newHistory = [...history.slice(0, historyIndex + 1), lesson];
-    
+
     // 히스토리 크기 제한 (최대 50개)
     if (newHistory.length > 50) {
       newHistory.splice(0, newHistory.length - 50);
     }
-    
+
     setHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
     setRedoStack([]); // redo 스택 초기화
@@ -64,10 +95,10 @@ function EditorInner() {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1;
       setHistoryIndex(newIndex);
-      
+
       // Redo 스택에 현재 상태 저장
-      setRedoStack(prev => [...prev, lesson]);
-      
+      setRedoStack((prev) => [...prev, lesson]);
+
       // 이전 상태로 복원
       setLesson(history[newIndex]);
     }
@@ -77,16 +108,16 @@ function EditorInner() {
   const handleRedo = () => {
     if (redoStack.length > 0) {
       const lastRedo = redoStack[redoStack.length - 1];
-      
+
       // 히스토리에 현재 상태 추가
       const newHistoryIndex = historyIndex + 1;
       const newHistory = [...history.slice(0, newHistoryIndex), lastRedo];
       setHistory(newHistory);
       setHistoryIndex(newHistoryIndex);
-      
+
       // Redo 스택에서 제거
-      setRedoStack(prev => prev.slice(0, -1));
-      
+      setRedoStack((prev) => prev.slice(0, -1));
+
       // 상태 복원
       setLesson(lastRedo);
     }
@@ -96,33 +127,27 @@ function EditorInner() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ctrl+Z (Undo)
-      if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+      if (e.ctrlKey && e.key === "z" && !e.shiftKey) {
         e.preventDefault();
         handleUndo();
       }
       // Ctrl+Shift+Z (Redo)
-      else if (e.ctrlKey && e.shiftKey && e.key === 'Z') {
+      else if (e.ctrlKey && e.shiftKey && e.key === "Z") {
         e.preventDefault();
         handleRedo();
       }
       // Ctrl+Y (Redo alternative)
-      else if (e.ctrlKey && e.key === 'y') {
+      else if (e.ctrlKey && e.key === "y") {
         e.preventDefault();
         handleRedo();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [historyIndex, redoStack, lesson]);
 
   const activeStep = lesson.steps.find((s) => s.id === activeStepId) ?? lesson.steps[0];
-
-  // 레슨 업데이트 (히스토리 포함)
-  const updateLesson = (updater: (lesson: EditorLesson) => EditorLesson) => {
-    saveToHistory();
-    setLesson(updater);
-  };
 
   const addStep = () => {
     saveToHistory();
@@ -157,11 +182,61 @@ function EditorInner() {
   };
 
   const save = async () => {
-    alert("저장 기능이 비활성화되었습니다. API 라우트가 제거되어 정적 빌드용으로만 동작합니다.");
+    if (!lesson.slug) {
+      alert("slug를 입력하세요.");
+      return;
+    }
+    if (!lesson.title) {
+      alert("제목을 입력하세요.");
+      return;
+    }
+    setSaving(true);
+    try {
+      const payload = lessonToJson(lesson);
+      const res = await fetch("/api/dev/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category,
+          level: lesson.level,
+          slug: lesson.slug,
+          lesson: payload,
+          oldLevel: level !== lesson.level ? level : undefined,
+        }),
+      });
+      if (!res.ok) throw new Error("save failed");
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+      router.replace(`/dev/editor?category=${category}&level=${lesson.level}&slug=${lesson.slug}`);
+    } catch {
+      alert("저장 실패");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const saveAndExit = async () => {
-    router.push(`/category/${category}`);
+    if (!lesson.slug || !lesson.title) {
+      router.push(`/category/${category}`);
+      return;
+    }
+    try {
+      const payload = lessonToJson(lesson);
+      await fetch("/api/dev/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category,
+          level: lesson.level,
+          slug: lesson.slug,
+          lesson: payload,
+          oldLevel: level !== lesson.level ? level : undefined,
+        }),
+      });
+    } catch {
+      /* 저장 실패해도 이동 */
+    }
+    router.push(`/category/${category}/${lesson.level}/${lesson.slug}`);
   };
 
   return (
@@ -342,12 +417,12 @@ export default function DevEditorPage() {
   );
 }
 
-// ── 유틸: 기존 JSON 블록 → EditorBlock 변환 ──
+// ── 유틸: 기존 JSON 블록(저장/렌더 스키마) → EditorBlock 변환 ──
 function convertBlock(b: unknown): import("@/lib/editorTypes").EditorBlock {
   const block = b as Record<string, unknown>;
   switch (block.type) {
     case "text":     return { type: "text", content: String(block.content ?? "") };
-    case "header":   return { type: "header", level: (Number(block.level) || 2) as 1|2|3, content: String(block.content ?? "") };
+    case "header":   return { type: "header", level: (Number(block.level) || 2) as 1 | 2 | 3, content: String(block.content ?? "") };
     case "bold":     return { type: "bold", content: String(block.content ?? "") };
     case "italic":   return { type: "italic", content: String(block.content ?? "") };
     case "underbar": return { type: "underbar", content: String(block.content ?? "") };
@@ -358,7 +433,7 @@ function convertBlock(b: unknown): import("@/lib/editorTypes").EditorBlock {
     case "box":      return { type: "box", blocks: ((block.blocks as unknown[] | undefined) ?? []).map(convertBlock) };
     case "image":    return { type: "image", src: String(block.src ?? ""), alt: String(block.alt ?? ""), ...(block.width ? { width: Number(block.width) } : {}) };
     case "code": {
-      const langs = ["python","javascript","java","cpp","c","csharp"]
+      const langs = ["python", "javascript", "java", "cpp", "c", "csharp"]
         .filter((l) => block[l] != null)
         .map((l) => ({ lang: l as import("@/lib/editorTypes").CodeLang, code: String(block[l]) }));
       return { type: "code", langs: langs.length > 0 ? langs : [{ lang: "python", code: "" }] };
@@ -367,7 +442,7 @@ function convertBlock(b: unknown): import("@/lib/editorTypes").EditorBlock {
   }
 }
 
-// ── 유틸: EditorLesson → 저장용 JSON ──
+// ── 유틸: EditorLesson → 저장용 JSON(저장/렌더 스키마) ──
 function lessonToJson(lesson: EditorLesson) {
   return {
     slug: lesson.slug,
