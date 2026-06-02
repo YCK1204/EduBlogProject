@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, notFound } from "next/navigation";
 import { Suspense } from "react";
 import type { EditorLesson, EditorStep } from "@/lib/editorTypes";
 import { newLesson } from "@/lib/editorTypes";
@@ -410,6 +410,11 @@ function EditorInner() {
 }
 
 export default function DevEditorPage() {
+  // 개발 모드 전용. 프로덕션 정적 빌드에서는 에디터 UI를 노출하지 않는다.
+  // (편집 백엔드 /api/dev/* 는 개발 서버에서만 동작하며 정적 export에 포함되지 않는다.)
+  if (process.env.NODE_ENV !== "development") {
+    notFound();
+  }
   return (
     <Suspense fallback={<div className="flex items-center justify-center h-screen text-zinc-400">로딩 중...</div>}>
       <EditorInner />

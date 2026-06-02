@@ -1,7 +1,3 @@
-"use client";
-
-import { useTheme } from "@/components/ThemeProvider";
-
 interface ThemedImageProps {
   src: string;
   alt: string;
@@ -23,11 +19,23 @@ export function toDarkSrc(src: string): string {
 }
 
 export default function ThemedImage({ src, alt, className, width, height }: ThemedImageProps) {
-  const { theme } = useTheme();
-  const resolved = theme === "dark" ? toDarkSrc(src) : src;
+  const darkSrc = toDarkSrc(src);
 
-  return (
+  // 다크 변형이 없으면 단일 이미지로 렌더
+  if (darkSrc === src) {
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={resolved} alt={alt} className={className} width={width} height={height} />
+    return <img src={src} alt={alt} className={className} width={width} height={height} />;
+  }
+
+  // 라이트/다크 두 이미지를 모두 렌더하고 CSS(`dark:`)로 전환한다.
+  // 인라인 스크립트가 첫 페인트 전에 <html>.dark 를 적용하므로 깜빡임 없이 올바른 이미지가 보인다.
+  const base = className ?? "";
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className={`${base} dark:hidden`} width={width} height={height} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={darkSrc} alt={alt} className={`${base} hidden dark:block`} width={width} height={height} />
+    </>
   );
 }
