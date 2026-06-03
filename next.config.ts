@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
   ...(isDev ? {} : { output: "export" }),
   trailingSlash: true,
   images: { unoptimized: true },
-  // GitHub Pages 배포용 설정
-  basePath: process.env.GITHUB_ACTIONS ? "/EduBlogProject" : "",
-  assetPrefix: process.env.GITHUB_ACTIONS ? "/EduBlogProject/" : "",
 };
 
 export default nextConfig;
