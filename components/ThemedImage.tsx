@@ -1,3 +1,5 @@
+import { getImagePath } from "@/lib/imagePath";
+
 interface ThemedImageProps {
   src: string;
   alt: string;
@@ -19,12 +21,14 @@ export function toDarkSrc(src: string): string {
 }
 
 export default function ThemedImage({ src, alt, className, width, height }: ThemedImageProps) {
-  const darkSrc = toDarkSrc(src);
+  // basePath를 포함한 올바른 경로로 변환
+  const lightSrc = getImagePath(src);
+  const darkSrc = getImagePath(toDarkSrc(src));
 
   // 다크 변형이 없으면 단일 이미지로 렌더
-  if (darkSrc === src) {
+  if (toDarkSrc(src) === src) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt} className={className} width={width} height={height} />;
+    return <img src={lightSrc} alt={alt} className={className} width={width} height={height} />;
   }
 
   // 라이트/다크 두 이미지를 모두 렌더하고 CSS(`dark:`)로 전환한다.
@@ -33,7 +37,7 @@ export default function ThemedImage({ src, alt, className, width, height }: Them
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className={`${base} dark:hidden`} width={width} height={height} />
+      <img src={lightSrc} alt={alt} className={`${base} dark:hidden`} width={width} height={height} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={darkSrc} alt={alt} className={`${base} hidden dark:block`} width={width} height={height} />
     </>
