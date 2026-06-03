@@ -123,7 +123,7 @@
           "java": "import java.util.Deque;\nimport java.util.ArrayDeque;\nDeque<Integer> stack = new ArrayDeque<>();\nstack.push(1);\nstack.push(2);\nstack.push(3);\nSystem.out.println(stack.pop());   // 3\nSystem.out.println(stack.peek());  // 2",
           "c": "#define MAX 100\nint stack[MAX];\nint top = -1;\n\nvoid push(int val) { stack[++top] = val; }\nint pop() { return stack[top--]; }\nint peek() { return stack[top]; }",
           "cpp": "#include <stack>\nstd::stack<int> s;\ns.push(1);\ns.push(2);\ns.push(3);\nstd::cout << s.top();  // peek: 3\ns.pop();               // remove 3",
-          "csharp": "stack = []\nstack.append(1)  # push\nstack.append(2)\nstack.append(3)\nprint(stack.pop())  # 3 (LIFO)\nprint(stack[-1])    # peek: 2"
+          "csharp": "using System.Collections.Generic;\n\nStack<int> stack = new Stack<int>();\nstack.Push(1);\nstack.Push(2);\nstack.Push(3);\nConsole.WriteLine(stack.Pop());   // 3 (LIFO)\nConsole.WriteLine(stack.Peek());  // 2"
         },
         {
           "type": "header",
@@ -135,9 +135,9 @@
           "python": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
           "javascript": "const queue = [];\nqueue.push(1);  // enqueue\nqueue.push(2);\nqueue.push(3);\nconsole.log(queue.shift());  // 1 (FIFO) — O(n)!\n// 효율적인 큐는 별도 구현 필요",
           "java": "import java.util.Queue;\nimport java.util.LinkedList;\nQueue<Integer> queue = new LinkedList<>();\nqueue.offer(1);  // enqueue\nqueue.offer(2);\nqueue.offer(3);\nSystem.out.println(queue.poll());  // 1 (FIFO)",
-          "c": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
-          "cpp": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2",
-          "csharp": "from collections import deque\nqueue = deque()\nqueue.append(1)   # enqueue\nqueue.append(2)\nqueue.append(3)\nprint(queue.popleft())  # 1 (FIFO)\nprint(queue.popleft())  # 2"
+          "c": "#define MAX 100\nint queue[MAX];\nint front = 0, rear = 0;\n\nvoid enqueue(int val) {\n    queue[rear++] = val;\n}\n\nint dequeue() {\n    return queue[front++];\n}\n\nint is_empty() {\n    return front == rear;\n}",
+          "cpp": "#include <queue>\nstd::queue<int> q;\nq.push(1);   // enqueue\nq.push(2);\nq.push(3);\nstd::cout << q.front();  // 1 (FIFO)\nq.pop();     // remove front element",
+          "csharp": "using System.Collections.Generic;\n\nQueue<int> queue = new Queue<int>();\nqueue.Enqueue(1);  // enqueue\nqueue.Enqueue(2);\nqueue.Enqueue(3);\nConsole.WriteLine(queue.Dequeue());  // 1 (FIFO)\nConsole.WriteLine(queue.Peek());     // 2 (front element)"
         }
       ]
     }

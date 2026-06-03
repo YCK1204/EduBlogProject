@@ -3,64 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLang } from "@/components/LanguageProvider";
-import { useTheme } from "@/components/ThemeProvider";
-
-function SunIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="4" />
-      <line x1="12" y1="2" x2="12" y2="4" />
-      <line x1="12" y1="20" x2="12" y2="22" />
-      <line x1="4.93" y1="4.93" x2="6.34" y2="6.34" />
-      <line x1="17.66" y1="17.66" x2="19.07" y2="19.07" />
-      <line x1="2" y1="12" x2="4" y2="12" />
-      <line x1="20" y1="12" x2="22" y2="12" />
-      <line x1="4.93" y1="19.07" x2="6.34" y2="17.66" />
-      <line x1="17.66" y1="6.34" x2="19.07" y2="4.93" />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
-  );
-}
 
 export default function Header() {
   const pathname = usePathname();
-  const { t } = useLang();
-  const { theme, toggle } = useTheme();
+  const { t, mounted } = useLang();
 
+  // 하이드레이션 불일치 방지를 위해 서버와 동일한 기본값 사용
   const NAV_LINKS = [
-    { href: "/category/data-structures", label: t.nav.dataStructures },
-    { href: "/category/algorithms", label: t.nav.algorithms },
-    { href: "/category/cs-basics", label: t.nav.csBasics },
-    { href: "/category/programming", label: t.nav.programming },
+    { href: "/category/data-structures", label: mounted ? t.nav.dataStructures : "자료구조" },
+    { href: "/category/algorithms", label: mounted ? t.nav.algorithms : "알고리즘" },
+    { href: "/category/cs-basics", label: mounted ? t.nav.csBasics : "CS 기초" },
+    { href: "/category/programming", label: mounted ? t.nav.programming : "프로그래밍" },
   ];
 
   return (

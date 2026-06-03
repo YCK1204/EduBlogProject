@@ -16,6 +16,8 @@ export type ImageBlock   = {
   width?: number;
   srcEn?: string;  // Optional English-specific image source
   altEn?: string;  // Optional English-specific alt text
+  srcJa?: string;  // Optional Japanese-specific image source
+  altJa?: string;  // Optional Japanese-specific alt text
 };
 export type CodeBlock    = { type: "code" } & Partial<Record<CodeLang, string>>;
 export type BoxBlock     = { type: "box";      blocks: Block[] };

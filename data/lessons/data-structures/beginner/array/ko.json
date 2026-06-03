@@ -48,7 +48,11 @@
           "type": "image",
           "src": "/images/array-memory-layout.svg",
           "alt": "int 배열 5개 원소의 메모리 연속 저장 구조 — 주소 1000부터 1019까지 20바이트 연속",
-          "width": 85
+          "width": 90,
+          "srcEn": "/images/array-memory-layout-en.svg",
+          "altEn": "Memory layout of a 5-element int array — addresses 1000 through 1019, 20 bytes contiguous",
+          "srcJa": "/images/array-memory-layout-new-ja.svg",
+          "altJa": "5要素のint配列のメモリレイアウト — アドレス1000から1019まで20バイト連続"
         },
         {
           "type": "text",
@@ -72,9 +76,13 @@
       "blocks": [
         {
           "type": "image",
-          "src": "/images/array-index-offset.svg",
+          "src": "/images/array-index-offset-new.svg",
           "alt": "0-based 인덱스 원리 — arr[i]의 주소 = Base + i × size. 인덱스가 0부터 시작해야 첫 원소의 오프셋이 0이 되어 공식이 단순해짐. 1-based였다면 매번 (i-1) 보정 필요",
-          "width": 85
+          "width": 90,
+          "srcEn": "/images/array-index-offset-new-en.svg",
+          "altEn": "0-based index principle — address calculation is simpler when starting from 0",
+          "srcJa": "/images/array-index-offset-new-ja.svg",
+          "altJa": "0ベースインデックスの原理 — 0から始めることで計算が簡単になる"
         },
         {
           "type": "text",
@@ -368,100 +376,30 @@
         {
           "type": "header",
           "level": 3,
-          "content": "배열이 왜 필요한가 — 탄생 배경"
+          "content": "배열의 기본 사용법"
         },
         {
           "type": "code",
-          "python": "# 배열 없이 5명의 점수를 다루는 방법 (나쁜 예)\nscore1 = 85\nscore2 = 92\nscore3 = 78\nscore4 = 91\nscore5 = 88\naverage = (score1 + score2 + score3 + score4 + score5) / 5\n\n# 배열(리스트)을 사용하는 방법 (좋은 예)\nscores = [85, 92, 78, 91, 88]\naverage = sum(scores) / len(scores)\nprint(f'평균: {average}')  # 86.8",
-          "javascript": "// 배열 없이 (나쁜 예)\nlet score1 = 85, score2 = 92, score3 = 78;\n// ... 반복문으로 처리 불가\n\n// 배열을 사용하는 방법 (좋은 예)\nconst scores = [85, 92, 78, 91, 88];\nconst average = scores.reduce((sum, s) => sum + s, 0) / scores.length;\nconsole.log(`평균: ${average}`);  // 86.8",
-          "java": "// 배열을 사용하는 방법\nint[] scores = {85, 92, 78, 91, 88};\nint sum = 0;\nfor (int score : scores) {\n    sum += score;\n}\ndouble average = (double) sum / scores.length;\nSystem.out.println(\"평균: \" + average);  // 86.8",
-          "cpp": "#include <iostream>\n#include <numeric>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = std::accumulate(scores, scores + n, 0);\ndouble average = (double)sum / n;\nstd::cout << \"평균: \" << average;  // 86.8",
-          "c": "#include <stdio.h>\n\nint scores[] = {85, 92, 78, 91, 88};\nint n = sizeof(scores) / sizeof(scores[0]);\nint sum = 0;\nfor (int i = 0; i < n; i++) sum += scores[i];\ndouble average = (double)sum / n;\nprintf(\"평균: %.1f\\n\", average);  // 86.8",
-          "csharp": "int[] scores = {85, 92, 78, 91, 88};\ndouble average = scores.Average();  // LINQ 활용\nConsole.WriteLine($\"평균: {average}\");  // 86.8"
+          "python": "# 배열(리스트) 기본 사용법\nscores = [85, 92, 78, 91, 88]\n\n# 접근 O(1)\nprint(scores[0])    # 85 (첫 번째)\nprint(scores[-1])   # 88 (마지막)\n\n# 탐색 O(n)\nif 92 in scores:\n    print(scores.index(92))  # 1\n\n# 추가/삭제\nscores.append(95)           # 맨 뒤 추가 O(1)\nscores.insert(2, 99)        # 중간 삽입 O(n)\nscores.pop()                # 맨 뒤 삭제 O(1)\nprint(scores)",
+          "javascript": "// 배열 기본 사용법\nconst scores = [85, 92, 78, 91, 88];\n\n// 접근 O(1)\nconsole.log(scores[0]);           // 85\nconsole.log(scores[scores.length - 1]); // 88\n\n// 탐색 O(n)\nconsole.log(scores.indexOf(92));  // 1\n\n// 추가/삭제\nscores.push(95);             // 맨 뒤 추가 O(1)\nscores.splice(2, 0, 99);     // 중간 삽입 O(n)\nscores.pop();                // 맨 뒤 삭제 O(1)\nconsole.log(scores);",
+          "java": "import java.util.*;\n\n// ArrayList 기본 사용법\nArrayList<Integer> scores = new ArrayList<>(Arrays.asList(85, 92, 78, 91, 88));\n\n// 접근 O(1)\nSystem.out.println(scores.get(0));    // 85 (첫 번째)\nSystem.out.println(scores.get(scores.size() - 1)); // 88 (마지막)\n\n// 탐색 O(n)\nif (scores.contains(92)) {\n    System.out.println(scores.indexOf(92));  // 1\n}\n\n// 추가/삭제\nscores.add(95);              // 맨 뒤 추가 O(1)\nscores.add(2, 99);           // 중간 삽입 O(n)\nscores.remove(scores.size() - 1); // 맨 뒤 삭제 O(1)\nSystem.out.println(scores);",
+          "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // vector 기본 사용법\n    vector<int> scores = {85, 92, 78, 91, 88};\n    \n    // 접근 O(1)\n    cout << scores[0] << endl;        // 85 (첫 번째)\n    cout << scores.back() << endl;    // 88 (마지막)\n    \n    // 탐색 O(n)\n    auto it = find(scores.begin(), scores.end(), 92);\n    if (it != scores.end()) {\n        cout << distance(scores.begin(), it) << endl; // 1\n    }\n    \n    // 추가/삭제\n    scores.push_back(95);             // 맨 뒤 추가 O(1)\n    scores.insert(scores.begin() + 2, 99); // 중간 삽입 O(n)\n    scores.pop_back();                // 맨 뒤 삭제 O(1)\n    \n    for (int score : scores) cout << score << \" \";\n    return 0;\n}",
+          "c": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    // 정적 배열과 동적 배열 사용법\n    int scores[5] = {85, 92, 78, 91, 88};\n    int size = 5;\n    \n    // 접근 O(1)\n    printf(\"%d\\n\", scores[0]);        // 85 (첫 번째)\n    printf(\"%d\\n\", scores[size-1]);   // 88 (마지막)\n    \n    // 탐색 O(n)\n    for (int i = 0; i < size; i++) {\n        if (scores[i] == 92) {\n            printf(\"Found at index: %d\\n\", i);\n            break;\n        }\n    }\n    \n    // 동적 배열 예시\n    int* dynamic_scores = malloc(6 * sizeof(int));\n    for (int i = 0; i < 5; i++) dynamic_scores[i] = scores[i];\n    dynamic_scores[5] = 95; // 맨 뒤 추가\n    \n    for (int i = 0; i < 6; i++) printf(\"%d \", dynamic_scores[i]);\n    free(dynamic_scores);\n    return 0;\n}",
+          "csharp": "using System;\nusing System.Collections.Generic;\n\nclass Program {\n    static void Main() {\n        // List<T> 기본 사용법\n        List<int> scores = new List<int> {85, 92, 78, 91, 88};\n        \n        // 접근 O(1)\n        Console.WriteLine(scores[0]);    // 85 (첫 번째)\n        Console.WriteLine(scores[scores.Count - 1]); // 88 (마지막)\n        \n        // 탐색 O(n)\n        if (scores.Contains(92)) {\n            Console.WriteLine(scores.IndexOf(92));  // 1\n        }\n        \n        // 추가/삭제\n        scores.Add(95);              // 맨 뒤 추가 O(1)\n        scores.Insert(2, 99);        // 중간 삽입 O(n)\n        scores.RemoveAt(scores.Count - 1); // 맨 뒤 삭제 O(1)\n        \n        Console.WriteLine(string.Join(\", \", scores));\n    }\n}"
         },
         {
           "type": "header",
           "level": 3,
-          "content": "인덱스는 왜 0부터 시작하는가"
+          "content": "동적 배열의 리사이징"
         },
         {
           "type": "code",
-          "python": "arr = [10, 20, 30, 40, 50]\n\nprint(arr[0])   # 10 (첫 번째)\nprint(arr[4])   # 50 (마지막, len=5이므로 인덱스 최대 4)\nprint(arr[-1])  # 50 (Python: 음수 인덱스로 뒤에서 접근)\nprint(arr[-2])  # 40\n\n# 유효 범위: 0 ~ len(arr)-1\n# arr[5]는 IndexError 발생!",
-          "javascript": "const arr = [10, 20, 30, 40, 50];\n\nconsole.log(arr[0]);              // 10\nconsole.log(arr[4]);              // 50\nconsole.log(arr[arr.length - 1]); // 50 (마지막)\n\n// JS는 범위 초과 시 오류 없이 undefined 반환\nconsole.log(arr[5]);  // undefined",
-          "java": "int[] arr = {10, 20, 30, 40, 50};\n\nSystem.out.println(arr[0]);  // 10\nSystem.out.println(arr[4]);  // 50\n\n// 범위 초과 시 ArrayIndexOutOfBoundsException 발생\n// System.out.println(arr[5]);  // 예외!",
-          "cpp": "int arr[] = {10, 20, 30, 40, 50};\n\nstd::cout << arr[0] << std::endl;  // 10\nstd::cout << arr[4] << std::endl;  // 50\n\n// C/C++는 범위 초과 검사 없음 (정의되지 않은 동작 — 매우 위험!)\n// arr[5]를 읽으면 쓰레기 값 또는 프로그램 크래시 가능",
-          "c": "#include <stdio.h>\n\nint arr[] = {10, 20, 30, 40, 50};\nint n = 5;\n\nprintf(\"%d\\n\", arr[0]);    // 10\nprintf(\"%d\\n\", arr[n-1]); // 50 (마지막)\n\n// C는 범위 초과 검사 없음!\n// 반드시 직접 범위를 확인해야 함",
-          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\nConsole.WriteLine(arr[0]);   // 10\nConsole.WriteLine(arr[4]);   // 50\nConsole.WriteLine(arr[^1]);  // 50 (C# 8.0+: 끝에서부터 접근)\n\n// 범위 초과: IndexOutOfRangeException"
-        },
-        {
-          "type": "header",
-          "level": 3,
-          "content": "배열의 핵심 연산 — 읽기, 탐색, 삽입, 삭제"
-        },
-        {
-          "type": "code",
-          "python": "arr = [10, 20, 30, 40, 50]\n\n# 1. 읽기 O(1)\nprint(arr[2])  # 30 — 인덱스로 즉시 접근\n\n# 2. 탐색 O(n) — 선형 탐색 직접 구현\ndef linear_search(arr, target):\n    for i, val in enumerate(arr):\n        if val == target:\n            return i  # 인덱스 반환\n    return -1\nprint(linear_search(arr, 30))  # 2\n\n# 3. 중간 삽입 O(n) — 내부적으로 원소 이동 발생\narr.insert(2, 99)  # 인덱스 2 위치에 99 삽입\nprint(arr)  # [10, 20, 99, 30, 40, 50]\n\n# 4. 삭제 O(n)\narr.pop(2)  # 인덱스 2 삭제 (99 제거)\nprint(arr)  # [10, 20, 30, 40, 50]",
-          "javascript": "const arr = [10, 20, 30, 40, 50];\n\n// 1. 읽기 O(1)\nconsole.log(arr[2]);  // 30\n\n// 2. 탐색 O(n)\nconsole.log(arr.indexOf(30));  // 2\nconsole.log(arr.indexOf(99));  // -1 (없음)\n\n// 3. 중간 삽입 O(n)\narr.splice(2, 0, 99);  // 인덱스 2에 99 삽입\nconsole.log(arr);  // [10, 20, 99, 30, 40, 50]\n\n// 4. 삭제 O(n)\narr.splice(2, 1);  // 인덱스 2에서 1개 삭제\nconsole.log(arr);  // [10, 20, 30, 40, 50]",
-          "java": "import java.util.Arrays;\n\nint[] arr = {10, 20, 30, 40, 50};\n\n// 1. 읽기 O(1)\nSystem.out.println(arr[2]);  // 30\n\n// 2. 탐색 O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < arr.length; i++) {\n    if (arr[i] == target) { idx = i; break; }\n}\nSystem.out.println(idx);  // 2\n\n// 정적 배열은 삽입/삭제가 불편 (직접 이동 구현 필요)\n// 실무에서는 ArrayList 사용 (다음 단계에서 설명)",
-          "cpp": "#include <iostream>\n#include <algorithm>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. 읽기 O(1)\nstd::cout << arr[2] << std::endl;  // 30\n\n// 2. 탐색 O(n)\nint* it = std::find(arr, arr + size, 30);\nif (it != arr + size)\n    std::cout << (it - arr) << std::endl;  // 2\n\n// 3. 중간 삽입 O(n) — 직접 원소 이동\nfor (int i = size; i > 2; i--)\n    arr[i] = arr[i - 1];\narr[2] = 99;\nsize++;\n// arr = {10, 20, 99, 30, 40, 50}",
-          "c": "#include <stdio.h>\n\nint arr[10] = {10, 20, 30, 40, 50};\nint size = 5;\n\n// 1. 읽기 O(1)\nprintf(\"%d\\n\", arr[2]);  // 30\n\n// 2. 탐색 O(n)\nint target = 30, idx = -1;\nfor (int i = 0; i < size; i++) {\n    if (arr[i] == target) { idx = i; break; }\n}\nprintf(\"인덱스: %d\\n\", idx);  // 2\n\n// 3. 중간 삽입 — 직접 원소 이동\nfor (int i = size; i > 2; i--)\n    arr[i] = arr[i - 1];\narr[2] = 99;\nsize++;",
-          "csharp": "int[] arr = {10, 20, 30, 40, 50};\n\n// 1. 읽기 O(1)\nConsole.WriteLine(arr[2]);  // 30\n\n// 2. 탐색 O(n)\nint idx = Array.IndexOf(arr, 30);\nConsole.WriteLine(idx);  // 2\n\n// 정적 배열은 크기 변경 불가 → List<T> 사용\n// (다음 단계에서 설명)"
-        },
-        {
-          "type": "header",
-          "level": 3,
-          "content": "정적 배열의 한계 — 크기가 고정된 문제"
-        },
-        {
-          "type": "code",
-          "python": "# 정적 배열의 한계를 시뮬레이션\nMAX_SIZE = 5\narr = [0] * MAX_SIZE\nsize = 0\n\ndef add(value):\n    global size\n    if size >= MAX_SIZE:\n        print('배열이 가득 찼습니다! 더 이상 추가 불가')\n        return\n    arr[size] = value\n    size += 1\n\nadd(10); add(20); add(30); add(40); add(50)\nadd(60)  # '배열이 가득 찼습니다!' 출력\nprint(arr[:size])  # [10, 20, 30, 40, 50]",
-          "javascript": "const MAX_SIZE = 5;\nconst arr = new Array(MAX_SIZE);\nlet size = 0;\n\nfunction add(value) {\n    if (size >= MAX_SIZE) {\n        console.log('배열이 가득 찼습니다!');\n        return;\n    }\n    arr[size++] = value;\n}\n\nadd(10); add(20); add(30); add(40); add(50);\nadd(60);  // '배열이 가득 찼습니다!'",
-          "java": "int[] arr = new int[5];  // 5개 고정!\nint size = 0;\n\nfor (int i = 1; i <= 6; i++) {\n    if (size >= arr.length) {\n        // 직접 리사이징 구현 필요\n        int[] newArr = new int[arr.length * 2];\n        System.arraycopy(arr, 0, newArr, 0, arr.length);\n        arr = newArr;\n        System.out.println(\"직접 리사이징: \" + arr.length);\n    }\n    arr[size++] = i * 10;\n}",
-          "cpp": "#include <iostream>\n#include <cstring>\n\nconst int INITIAL = 5;\nint* arr = new int[INITIAL];\nint capacity = INITIAL, size = 0;\n\nvoid add(int val) {\n    if (size == capacity) {\n        int newCap = capacity * 2;\n        int* newArr = new int[newCap];\n        memcpy(newArr, arr, size * sizeof(int));\n        delete[] arr;\n        arr = newArr;\n        capacity = newCap;\n        std::cout << \"직접 리사이징: \" << capacity << std::endl;\n    }\n    arr[size++] = val;\n}",
-          "c": "#include <stdlib.h>\n#include <stdio.h>\n\nint* arr;\nint capacity = 5, size = 0;\n\nvoid init() {\n    arr = (int*)malloc(capacity * sizeof(int));\n}\n\nvoid add(int value) {\n    if (size >= capacity) {\n        capacity *= 2;\n        arr = (int*)realloc(arr, capacity * sizeof(int));\n        printf(\"직접 리사이징: capacity = %d\\n\", capacity);\n    }\n    arr[size++] = value;\n}\n\nvoid cleanup() { free(arr); }",
-          "csharp": "// C# 정적 배열은 고정 크기\nint[] arr = new int[5];\narr[0] = 10; arr[1] = 20; // ...\n\n// 크기 변경이 필요하면 Array.Resize (내부적으로 새 배열 생성+복사)\nArray.Resize(ref arr, 10);\nConsole.WriteLine(arr.Length);  // 10\n// 이 불편함을 해결한 것이 List<T>"
-        },
-        {
-          "type": "header",
-          "level": 3,
-          "content": "동적 배열의 등장 — capacity와 size"
-        },
-        {
-          "type": "code",
-          "python": "import sys\n\narr = []  # Python list = 동적 배열\n\nfor i in range(9):\n    arr.append(i)\n    # sys.getsizeof는 bytes 단위로 내부 할당 크기를 반환\n    print(f'size={len(arr)}, allocated_bytes={sys.getsizeof(arr)}')\n\n# bytes가 갑자기 늘어나는 시점이 리사이징 발생 순간!\n# 0→56, 1→88, 5→120, 9→184... (CPython 구현 기준)",
-          "javascript": "// JavaScript Array도 동적 배열\nconst arr = [];\nconsole.log(arr.length);  // 0\n\narr.push(10); arr.push(20); arr.push(30);\nconsole.log(arr.length);  // 3\n// capacity는 JS 엔진 내부에서 자동 관리 (직접 조회 불가)",
-          "java": "import java.util.ArrayList;\n\n// 기본 capacity: 10 / 초기값 지정: new ArrayList<>(20)\nArrayList<Integer> list = new ArrayList<>();\n\nfor (int i = 0; i < 12; i++) {\n    list.add(i);\n}\nSystem.out.println(\"size: \" + list.size());  // 12\n// capacity는 리플렉션으로만 확인 가능 (실무에서 불필요)\n// 11번째 원소 추가 시 내부에서 capacity 10 → 15로 리사이징",
-          "cpp": "#include <vector>\n#include <iostream>\n\nstd::vector<int> v;\n\nfor (int i = 0; i < 10; i++) {\n    v.push_back(i);\n    std::cout << \"size=\" << v.size()\n              << \", capacity=\" << v.capacity() << \"\\n\";\n}\n// size=1, capacity=1\n// size=2, capacity=2\n// size=3, capacity=4   ← 리사이징!\n// size=5, capacity=8   ← 리사이징!",
-          "c": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct {\n    int* data;\n    int size;\n    int capacity;\n} DynArray;\n\nDynArray* create(int cap) {\n    DynArray* a = malloc(sizeof(DynArray));\n    a->data = malloc(cap * sizeof(int));\n    a->size = 0;\n    a->capacity = cap;\n    return a;\n}\n\nvoid push(DynArray* a, int val) {\n    if (a->size == a->capacity) {\n        a->capacity *= 2;\n        a->data = realloc(a->data, a->capacity * sizeof(int));\n        printf(\"리사이징: capacity=%d\\n\", a->capacity);\n    }\n    a->data[a->size++] = val;\n}",
-          "csharp": "var list = new List<int>();  // 기본 capacity: 4\n\nfor (int i = 0; i < 10; i++) {\n    list.Add(i);\n    Console.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n}\n// Count=1, Capacity=4\n// Count=5, Capacity=8   ← 리사이징!\n// Count=9, Capacity=16  ← 리사이징!"
-        },
-        {
-          "type": "header",
-          "level": 3,
-          "content": "언어별 동적 배열 활용법"
-        },
-        {
-          "type": "code",
-          "python": "arr = []  # 또는 list()\n\n# 추가\narr.append(10)          # 맨 뒤에 추가 O(1) amortized\narr.insert(1, 99)       # 특정 위치에 삽입 O(n)\narr.extend([20, 30])    # 다른 리스트 통째로 추가\n\n# 삭제\narr.pop()               # 맨 뒤 원소 제거+반환 O(1)\narr.pop(0)              # 인덱스 0 제거 O(n)\narr.remove(99)          # 값으로 삭제(첫 번째 발견) O(n)\n\n# 탐색\nprint(99 in arr)        # 포함 여부 O(n)\nprint(arr.index(10))    # 값의 인덱스 O(n)\n\n# 슬라이싱 (Python 특유)\nprint(arr[1:3])         # 인덱스 1~2 부분 배열 O(k)\nprint(arr[::-1])        # 역순 복사본 O(n)\n\nprint(len(arr))         # 현재 size",
-          "javascript": "const arr = [];\n\n// 추가\narr.push(10, 20);          // 맨 뒤에 추가 O(1) amortized\narr.unshift(5);            // 맨 앞에 추가 O(n)\narr.splice(1, 0, 99);      // 특정 위치 삽입 O(n)\n\n// 삭제\narr.pop();                 // 맨 뒤 제거 O(1)\narr.shift();               // 맨 앞 제거 O(n)\narr.splice(1, 1);          // 특정 위치 1개 제거 O(n)\n\n// 탐색\nconsole.log(arr.includes(10));      // O(n)\nconsole.log(arr.indexOf(10));       // O(n)\nconsole.log(arr.find(x => x > 5));  // 조건부 탐색 O(n)\n\n// 변환 (원본 불변)\nconst reversed = [...arr].reverse();\nconst sliced = arr.slice(1, 3);\n\nconsole.log(arr.length);  // size",
-          "java": "import java.util.*;\n\nList<Integer> list = new ArrayList<>();\n\n// 추가\nlist.add(10);              // 맨 뒤에 추가\nlist.add(1, 99);           // 인덱스 1에 삽입\nlist.addAll(Arrays.asList(20, 30));\n\n// 삭제\nlist.remove(0);                      // 인덱스로 삭제\nlist.remove(Integer.valueOf(99));     // 값으로 삭제\nlist.clear();\n\n// 탐색\nSystem.out.println(list.contains(10));  // O(n)\nSystem.out.println(list.indexOf(10));   // O(n)\n\n// 정렬\nCollections.sort(list);\nlist.sort(Comparator.reverseOrder());\n\nSystem.out.println(list.size());  // size",
-          "cpp": "#include <vector>\n#include <algorithm>\n\nstd::vector<int> v;\n\n// 추가\nv.push_back(10);                  // 맨 뒤 추가 O(1) amortized\nv.emplace_back(20);               // push_back보다 효율적 (직접 생성)\nv.insert(v.begin() + 1, 99);     // 특정 위치 삽입 O(n)\nv.reserve(100);                   // 리사이징 방지로 capacity 미리 확보\n\n// 삭제\nv.pop_back();                     // 맨 뒤 제거 O(1)\nv.erase(v.begin() + 1);          // 특정 위치 제거 O(n)\nv.clear();\n\n// 정보\nstd::cout << v.size() << \" \" << v.capacity();\n\n// 탐색\nauto it = std::find(v.begin(), v.end(), 10);\nif (it != v.end()) { /* 찾음 */ }",
-          "c": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct {\n    int* data;\n    int size;\n    int capacity;\n} Vec;\n\nVec* vec_new() {\n    Vec* v = malloc(sizeof(Vec));\n    v->data = malloc(4 * sizeof(int));\n    v->size = 0;\n    v->capacity = 4;\n    return v;\n}\n\nvoid vec_push(Vec* v, int val) {\n    if (v->size == v->capacity) {\n        v->capacity *= 2;\n        v->data = realloc(v->data, v->capacity * sizeof(int));\n    }\n    v->data[v->size++] = val;\n}\n\nint vec_get(Vec* v, int i) { return v->data[i]; }\nint vec_size(Vec* v)       { return v->size; }\n\nvoid vec_free(Vec* v) {\n    free(v->data);\n    free(v);\n}",
-          "csharp": "var list = new List<int>();\n\n// 추가\nlist.Add(10);                         // 맨 뒤 추가\nlist.Insert(1, 99);                   // 특정 위치 삽입\nlist.AddRange(new[] {20, 30});\n\n// 삭제\nlist.RemoveAt(0);                     // 인덱스로 삭제\nlist.Remove(99);                      // 값으로 삭제 (첫 번째)\nlist.Clear();\n\n// 탐색\nConsole.WriteLine(list.Contains(10)); // O(n)\nConsole.WriteLine(list.IndexOf(10));  // O(n)\n\n// 정보\nConsole.WriteLine($\"Count={list.Count}, Capacity={list.Capacity}\");\n\n// 정렬\nlist.Sort();\nlist.Sort((a, b) => b.CompareTo(a));  // 내림차순"
-        },
-        {
-          "type": "header",
-          "level": 3,
-          "content": "실전 코딩 패턴 — 투 포인터와 접두사 합"
-        },
-        {
-          "type": "code",
-          "python": "# 패턴 1: 투 포인터 — 정렬 배열에서 합이 target인 두 수의 인덱스\ndef two_sum_sorted(arr, target):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        s = arr[left] + arr[right]\n        if s == target:\n            return (left, right)\n        elif s < target:\n            left += 1   # 합이 작으니 왼쪽 포인터를 오른쪽으로\n        else:\n            right -= 1  # 합이 크니 오른쪽 포인터를 왼쪽으로\n    return None\n\narr = [1, 3, 5, 7, 9, 11]\nprint(two_sum_sorted(arr, 10))  # (1, 4) — 3+7이 아닌 3+9=12, 1+9=10!\n# arr[1]=3, arr[4]=9, 3+9=12 → right-- → arr[1]=3, arr[3]=7, 3+7=10!\n\n# 패턴 2: 접두사 합 — 구간 합을 O(1)에 계산\ndef build_prefix(arr):\n    prefix = [0] * (len(arr) + 1)\n    for i, v in enumerate(arr):\n        prefix[i + 1] = prefix[i] + v\n    return prefix\n\ndef range_sum(prefix, l, r):  # arr[l..r] 합, O(1)\n    return prefix[r + 1] - prefix[l]\n\narr2 = [3, 1, 4, 1, 5, 9, 2, 6]\nprefix = build_prefix(arr2)\nprint(range_sum(prefix, 2, 5))  # arr2[2]+[3]+[4]+[5] = 4+1+5+9 = 19",
-          "javascript": "// 투 포인터\nfunction twoSumSorted(arr, target) {\n    let left = 0, right = arr.length - 1;\n    while (left < right) {\n        const sum = arr[left] + arr[right];\n        if (sum === target) return [left, right];\n        else if (sum < target) left++;\n        else right--;\n    }\n    return null;\n}\nconsole.log(twoSumSorted([1, 3, 5, 7, 9, 11], 10));  // [1, 3] (3+7)\n\n// 접두사 합\nfunction buildPrefix(arr) {\n    const p = new Array(arr.length + 1).fill(0);\n    for (let i = 0; i < arr.length; i++)\n        p[i + 1] = p[i] + arr[i];\n    return p;\n}\nconst prefix = buildPrefix([3, 1, 4, 1, 5, 9, 2, 6]);\nconst rangeSum = (l, r) => prefix[r + 1] - prefix[l];\nconsole.log(rangeSum(2, 5));  // 19",
-          "java": "// 투 포인터\nint[] twoSumSorted(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left < right) {\n        int sum = arr[left] + arr[right];\n        if (sum == target) return new int[]{left, right};\n        else if (sum < target) left++;\n        else right--;\n    }\n    return new int[]{-1, -1};\n}\n\n// 접두사 합\nint[] buildPrefix(int[] arr) {\n    int[] p = new int[arr.length + 1];\n    for (int i = 0; i < arr.length; i++)\n        p[i + 1] = p[i] + arr[i];\n    return p;\n}\n\nint rangeSum(int[] p, int l, int r) {\n    return p[r + 1] - p[l];\n}",
-          "cpp": "#include <vector>\nusing namespace std;\n\n// 투 포인터\npair<int,int> twoSumSorted(vector<int>& arr, int target) {\n    int l = 0, r = arr.size() - 1;\n    while (l < r) {\n        int sum = arr[l] + arr[r];\n        if (sum == target) return {l, r};\n        else if (sum < target) l++;\n        else r--;\n    }\n    return {-1, -1};\n}\n\n// 접두사 합\nvector<int> buildPrefix(vector<int>& arr) {\n    vector<int> p(arr.size() + 1, 0);\n    for (int i = 0; i < (int)arr.size(); i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\n\nint rangeSum(vector<int>& p, int l, int r) {\n    return p[r+1] - p[l];\n}",
-          "c": "// 투 포인터\nvoid twoSumSorted(int* arr, int n, int target, int* lo, int* hi) {\n    *lo = 0; *hi = n - 1;\n    while (*lo < *hi) {\n        int sum = arr[*lo] + arr[*hi];\n        if (sum == target) return;\n        else if (sum < target) (*lo)++;\n        else (*hi)--;\n    }\n    *lo = *hi = -1;\n}\n\n// 접두사 합\nvoid buildPrefix(int* arr, int n, int* p) {\n    p[0] = 0;\n    for (int i = 0; i < n; i++)\n        p[i+1] = p[i] + arr[i];\n}\n\nint rangeSum(int* p, int l, int r) {\n    return p[r+1] - p[l];\n}",
-          "csharp": "// 투 포인터\nint[] TwoSumSorted(int[] arr, int target) {\n    int l = 0, r = arr.Length - 1;\n    while (l < r) {\n        int sum = arr[l] + arr[r];\n        if (sum == target) return new[] {l, r};\n        else if (sum < target) l++;\n        else r--;\n    }\n    return new[] {-1, -1};\n}\n\n// 접두사 합\nint[] BuildPrefix(int[] arr) {\n    int[] p = new int[arr.Length + 1];\n    for (int i = 0; i < arr.Length; i++)\n        p[i+1] = p[i] + arr[i];\n    return p;\n}\n\nint RangeSum(int[] p, int l, int r) => p[r+1] - p[l];"
+          "python": "import sys\n\n# Python list의 동적 크기 변화 관찰\narr = []\nfor i in range(10):\n    arr.append(i)\n    print(f'길이={len(arr)}, 할당된 메모리={sys.getsizeof(arr)}bytes')\n    \n# 결과: 56→88→120→184... bytes가 갑자기 늘어나는 순간이 리사이징!",
+          "javascript": "// JavaScript 배열도 동적으로 크기 조정\nconst arr = [];\nfor (let i = 0; i < 5; i++) {\n    arr.push(i * 10);\n    console.log(`길이: ${arr.length}, 내용: [${arr.join(', ')}]`);\n}\n// 내부 capacity는 엔진에서 자동 관리",
+          "java": "import java.util.*;\n\n// ArrayList의 동적 리사이징 관찰\nArrayList<Integer> arr = new ArrayList<>();\nfor (int i = 0; i < 10; i++) {\n    arr.add(i);\n    // ArrayList의 내부 capacity는 private이므로 size만 확인\n    System.out.println(\"Size: \" + arr.size() + \", 내용: \" + arr);\n}\n// 내부적으로 capacity가 10→15→22... 순서로 1.5배씩 증가",
+          "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    // vector의 동적 크기 변화 관찰\n    vector<int> arr;\n    for (int i = 0; i < 10; i++) {\n        arr.push_back(i);\n        cout << \"Size: \" << arr.size() \n             << \", Capacity: \" << arr.capacity() << endl;\n    }\n    // 결과: capacity가 1→2→4→8→16... 순서로 2배씩 증가\n    return 0;\n}",
+          "c": "#include <stdio.h>\n#include <stdlib.h>\n\n// C에서 동적 배열 직접 구현\nint main() {\n    int capacity = 2;\n    int size = 0;\n    int* arr = malloc(capacity * sizeof(int));\n    \n    for (int i = 0; i < 10; i++) {\n        // 리사이징 필요한지 확인\n        if (size >= capacity) {\n            capacity *= 2; // 2배로 증가\n            arr = realloc(arr, capacity * sizeof(int));\n            printf(\"리사이징! 새 capacity: %d\\n\", capacity);\n        }\n        \n        arr[size++] = i;\n        printf(\"Size: %d, Capacity: %d\\n\", size, capacity);\n    }\n    \n    free(arr);\n    return 0;\n}",
+          "csharp": "using System;\nusing System.Collections.Generic;\n\nclass Program {\n    static void Main() {\n        // List<T>의 동적 크기 변화 관찰\n        List<int> arr = new List<int>();\n        \n        for (int i = 0; i < 10; i++) {\n            arr.Add(i);\n            // Capacity 속성으로 내부 배열 크기 확인\n            Console.WriteLine($\"Count: {arr.Count}, Capacity: {arr.Capacity}\");\n        }\n        \n        // 결과: Capacity가 4→8→16... 순서로 2배씩 증가\n    }\n}"
         }
       ]
     }

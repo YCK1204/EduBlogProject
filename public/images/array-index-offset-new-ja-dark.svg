@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <!-- 배경 -->
+  <rect width="800" height="220" fill="#0f172a" rx="12"/>
+
+  <!-- 제목 -->
+  <text x="400" y="25" font-size="14" font-weight="700" fill="#f8fafc" text-anchor="middle">なぜインデックスは0から始まるのか？</text>
+  
+  <!-- 0-based 인덱싱 설명 -->
+  <g id="zero-based">
+    <text x="50" y="60" font-size="12" font-weight="600" fill="#94a3b8">0ベースインデックス（推奨）</text>
+    
+    <!-- 메모리 셀들 -->
+    <rect x="50" y="70" width="90" height="50" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+    <text x="95" y="90" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[0]</text>
+    <text x="95" y="104" font-size="10" fill="#10b981" text-anchor="middle">オフセット: 0</text>
+    
+    <rect x="150" y="70" width="90" height="50" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+    <text x="195" y="90" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[1]</text>
+    <text x="195" y="104" font-size="10" fill="#10b981" text-anchor="middle">オフセット: 4</text>
+    
+    <rect x="250" y="70" width="90" height="50" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+    <text x="295" y="90" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[2]</text>
+    <text x="295" y="104" font-size="10" fill="#10b981" text-anchor="middle">オフセット: 8</text>
+    
+    <!-- 공식 -->
+    <rect x="360" y="75" width="220" height="40" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+    <text x="470" y="90" font-size="11" font-weight="600" fill="#dcfce7" text-anchor="middle">アドレス = ベース + i × サイズ</text>
+    <text x="470" y="105" font-size="10" fill="#10b981" text-anchor="middle">シンプルで効率的！</text>
+  </g>
+  
+  <!-- 1-based 인덱싱 설명 -->
+  <g id="one-based">
+    <text x="50" y="150" font-size="12" font-weight="600" fill="#94a3b8">1ベースインデックス（非効率）</text>
+    
+    <!-- 메모리 셀들 -->
+    <rect x="50" y="160" width="90" height="50" rx="6" fill="#7f1d1d" stroke="#f87171" stroke-width="2"/>
+    <text x="95" y="180" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[1]</text>
+    <text x="95" y="194" font-size="10" fill="#f87171" text-anchor="middle">オフセット: 0</text>
+    
+    <rect x="150" y="160" width="90" height="50" rx="6" fill="#7f1d1d" stroke="#f87171" stroke-width="2"/>
+    <text x="195" y="180" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[2]</text>
+    <text x="195" y="194" font-size="10" fill="#f87171" text-anchor="middle">オフセット: 4</text>
+    
+    <rect x="250" y="160" width="90" height="50" rx="6" fill="#7f1d1d" stroke="#f87171" stroke-width="2"/>
+    <text x="295" y="180" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">arr[3]</text>
+    <text x="295" y="194" font-size="10" fill="#f87171" text-anchor="middle">オフセット: 8</text>
+    
+    <!-- 공식 -->
+    <rect x="360" y="165" width="260" height="40" rx="4" fill="#7f1d1d" stroke="#f87171" stroke-width="1"/>
+    <text x="490" y="180" font-size="11" font-weight="600" fill="#fed7d7" text-anchor="middle">アドレス = ベース + (i-1) × サイズ</text>
+    <text x="490" y="195" font-size="10" fill="#f87171" text-anchor="middle">毎回の減算でパフォーマンス低下</text>
+  </g>
+  
+  <!-- 화살표와 설명 -->
+  <path d="M 600 95 Q 650 95 650 130 Q 650 165 600 185" stroke="#9ca3af" stroke-width="2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <text x="680" y="140" font-size="10" fill="#9ca3af" text-anchor="middle">追加演算で</text>
+  <text x="680" y="152" font-size="10" fill="#9ca3af" text-anchor="middle">効率低下</text>
+  
+  <!-- 화살표 마커 정의 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9ca3af"/>
+    </marker>
+  </defs>
+</svg>

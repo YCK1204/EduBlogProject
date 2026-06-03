@@ -12,8 +12,8 @@ const OPTIONS: { value: Lang; label: string }[] = [
 ];
 
 export default function LangFAB() {
-  const { lang, setLang, t } = useLang();
-  const { theme, toggle: toggleTheme } = useTheme();
+  const { lang, setLang, t, mounted: langMounted } = useLang();
+  const { theme, toggle: toggleTheme, mounted: themeMounted } = useTheme();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,6 +26,29 @@ export default function LangFAB() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // hydration이 완료되지 않았으면 기본 상태로 렌더링
+  if (!themeMounted || !langMounted) {
+    return (
+      <div ref={ref} className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2">
+        {/* 테마 토글 버튼 - 기본 라이트 모드 아이콘 */}
+        <button
+          className="w-12 h-12 rounded-full shadow-lg border flex items-center justify-center transition-all bg-white text-zinc-700 border-zinc-200"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        {/* 메인 FAB 버튼 (언어) */}
+        <button
+          className="w-12 h-12 rounded-full shadow-lg border flex items-center justify-center text-sm font-bold transition-all bg-white text-zinc-700 border-zinc-200"
+        >
+          {OPTIONS.find(opt => opt.value === lang)?.label || "한"}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div ref={ref} className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2">

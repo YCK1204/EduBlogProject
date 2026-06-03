@@ -13,7 +13,7 @@ export interface UlBlock { type: "ul"; items: string[] }
 export interface OlBlock { type: "ol"; items: string[] }
 export interface BoxBlock { type: "box"; blocks: EditorBlock[] }
 export interface CodeBlock { type: "code"; langs: { lang: CodeLang; code: string }[] }
-export interface ImageBlock { type: "image"; src: string; alt: string; width?: number }
+export interface ImageBlock { type: "image"; src: string; alt: string; width?: number; srcEn?: string; altEn?: string; srcJa?: string; altJa?: string }
 
 export type EditorBlock =
   | TextBlock | HeaderBlock | BoldBlock | ItalicBlock | UnderbarBlock

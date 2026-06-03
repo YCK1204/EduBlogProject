@@ -1,33 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
-  <rect width="600" height="140" fill="#fafafa" rx="10"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <!-- 배경 -->
+  <rect width="800" height="220" fill="#fafafa" rx="12"/>
 
-  <text x="16" y="22" font-size="10" font-weight="700" fill="#52525b">arr</text>
-  <rect x="30" y="28" width="540" height="82" rx="6" fill="none" stroke="#d4d4d8" stroke-width="1" stroke-dasharray="5 3"/>
-
-  <rect x="46" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
-  <text x="90" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">42</text>
-  <text x="90" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">인덱스 0</text>
-  <text x="90" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1000</text>
-
-  <rect x="146" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
-  <text x="190" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">78</text>
-  <text x="190" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">인덱스 1</text>
-  <text x="190" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1004</text>
-
-  <rect x="246" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
-  <text x="290" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">13</text>
-  <text x="290" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">인덱스 2</text>
-  <text x="290" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1008</text>
-
-  <rect x="346" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
-  <text x="390" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">91</text>
-  <text x="390" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">인덱스 3</text>
-  <text x="390" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x100C</text>
-
-  <rect x="446" y="40" width="88" height="56" rx="4" fill="#f4f4f5" stroke="#71717a" stroke-width="1.5"/>
-  <text x="490" y="66" font-size="15" font-weight="700" fill="#18181b" text-anchor="middle">5</text>
-  <text x="490" y="80" font-size="9" fill="#a1a1aa" text-anchor="middle">인덱스 4</text>
-  <text x="490" y="108" font-size="9" fill="#71717a" text-anchor="middle">0x1010</text>
-
-  <text x="300" y="130" font-size="10" fill="#71717a" text-anchor="middle">addr(arr[i]) = Base(0x1000) + i × 4 바이트</text>
+  <!-- 제목 -->
+  <text x="400" y="30" font-size="16" font-weight="700" fill="#18181b" text-anchor="middle">배열 메모리 레이아웃</text>
+  
+  <!-- 배열 라벨 -->
+  <text x="60" y="70" font-size="14" font-weight="600" fill="#52525b">int arr[5]</text>
+  
+  <!-- 메모리 셀들 -->
+  <g id="memory-cells">
+    <!-- 인덱스 0 -->
+    <rect x="120" y="85" width="100" height="65" rx="8" fill="#fafafa" stroke="#64748b" stroke-width="2"/>
+    <text x="170" y="108" font-size="18" font-weight="700" fill="#0f172a" text-anchor="middle">42</text>
+    <text x="170" y="125" font-size="12" fill="#64748b" text-anchor="middle">인덱스 [0]</text>
+    <text x="170" y="170" font-size="11" fill="#64748b" text-anchor="middle">0x1000</text>
+    
+    <!-- 인덱스 1 -->
+    <rect x="230" y="85" width="100" height="65" rx="8" fill="#fafafa" stroke="#64748b" stroke-width="2"/>
+    <text x="280" y="108" font-size="18" font-weight="700" fill="#0f172a" text-anchor="middle">78</text>
+    <text x="280" y="125" font-size="12" fill="#64748b" text-anchor="middle">인덱스 [1]</text>
+    <text x="280" y="170" font-size="11" fill="#64748b" text-anchor="middle">0x1004</text>
+    
+    <!-- 인덱스 2 -->
+    <rect x="340" y="85" width="100" height="65" rx="8" fill="#fafafa" stroke="#64748b" stroke-width="2"/>
+    <text x="390" y="108" font-size="18" font-weight="700" fill="#0f172a" text-anchor="middle">13</text>
+    <text x="390" y="125" font-size="12" fill="#64748b" text-anchor="middle">인덱스 [2]</text>
+    <text x="390" y="170" font-size="11" fill="#64748b" text-anchor="middle">0x1008</text>
+    
+    <!-- 인덱스 3 -->
+    <rect x="450" y="85" width="100" height="65" rx="8" fill="#fafafa" stroke="#64748b" stroke-width="2"/>
+    <text x="500" y="108" font-size="18" font-weight="700" fill="#0f172a" text-anchor="middle">91</text>
+    <text x="500" y="125" font-size="12" fill="#64748b" text-anchor="middle">인덱스 [3]</text>
+    <text x="500" y="170" font-size="11" fill="#64748b" text-anchor="middle">0x100C</text>
+    
+    <!-- 인덱스 4 -->
+    <rect x="560" y="85" width="100" height="65" rx="8" fill="#fafafa" stroke="#64748b" stroke-width="2"/>
+    <text x="610" y="108" font-size="18" font-weight="700" fill="#0f172a" text-anchor="middle">5</text>
+    <text x="610" y="125" font-size="12" fill="#64748b" text-anchor="middle">인덱스 [4]</text>
+    <text x="610" y="170" font-size="11" fill="#64748b" text-anchor="middle">0x1010</text>
+  </g>
+  
+  <!-- 연속성을 나타내는 화살표 -->
+  <path d="M 220 117 L 230 117" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 330 117 L 340 117" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 440 117 L 450 117" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 550 117 L 560 117" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- 공식 박스 -->
+  <rect x="150" y="185" width="500" height="25" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="400" y="202" font-size="12" fill="#475569" text-anchor="middle" font-family="monospace">주소 = 기준주소 + (인덱스 × 4바이트)</text>
+  
+  <!-- 화살표 마커 정의 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#3b82f6"/>
+    </marker>
+  </defs>
 </svg>

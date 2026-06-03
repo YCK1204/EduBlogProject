@@ -262,7 +262,7 @@ export default function BlockEditor({ blocks, onChange, isInsideBox = false }: P
           }}
           className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors py-2 px-1"
         >
-          <span className="text-lg leading-none">+</span> 블록 추가 또는 '/' 입력
+          <span className="text-lg leading-none">+</span> 블록 추가 또는 &apos;/&apos; 입력
         </button>
       </div>
 

@@ -7,24 +7,35 @@ interface LangContextValue {
   lang: Lang;
   t: Strings;
   setLang: (lang: Lang) => void;
+  mounted: boolean;
 }
 
 const LangContext = createContext<LangContextValue>({
   lang: "ko",
   t: STRINGS.ko,
   setLang: () => {},
+  mounted: false,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const [lang, setLangState] = useState<Lang>("ko");
 
   useEffect(() => {
-    const saved = localStorage.getItem("lang") as Lang | null;
-    if (saved === "ko" || saved === "en" || saved === "ja") {
-      setLangState(saved);
-      document.documentElement.lang = saved;
-    }
+    const loadSavedLanguage = () => {
+      const saved = localStorage.getItem("lang") as Lang | null;
+      if (saved === "ko" || saved === "en" || saved === "ja") {
+        setLangState(saved);
+      }
+      setMounted(true);
+    };
+    
+    loadSavedLanguage();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const setLang = (next: Lang) => {
     setLangState(next);
@@ -33,7 +44,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LangContext.Provider value={{ lang, t: STRINGS[lang], setLang }}>
+    <LangContext.Provider value={{ lang, t: STRINGS[lang], setLang, mounted }}>
       {children}
     </LangContext.Provider>
   );

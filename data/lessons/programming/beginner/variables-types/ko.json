@@ -123,7 +123,7 @@
           "java": "// 정적 타입 Java — 컴파일 시 타입 검사\nint x = 5;\n// x = \"hello\";  // 컴파일 오류!\n\nString name = \"Alice\";\nint len = name.length();  // IDE가 정확한 메서드 제안",
           "csharp": "// 정적 타입 C# — var로 타입 추론 가능\nvar x = 5;        // int로 추론\nvar name = \"Bob\"; // string으로 추론\n\n// 컴파일 오류 예시\n// int age = \"30\";  // CS0029 오류",
           "cpp": "// 정적 타입 C++\nint x = 5;\n// x = \"hello\";  // 컴파일 오류\n\nauto y = 3.14;  // double로 추론 (C++11)\nauto z = std::string(\"hi\");  // std::string으로 추론",
-          "c": "# 동적 타입 — 타입 힌트 없이 동작\ndef add(a, b):\n    return a + b\n\nadd(1, 2)        # 3\nadd(\"1\", \"2\")    # \"12\"  (런타임에 타입 결정)\n\n# 타입 힌트 (Python 3.5+) — 강제가 아닌 힌트\ndef add_typed(a: int, b: int) -> int:\n    return a + b"
+          "c": "#include <stdio.h>\n\n// C는 정적 타입 언어 — 컴파일 시 타입 결정\nint add_int(int a, int b) {\n    return a + b;\n}\n\ndouble add_double(double a, double b) {\n    return a + b;\n}\n\nint main() {\n    int x = 5;\n    // x = \"hello\";  // 컴파일 오류!\n    \n    int sum1 = add_int(1, 2);        // 3\n    double sum2 = add_double(1.5, 2.3); // 3.8\n    \n    // 타입 변환은 명시적으로 해야 함\n    double result = (double)x + 2.5;\n    \n    printf(\"sum1: %d, sum2: %.1f, result: %.1f\\n\", \n           sum1, sum2, result);\n    \n    return 0;\n}"
         }
       ]
     }

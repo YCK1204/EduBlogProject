@@ -30,16 +30,12 @@ interface Props {
 export default function OverviewEditor({ lesson, onChange }: Props) {
   const [levelOpen, setLevelOpen] = useState(false);
   const [relatedOpen, setRelatedOpen] = useState(false);
-  const [relatedOptions, setRelatedOptions] = useState<RelatedOption[]>([]);
+  const [relatedOptions] = useState<RelatedOption[]>([]);
   const [relatedHoverCat, setRelatedHoverCat] = useState<string | null>(null);
   const [relatedHoverLvl, setRelatedHoverLvl] = useState<string | null>(null);
   const relatedRef = useRef<HTMLDivElement>(null);
   const levelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // API 라우트 제거됨 - 관련 레슨 로드 비활성화
-    setRelatedOptions([]);
-  }, []);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -61,7 +57,6 @@ export default function OverviewEditor({ lesson, onChange }: Props) {
     onChange({ ...lesson, relatedSlugs: lesson.relatedSlugs.filter((s) => s !== slug) });
   };
 
-  const addTag = () => onChange({ ...lesson, tag: lesson.tag ? lesson.tag : "" });
 
   const categoriesInOptions = [...new Set(relatedOptions.map((o) => o.category))];
   const levelsInCat = relatedHoverCat

@@ -1,12 +1,13 @@
 "use client";
 
-import { type CategorySlug, SLUG_TO_LABEL } from "@/lib/categories";
+import { type CategorySlug } from "@/lib/categories";
 import CategoryGrid from "@/components/CategoryGrid";
 import { useLang } from "@/components/LanguageProvider";
+import type { LessonCard } from "@/lib/lessonLoader";
 
 interface Props {
   categorySlug: CategorySlug;
-  initialCards: any[];
+  initialCards: LessonCard[];
 }
 
 export default function CategoryPageClient({ categorySlug, initialCards }: Props) {

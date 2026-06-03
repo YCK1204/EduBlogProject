@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 const STORAGE_KEY = "aikido_progress";
 
@@ -29,16 +29,14 @@ function saveCompletedSlugs(slugs: string[]): { success: boolean; error?: string
 }
 
 export function useProgress() {
-  const [completedSlugs, setCompletedSlugs] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const { slugs, error: loadError } = getCompletedSlugs();
-    setCompletedSlugs(slugs);
-    if (loadError) {
-      setError(loadError);
-    }
-  }, []);
+  const [completedSlugs, setCompletedSlugs] = useState<string[]>(() => {
+    const { slugs } = getCompletedSlugs();
+    return slugs;
+  });
+  const [error, setError] = useState<string | null>(() => {
+    const { error: loadError } = getCompletedSlugs();
+    return loadError || null;
+  });
 
   const markComplete = useCallback((slug: string) => {
     setCompletedSlugs((prev) => {

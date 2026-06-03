@@ -11,7 +11,7 @@ const OPTIONS: { value: Lang; label: string }[] = [
 ];
 
 export default function LangDropdown() {
-  const { lang, setLang } = useLang();
+  const { lang, setLang, mounted } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -25,7 +25,8 @@ export default function LangDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const current = OPTIONS.find((o) => o.value === lang) ?? OPTIONS[0];
+  // 하이드레이션 불일치 방지를 위해 mounted 전에는 기본값 사용
+  const current = mounted ? OPTIONS.find((o) => o.value === lang) ?? OPTIONS[0] : OPTIONS[0];
 
   return (
     <div ref={ref} className="relative">

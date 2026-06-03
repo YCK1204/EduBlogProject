@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter, notFound } from "next/navigation";
 import { Suspense } from "react";
 import type { EditorLesson, EditorStep } from "@/lib/editorTypes";
@@ -17,28 +17,24 @@ function EditorInner() {
   const level = searchParams.get("level") ?? "beginner";
   const slug = searchParams.get("slug"); // null이면 신규
 
-  const [lesson, setLesson] = useState<EditorLesson>(() => newLesson(category, level));
-  const [activeStepId, setActiveStepId] = useState<string>("");
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [showPreview, setShowPreview] = useState(() => searchParams.get("preview") === "true");
-  const [stepDragOver, setStepDragOver] = useState<number | null>(null);
-  const initialized = useRef(false);
+  const [lesson, setLesson] = useState<EditorLesson>(() => {
+    if (typeof window !== "undefined" && slug && process.env.NODE_ENV === "development") {
+      const loadLessonFromLocalStorage = () => {
+        const key = `editor_lesson_${category}_${level}_${slug}`;
+        const stored = localStorage.getItem(key);
+        if (stored) {
+          try {
+            const data = JSON.parse(stored);
+            return data;
+          } catch (e) {
+            console.error("Failed to parse stored lesson data:", e);
+          }
+        }
+        return null;
+      };
 
-  // Undo/Redo 히스토리 관리
-  const [history, setHistory] = useState<EditorLesson[]>([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const [redoStack, setRedoStack] = useState<EditorLesson[]>([]);
-
-  // 수정 모드: 기존 레슨을 /api/dev/load 로 불러와 EditorLesson 으로 변환 (개발 모드 전용)
-  useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-    if (!slug) return;
-
-    fetch(`/api/dev/load?category=${category}&level=${level}&slug=${slug}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("load failed"))))
-      .then((data) => {
+      const data = loadLessonFromLocalStorage();
+      if (data) {
         const steps: EditorStep[] = (data.steps ?? []).map((s: {
           number: number;
           title: string;
@@ -48,7 +44,7 @@ function EditorInner() {
           title: s.title ?? "",
           blocks: (s.blocks ?? []).map((b: unknown) => convertBlock(b)),
         }));
-        setLesson({
+        return {
           slug: data.slug ?? slug,
           title: data.title ?? "",
           summary: data.summary ?? "",
@@ -63,18 +59,25 @@ function EditorInner() {
                   : (level as EditorLesson["level"]),
           relatedSlugs: data.relatedSlugs ?? [],
           steps: steps.length > 0 ? steps : [{ id: crypto.randomUUID(), title: "개요", blocks: [] }],
-        });
-      })
-      .catch(() => {
-        // 로드 실패(404 등) 시 새 레슨 모드로 그대로 진행
-      });
-  }, [category, level, slug]);
-
-  useEffect(() => {
-    if (lesson.steps.length > 0 && !activeStepId) {
-      setActiveStepId(lesson.steps[0].id);
+        };
+      }
     }
-  }, [lesson.steps, activeStepId]);
+    return newLesson(category, level);
+  });
+
+  const [activeStepId, setActiveStepId] = useState<string>(() => {
+    const initialLesson = lesson || newLesson(category, level);
+    return initialLesson.steps.length > 0 ? initialLesson.steps[0].id : "";
+  });
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [showPreview, setShowPreview] = useState(() => searchParams.get("preview") === "true");
+  const [stepDragOver, setStepDragOver] = useState<number | null>(null);
+
+  // Undo/Redo 히스토리 관리
+  const [history, setHistory] = useState<EditorLesson[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [redoStack, setRedoStack] = useState<EditorLesson[]>([]);
 
   // 히스토리에 현재 상태 저장
   const saveToHistory = () => {
@@ -91,7 +94,7 @@ function EditorInner() {
   };
 
   // Undo 실행
-  const handleUndo = () => {
+  const handleUndo = useCallback(() => {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1;
       setHistoryIndex(newIndex);
@@ -102,10 +105,10 @@ function EditorInner() {
       // 이전 상태로 복원
       setLesson(history[newIndex]);
     }
-  };
+  }, [historyIndex, history, lesson]);
 
   // Redo 실행
-  const handleRedo = () => {
+  const handleRedo = useCallback(() => {
     if (redoStack.length > 0) {
       const lastRedo = redoStack[redoStack.length - 1];
 
@@ -121,7 +124,7 @@ function EditorInner() {
       // 상태 복원
       setLesson(lastRedo);
     }
-  };
+  }, [redoStack, historyIndex, history]);
 
   // 키보드 단축키 이벤트 리스너
   useEffect(() => {
@@ -145,7 +148,7 @@ function EditorInner() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [historyIndex, redoStack, lesson]);
+  }, [handleUndo, handleRedo]);
 
   const activeStep = lesson.steps.find((s) => s.id === activeStepId) ?? lesson.steps[0];
 
@@ -193,22 +196,23 @@ function EditorInner() {
     setSaving(true);
     try {
       const payload = lessonToJson(lesson);
-      const res = await fetch("/api/dev/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          level: lesson.level,
-          slug: lesson.slug,
-          lesson: payload,
-          oldLevel: level !== lesson.level ? level : undefined,
-        }),
-      });
-      if (!res.ok) throw new Error("save failed");
+      
+      // 개발 모드에서는 localStorage에 저장 (임시 방편)
+      if (process.env.NODE_ENV === "development") {
+        const key = `editor_lesson_${category}_${lesson.level}_${lesson.slug}`;
+        localStorage.setItem(key, JSON.stringify(payload));
+        console.log("Lesson saved to localStorage (dev mode only)");
+        alert("개발 모드에서는 localStorage에 임시 저장됩니다.\n실제 파일 저장을 위해서는 서버 구성이 필요합니다.");
+      } else {
+        alert("에디터는 개발 모드에서만 사용 가능합니다.");
+        return;
+      }
+      
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
       router.replace(`/dev/editor?category=${category}&level=${lesson.level}&slug=${lesson.slug}`);
-    } catch {
+    } catch (error) {
+      console.error("Save error:", error);
       alert("저장 실패");
     } finally {
       setSaving(false);
@@ -221,18 +225,12 @@ function EditorInner() {
       return;
     }
     try {
-      const payload = lessonToJson(lesson);
-      await fetch("/api/dev/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          level: lesson.level,
-          slug: lesson.slug,
-          lesson: payload,
-          oldLevel: level !== lesson.level ? level : undefined,
-        }),
-      });
+      if (process.env.NODE_ENV === "development") {
+        const payload = lessonToJson(lesson);
+        const key = `editor_lesson_${category}_${lesson.level}_${lesson.slug}`;
+        localStorage.setItem(key, JSON.stringify(payload));
+        console.log("Lesson saved to localStorage before exit");
+      }
     } catch {
       /* 저장 실패해도 이동 */
     }
@@ -436,7 +434,16 @@ function convertBlock(b: unknown): import("@/lib/editorTypes").EditorBlock {
     case "points":   return { type: "ul", items: (block.items as string[] | undefined) ?? [] };
     case "ol":       return { type: "ol", items: (block.items as string[] | undefined) ?? [] };
     case "box":      return { type: "box", blocks: ((block.blocks as unknown[] | undefined) ?? []).map(convertBlock) };
-    case "image":    return { type: "image", src: String(block.src ?? ""), alt: String(block.alt ?? ""), ...(block.width ? { width: Number(block.width) } : {}) };
+    case "image":    return { 
+      type: "image", 
+      src: String(block.src ?? ""), 
+      alt: String(block.alt ?? ""), 
+      ...(block.width ? { width: Number(block.width) } : {}),
+      ...(block.srcEn ? { srcEn: String(block.srcEn) } : {}),
+      ...(block.altEn ? { altEn: String(block.altEn) } : {}),
+      ...(block.srcJa ? { srcJa: String(block.srcJa) } : {}),
+      ...(block.altJa ? { altJa: String(block.altJa) } : {})
+    };
     case "code": {
       const langs = ["python", "javascript", "java", "cpp", "c", "csharp"]
         .filter((l) => block[l] != null)
@@ -475,7 +482,16 @@ function blockToJson(block: import("@/lib/editorTypes").EditorBlock): unknown {
     case "ul":       return { type: "points", items: block.items };
     case "ol":       return { type: "ol", items: block.items };
     case "box":      return { type: "box", blocks: block.blocks.map(blockToJson).filter(Boolean) };
-    case "image":    return { type: "image", src: block.src, alt: block.alt, ...(block.width && block.width !== 100 ? { width: block.width } : {}) };
+    case "image":    return { 
+      type: "image", 
+      src: block.src, 
+      alt: block.alt, 
+      ...(block.width && block.width !== 100 ? { width: block.width } : {}),
+      ...(block.srcEn ? { srcEn: block.srcEn } : {}),
+      ...(block.altEn ? { altEn: block.altEn } : {}),
+      ...(block.srcJa ? { srcJa: block.srcJa } : {}),
+      ...(block.altJa ? { altJa: block.altJa } : {})
+    };
     case "code": {
       const obj: Record<string, string> = { type: "code" };
       for (const { lang, code } of block.langs) obj[lang] = code;

@@ -17,12 +17,6 @@ const CATEGORY_NAV_KEY: Record<string, "dataStructures" | "algorithms" | "csBasi
   programming: "programming",
 };
 
-const PLACEHOLDER_PATTERNS = [
-  { bg: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)", size: "24px 24px" },
-  { bg: "repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 8px)", size: "8px 8px" },
-  { bg: "repeating-linear-gradient(0deg, currentColor 0, currentColor 1px, transparent 0, transparent 16px)", size: "16px 16px" },
-  { bg: "repeating-linear-gradient(90deg, currentColor 0, currentColor 1px, transparent 0, transparent 16px)", size: "16px 16px" },
-];
 
 const LEVEL_COLORS = {
   "초급": "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400",
@@ -82,8 +76,12 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en" | "ja"): React
       );
 
     case "image": {
-      const src = lang === "en" && block.srcEn ? block.srcEn : block.src;
-      const alt = lang === "en" && block.altEn ? block.altEn : block.alt;
+      const src = lang === "ja" && block.srcJa ? block.srcJa
+        : lang === "en" && block.srcEn ? block.srcEn 
+        : block.src;
+      const alt = lang === "ja" && block.altJa ? block.altJa
+        : lang === "en" && block.altEn ? block.altEn 
+        : block.alt;
       
       return (
         <div key={idx} className="my-6">
@@ -305,7 +303,6 @@ export default function LessonView({ koLesson, enLesson, jaLesson, category, rel
 
         {/* 스텝 목록 */}
         {lesson.steps.map((step, i) => {
-          const pattern = PLACEHOLDER_PATTERNS[step.number % PLACEHOLDER_PATTERNS.length];
           return (
             <section
               key={step.number}
