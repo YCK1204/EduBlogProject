@@ -1,12 +1,12 @@
 {
   "slug": "http-https",
+  "title": "HTTP와 HTTPS의 차이",
   "tag": "Network",
   "relatedSlugs": [
     "tcp-ip",
     "compiler-interpreter",
     "os-intro"
   ],
-  "title": "HTTP와 HTTPS의 차이",
   "summary": "HTTP는 웹의 기반이 되는 요청-응답 프로토콜입니다. 상태 코드, 헤더, 메서드의 역할과 TLS 핸드셰이크를 통해 HTTPS가 어떻게 보안 통신을 제공하는지 설명합니다.",
   "steps": [
     {
@@ -17,7 +17,7 @@
           "type": "image",
           "src": "/images/http-https.svg",
           "alt": "HTTP vs HTTPS request-response",
-          "width": 85
+          "width": 81
         },
         {
           "type": "text",

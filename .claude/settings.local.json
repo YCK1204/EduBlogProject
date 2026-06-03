@@ -44,7 +44,10 @@
       "Bash(git pull *)",
       "Bash(npm audit *)",
       "Bash(node *)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(grep -n -A 10 \"case.*image\" components/LessonView.tsx)",
+      "Bash(grep -n -A 15 \"case.*image\" components/LessonView.tsx)",
+      "Bash(grep -n -A 15 \"case.*image\" components/dev/DevPreview.tsx)"
     ]
   }
 }

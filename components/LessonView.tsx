@@ -87,13 +87,13 @@ function renderBlock(block: Block, idx: number, lang: "ko" | "en" | "ja"): React
       
       return (
         <div key={idx} className="my-6">
-          <ThemedImage
-            src={src}
-            alt={alt}
-            width={block.width || 600}
-            height={400}
-            className="rounded-lg mx-auto"
-          />
+          <div style={{ width: `${block.width ?? 85}%`, margin: "0 auto" }}>
+            <ThemedImage
+              src={src}
+              alt={alt}
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
         </div>
       );
     }
