@@ -84,7 +84,9 @@
       "Bash(grep -n \"\"\"c\"\":\\|\"\"cpp\"\":\\|\"\"csharp\"\":\" /mnt/c/Users/User/Desktop/EduBlogProject/data/lessons/data-structures/beginner/array/ko.json)",
       "Bash(grep -n \"useLang\\|t\\.\" /mnt/c/Users/User/Desktop/EduBlogProject/components/CategoryGrid.tsx)",
       "Bash(git commit -m \"Fix: basePath 제거하여 홈페이지 정상 작동 및 GitHub Actions 워크플로우 추가\n\n🎉 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
-      "Bash(git push ut main)"
+      "Bash(git push ut main)",
+      "Bash(rm package-lock.json)",
+      "Bash(npm install)"
     ]
   }
 }
