@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import type { EditorBlock, CodeLang } from "@/lib/editorTypes";
 import { ALL_LANGS, LANG_LABELS } from "@/lib/editorTypes";
+import { getImagePath } from "@/lib/imagePath";
 
 interface Props {
   blocks: EditorBlock[];
@@ -567,7 +568,7 @@ function BlockItem({ block, onUpdate, onKeyDown, onSlashMenu, onSlashSelect, onD
         {block.src ? (
           <div className="space-y-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={block.src} alt={block.alt} className="w-full h-auto rounded-lg object-contain" />
+            <img src={getImagePath(block.src)} alt={block.alt} className="w-full h-auto rounded-lg object-contain" />
             <div className="flex gap-2 items-center">
               <input
                 value={block.alt}

@@ -86,7 +86,9 @@
       "Bash(git commit -m \"Fix: basePath 제거하여 홈페이지 정상 작동 및 GitHub Actions 워크플로우 추가\n\n🎉 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
       "Bash(git push ut main)",
       "Bash(rm package-lock.json)",
-      "Bash(npm install)"
+      "Bash(npm install)",
+      "Bash(grep -n \"<img.*src=\" /mnt/c/Users/User/Desktop/EduBlogProject/components/dev/BlockEditor.tsx)",
+      "Bash(git add -A)"
     ]
   }
 }

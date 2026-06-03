@@ -7,6 +7,7 @@ import type { LessonCard } from "@/lib/lessonLoader";
 import { useLang } from "@/components/LanguageProvider";
 import { useTheme } from "@/components/ThemeProvider";
 import { toDarkSrc } from "@/components/ThemedImage";
+import { getImagePath } from "@/lib/imagePath";
 
 const IS_DEV = process.env.NODE_ENV === "development";
 
@@ -107,9 +108,10 @@ export default function CategoryGrid({ cards, categorySlug }: Props) {
                            : lang === "en" ? card.enPreviewImage 
                            : card.koPreviewImage;
           
-          // 테마에 맞는 이미지로 변환
+          // 테마에 맞는 이미지로 변환 및 basePath 적용
           if (previewImage) {
             previewImage = theme === "dark" ? toDarkSrc(previewImage) : previewImage;
+            previewImage = getImagePath(previewImage);
           }
           
           return (
