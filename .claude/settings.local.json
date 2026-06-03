@@ -43,7 +43,8 @@
       "Bash(awk '{print $NF, $5\"B\"}')",
       "Bash(git pull *)",
       "Bash(npm audit *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(git add .)"
     ]
   }
 }
